@@ -86,33 +86,45 @@ class Block {
 
       let scale = edge.x / width;
 
+      // console.log(scale);
+      // console.log(cam.centerZ - this.pos.z + 350*2);
+
       // console.log(pmouseY - mouseY);
       // console.log(mouseY , v.y - this.size*scale);
+      let thresholdSlice = 15;
+      let hitboxOffset = 20;
 
-      if (Math.abs(cam.centerZ - this.pos.z + 350) < 300) {
+      if ( cam.centerZ - this.pos.z + 350*2 < 300 && cam.centerZ - this.pos.z + 350*2 > -500) {
         if (this.cutDirection == 1) {
-          if (mouseX > v.x - this.size * scale && mouseX < v.x + this.size * scale) {
-            if (pmouseY - mouseY < -20 && mouseY < v.y - this.size * scale) {
+          if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
+            if (pmouseY - mouseY < -thresholdSlice && mouseY < v.y - this.size * scale) {
               this.hit = true;
             }
           }
         }else if(this.cutDirection == 0){
-          if (mouseX > v.x - this.size * scale && mouseX < v.x + this.size * scale) {
-            if (pmouseY - mouseY > 20 && mouseY > v.y + this.size * scale) {
+          if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
+            if (pmouseY - mouseY > thresholdSlice && mouseY > v.y + this.size * scale) {
               this.hit = true;
             }
           }
         }
         else if(this.cutDirection == 2){
-          if (mouseY > v.y - this.size * scale && mouseY < v.y + this.size * scale) {
-            if (pmouseX - mouseX > 20 && mouseX > v.x + this.size * scale) {
+          if (mouseY > v.y - this.size * scale -hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
+            if (pmouseX - mouseX > thresholdSlice && mouseX > v.x + this.size * scale) {
               this.hit = true;
             }
           }
         }
         else if (this.cutDirection == 3) {
-          if (mouseY > v.y - this.size * scale && mouseY < v.y + this.size * scale) {
-            if (pmouseX - mouseX < -20 && mouseX < v.x - this.size * scale) {
+          if (mouseY > v.y - this.size * scale -hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
+            if (pmouseX - mouseX < -thresholdSlice && mouseX < v.x - this.size * scale) {
+              this.hit = true;
+            }
+          }
+        }
+        else if(this.cutDirection == 8){
+          if(mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset){
+            if(mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset){
               this.hit = true;
             }
           }
