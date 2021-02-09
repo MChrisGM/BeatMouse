@@ -33,11 +33,11 @@ let sp = false;
 
 function preload() {
 
-  infoFile = loadJSON("song/info.dat");
+  infoFile = loadJSON("/song/Info.dat");
 
-  songFile = loadSound('song/song.ogg');
+  songFile = loadSound('/song/song.ogg');
 
-  levelFile = loadJSON("song/OneSaberNormal.dat");
+  levelFile = loadJSON("/song/OneSaberNormal.dat");
 
 }
 
