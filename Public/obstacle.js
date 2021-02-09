@@ -24,7 +24,7 @@ class Obstacle{
         normalMaterial();
         stroke(255);
         smooth();
-        fill(255,0,0,80);
+        fill(255,0,0,100);
         push();
 
         translate(this.pos.x,this.pos.y, this.pos.z);

@@ -4,13 +4,17 @@ let cameraPos;
 
 let speedM = 2;
 
+let hitboxOffset = 30;
+
 const Y_AXIS = 1;
 const X_AXIS = 2;
 
 let scaleX;
 let scaleY;
+
 let songInput;
 let ppbutton;
+let scoreDiv;
 
 let songFile;
 let infoFile;
@@ -19,8 +23,6 @@ let sliceFile;
 
 let playing = false;
 let paused = false;
-
-let zip = new JSZip();
 
 let beatLength;
 let beats = [];
@@ -35,6 +37,9 @@ let sp = false;
 
 let songOffset = 300;
 
+let mode = 'normal';
+let combo = 0;
+
 p5.disableFriendlyErrors = true;
 
 function preload() {
@@ -43,7 +48,11 @@ function preload() {
 
   songFile = loadSound('/song/song.ogg');
 
-  levelFile = loadJSON("/song/OneSaberNormal.dat");
+  if(mode == 'normal'){
+    levelFile = loadJSON("/song/OneSaberNormal.dat");
+  }else if (mode == 'hard'){
+    levelFile = loadJSON("/song/OneSaberHard.dat");
+  }
 
   sliceFile = loadSound("/sounds/HitShortRight2.ogg");
 
@@ -104,6 +113,8 @@ function initialize() {
   scaleX = width / 1920;
   scaleY = height / 1080;
 
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
   // let inputWidth = 200;
   // let inputHeight = 100;
 
@@ -117,7 +128,9 @@ function initialize() {
   // ppbutton.position(width/2, height/2);
   // ppbutton.mousePressed(togglePlay);
 
-
+  scoreDiv = createDiv('Combo<br>0');
+  scoreDiv.class('score');
+  scoreDiv.position(width/5,height/2.5);
 
 }
 
@@ -152,12 +165,25 @@ function draw() {
   pop();
 
   for (let block of beats) {
-    block.display();
-    block.collision();
-
+    if(!block.hit && cam.centerZ - block.pos.z < 5000 && cam.centerZ - block.pos.z > -2000){
+      block.display();
+      block.collision();
+      if (block.missed){
+        combo = 0;
+      }
+      if (block.hit){
+        combo += 1;
+        continue;
+      }
+    }
   }
+  scoreDiv.html('Combo<br>'+combo);
+
   for (let obstacle of obstacles) {
-    obstacle.display();
+    if(cam.centerZ - obstacle.pos.z < 5000 && cam.centerZ - obstacle.pos.z > -10000){
+      obstacle.display();
+    }
+    
   }
 
   let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
@@ -167,7 +193,6 @@ function draw() {
 
   if (sp) {
     cam.move(cameraPos.x, cameraPos.y, cameraPos.z);
-
     if (!songFile.isPlaying()) {
       songFile.play();
     }
@@ -182,8 +207,6 @@ function keyPressed() {
   if (keyCode == 32) { //Space
     sp = !sp;
   }
-
-
 }
 
 function displayMenu() {

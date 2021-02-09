@@ -20,6 +20,7 @@ class Block {
     this.pos = createVector(indexs[this.lineIndex], layers[this.lineLayer], -(this.time / beatLength) * 100 * this.size * 100);
 
     this.hit = false;
+    this.missed = false;;
 
   }
   display() { //Display block
@@ -84,14 +85,11 @@ class Block {
       v.y = height - v.y;
       let edge = projectWorldToCanvas(canvas, createVector(370 / 4, 150 / 2, this.pos.z));
 
-      sliceFile.setVolume(0.4);
+      sliceFile.setVolume(0.6);
 
       let scale = edge.x / width;
 
       let h = createVector(10*(mouseX - pmouseX), 10*(mouseY - pmouseY));
-
-      let thresholdSlice = 15;
-      let hitboxOffset = 20;
 
       if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
         if (this.cutDirection == 0) {
@@ -183,6 +181,9 @@ class Block {
           }
         }
 
+      }
+      if (cam.centerZ - this.pos.z + songOffset * 2 < -1000){
+        this.missed = true;
       }
     }
 

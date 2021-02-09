@@ -22,3 +22,21 @@ body, head {
   -ms-user-select: none;
   user-select: none;
 }
+
+.score {
+  color: white;
+  text-align: center;
+  font-size: 4vw;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal;  
+}
+
+@font-face {
+    font-family: 'tekoregular';
+    src: url('teko-regular-webfont.woff2') format('woff2'),
+         url('teko-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
