@@ -1,5 +1,6 @@
 let canvas;
 let cam;
+let cameraPos;
 
 let speedM = 2;
 
@@ -26,8 +27,8 @@ let obstacles = [];
 let bpm;
 let songDuration;
 
-let indexs = [-60,-20,20,60];
-let layers = [50,10,-30];
+let indexs = [-60, -20, 20, 60];
+let layers = [50, 10, -30];
 
 let sp = false;
 
@@ -46,12 +47,9 @@ function initialize() {
 
   frameRate(60);
 
-  console.log(infoFile);
-  console.log(levelFile);
-
   bpm = infoFile['_beatsPerMinute'];
   songDuration = songFile.duration();
-  beatLength = songDuration * (bpm/60);
+  beatLength = songDuration * (bpm / 60);
   setBPM(bpm);
 
   let notes = levelFile['_notes'];
@@ -65,16 +63,18 @@ function initialize() {
     beats.push(block);
   }
 
-  let obs = levelFile['_obstacles'];
-  for (let obstacle of obs) {
-    let time = obstacle['_time'];
-    let type = obstacle['_type'];
-    let lineIndex = obstacle['_lineIndex'];
-    let duration = obstacle['_duration'];
-    let width = obstacle['_width'];
-    let o = new Obstacle(time, lineIndex, type, duration, width);
-    obstacles.push(o);
-  }
+  // let obs = levelFile['_obstacles'];
+  // for (let obstacle of obs) {
+  //   let time = obstacle['_time'];
+  //   let type = obstacle['_type'];
+  //   let lineIndex = obstacle['_lineIndex'];
+  //   let duration = obstacle['_duration'];
+  //   let width = obstacle['_width'];
+  //   let o = new Obstacle(time, lineIndex, type, duration, width);
+  //   obstacles.push(o);
+  // }
+
+  // beats.push(new Block(4, 1, 0, 1, 2));
 
 
   // if (window.innerWidth < window.innerHeight){
@@ -91,7 +91,8 @@ function initialize() {
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
   cam = createCamera();
-  cam.setPosition(0,0,350);
+  cameraPos = createVector(0, 0, 350);
+  cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
 
   scaleX = width / 1920;
   scaleY = height / 1080;
@@ -135,40 +136,37 @@ function setup() {
 
 
 function draw() {
-  background(10);
-
-  // if(!paused){
-  //   background(51);
-  //   displayMenu();
-  // }else{
-  //   song();
-  // }
-
-  // songInput.show();
+  background(30);
 
   noStroke();
-  fill(25);
+  fill(50);
   push();
-  translate(0, 150, 80);
-  box(370, 20, 1000000);
+  translate(0, 150, 0);
+  box(370, 1, 1000000);
   pop();
 
   for (let block of beats) {
     block.display();
+    block.collision();
+
   }
   for (let obstacle of obstacles) {
     obstacle.display();
   }
 
-  let camMS = (bpm/60)*(1/(beatLength))/frameRate() * 100 * 35 * 100;
+  let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
+
+  cameraPos.z = -camMS;
+  
 
   if (sp) {
-    cam.move(0, 0, -camMS);
-    if (!songFile.isPlaying()){
+    cam.move(cameraPos.x, cameraPos.y, cameraPos.z);
+
+    if (!songFile.isPlaying()) {
       songFile.play();
     }
-  }else{
-    if(songFile.isPlaying()){
+  } else {
+    if (songFile.isPlaying()) {
       songFile.pause();
     }
   }
@@ -176,7 +174,7 @@ function draw() {
 
 function keyPressed() {
   if (keyCode == 32) { //Space
-      sp = !sp;
+    sp = !sp;
   }
 
 

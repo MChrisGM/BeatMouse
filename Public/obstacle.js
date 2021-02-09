@@ -5,29 +5,31 @@ class Obstacle{
         this.type = type;
         this.duration = duration;
         this.width = width;
+
+        this.crh = 10;
+        this.h = 100;
+        if (this.type == 1){
+            this.crh = -30;
+            this.h = 50;
+        }else{
+            this.crh = 10;
+            this.h = 100;
+        }
+
+        this.pos = createVector(indexs[this.lineIndex], this.crh, -(this.time/beatLength) * 100 * 35 * 100);
     }
 
-    display() { //Display block
+    display() { //Display obstacle
 
         normalMaterial();
         stroke(255);
         smooth();
-        fill(255,0,0,120);
+        fill(255,0,0,80);
         push();
 
-        
-        let crh = 10;
-        let h = 100;
-        if (this.type == 1){
-            crh = -30;
-            h = 50;
-        }else{
-            crh = 10;
-            h = 100;
-        }
-        translate(indexs[this.lineIndex], crh, -(this.time/beatLength) * 100 * 35 * 100);
+        translate(this.pos.x,this.pos.y, this.pos.z);
 
-        box(35, h, -(this.duration/beatLength) * 100 * 35 * 100);
+        box(35, this.h, -(this.duration/beatLength) * 100 * 35 * 100);
 
         pop();
 
