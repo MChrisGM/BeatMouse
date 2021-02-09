@@ -1,4 +1,8 @@
 let canvas;
+let cam;
+
+let speedM = 2;
+
 const Y_AXIS = 1;
 const X_AXIS = 2;
 
@@ -8,34 +12,92 @@ let songInput;
 let ppbutton;
 
 let songFile;
+let infoFile;
+let levelFile;
 
 let playing = false;
 let paused = false;
 
 let zip = new JSZip();
 
-function preload(){
+let beatLength;
+let beats = [];
+let obstacles = [];
+let bpm;
+let songDuration;
+
+let indexs = [-60,-20,20,60];
+let layers = [50,10,-30];
+
+let sp = false;
+
+function preload() {
+
+  infoFile = loadJSON("song/info.dat");
+
   songFile = loadSound('song/song.ogg');
+
+  levelFile = loadJSON("song/OneSaberNormal.dat");
+
 }
 
-function initialize(){
-  if (window.innerWidth < window.innerHeight){
-    canvas = createCanvas(window.innerHeight,window.innerWidth);
-    canvas.id("drawingCanvas");
-    document.getElementById("drawingCanvas").style.transform = "rotate(-90deg)";
-  }else{
-    canvas = createCanvas(window.innerWidth,window.innerHeight);
-    canvas.id("drawingCanvas");
-    document.getElementById("drawingCanvas").style.transform = "rotate(0deg)";
+
+function initialize() {
+
+  frameRate(60);
+
+  console.log(infoFile);
+  console.log(levelFile);
+
+  bpm = infoFile['_beatsPerMinute'];
+  songDuration = songFile.duration();
+  beatLength = songDuration * (bpm/60);
+  setBPM(bpm);
+
+  let notes = levelFile['_notes'];
+  for (let note of notes) {
+    let time = note['_time'];
+    let type = note['_type'];
+    let lineIndex = note['_lineIndex'];
+    let lineLayer = note['_lineLayer'];
+    let cutDirection = note['_cutDirection'];
+    let block = new Block(time, lineIndex, lineLayer, type, cutDirection);
+    beats.push(block);
   }
 
-  background(51);
+  let obs = levelFile['_obstacles'];
+  for (let obstacle of obs) {
+    let time = obstacle['_time'];
+    let type = obstacle['_type'];
+    let lineIndex = obstacle['_lineIndex'];
+    let duration = obstacle['_duration'];
+    let width = obstacle['_width'];
+    let o = new Obstacle(time, lineIndex, type, duration, width);
+    obstacles.push(o);
+  }
 
-  scaleX = width/1920;
-  scaleY = height/1080;
 
-  let inputWidth = 200;
-  let inputHeight = 100;
+  // if (window.innerWidth < window.innerHeight){
+  //   canvas = createCanvas(window.innerHeight,window.innerWidth);
+  //   canvas.id("drawingCanvas");
+  //   document.getElementById("drawingCanvas").style.transform = "rotate(-90deg)";
+  // }else{
+  //   canvas = createCanvas(window.innerWidth,window.innerHeight);
+  //   canvas.id("drawingCanvas");
+  //   document.getElementById("drawingCanvas").style.transform = "rotate(0deg)";
+  // }
+
+  // background(51);
+
+  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
+  cam = createCamera();
+  cam.setPosition(0,0,350);
+
+  scaleX = width / 1920;
+  scaleY = height / 1080;
+
+  // let inputWidth = 200;
+  // let inputHeight = 100;
 
   // songInput = createFileInput(handleFile);
   // songInput.position((width/2)-(inputWidth*scaleX/2), (height/2)-(inputHeight*scaleY/2));
@@ -43,13 +105,15 @@ function initialize(){
 
   // songInput.hide();
 
-  ppbutton = createButton('Toggle');
-  ppbutton.position(width/2, height/2);
-  ppbutton.mousePressed(togglePlay);
+  // ppbutton = createButton('Toggle');
+  // ppbutton.position(width/2, height/2);
+  // ppbutton.mousePressed(togglePlay);
+
+
 
 }
 
-function togglePlay(){
+function togglePlay() {
   paused = !paused;
   console.log(paused);
 }
@@ -62,49 +126,85 @@ function handleFile(file) {
 }
 
 
-function windowResized(){
+function windowResized() {
   initialize();
 }
-function setup(){
+function setup() {
   initialize();
 }
 
 
-function draw(){
-  if(!paused){
-    background(51);
-    displayMenu();
-  }else{
-    song();
-  }
-    
+function draw() {
+  background(10);
+
+  // if(!paused){
+  //   background(51);
+  //   displayMenu();
+  // }else{
+  //   song();
+  // }
+
   // songInput.show();
 
+  noStroke();
+  fill(25);
+  push();
+  translate(0, 150, 80);
+  box(370, 20, 1000000);
+  pop();
+
+  for (let block of beats) {
+    block.display();
+  }
+  for (let obstacle of obstacles) {
+    obstacle.display();
+  }
+
+  let camMS = (bpm/60)*(1/(beatLength))/frameRate() * 100 * 35 * 100;
+
+  if (sp) {
+    cam.move(0, 0, -camMS);
+    if (!songFile.isPlaying()){
+      songFile.play();
+    }
+  }else{
+    if(songFile.isPlaying()){
+      songFile.pause();
+    }
+  }
 }
 
-function displayMenu(){
-  let blue = color(0,0,255);
-  let red = color(255,0,0);
+function keyPressed() {
+  if (keyCode == 32) { //Space
+      sp = !sp;
+  }
+
+
+}
+
+function displayMenu() {
+  let blue = color(0, 0, 255);
+  let red = color(255, 0, 0);
 
   let menuWidth = 500;
   let menuHeight = 600;
 
-  setGradient((width/2)-(menuWidth*scaleX/2),(height/2)-(menuHeight*scaleY/2),menuWidth*scaleX,menuHeight*scaleY, red, blue, X_AXIS);
+  setGradient((width / 2) - (menuWidth * scaleX / 2), (height / 2) - (menuHeight * scaleY / 2), menuWidth * scaleX, menuHeight * scaleY, red, blue, X_AXIS);
 
   stroke(0);
   fill(255);
   strokeWeight(2);
   textAlign(CENTER);
   textSize(90 * scaleX);
-  text("BeatMouse",width/2,height/2-(200*scaleY))
+  text("BeatMouse", width / 2, height / 2 - (200 * scaleY))
 
 }
 
 
-function song(){
-  if(songFile.isPlaying() && paused){
+function song() {
+  if (songFile.isPlaying() && paused) {
     songFile.pause();
-  }else if(songFile.isPaused() && !paused){
+  } else if (songFile.isPaused() && !paused) {
     songFile.play();
   }
 }
