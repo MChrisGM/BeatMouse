@@ -84,6 +84,8 @@ class Block {
       v.y = height - v.y;
       let edge = projectWorldToCanvas(canvas, createVector(370 / 4, 150 / 2, this.pos.z));
 
+      sliceFile.setVolume(0.3);
+
       let scale = edge.x / width;
 
       let h = createVector(10*(mouseX - pmouseX), 10*(mouseY - pmouseY));
@@ -97,47 +99,14 @@ class Block {
       let thresholdSlice = 15;
       let hitboxOffset = 20;
 
-      if (cam.centerZ - this.pos.z + 350 * 2 < 300 && cam.centerZ - this.pos.z + 350 * 2 > -1000) {
-        // if (this.cutDirection == 1) {
-        //   if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
-        //     if (pmouseY - mouseY < -thresholdSlice && mouseY < v.y - this.size * scale) {
-        //       this.hit = true;
-        //     }
-        //   }
-        // } else if (this.cutDirection == 0) {
-        //   if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
-        //     if (pmouseY - mouseY > thresholdSlice && mouseY > v.y + this.size * scale) {
-        //       this.hit = true;
-        //     }
-        //   }
-        // }
-        // else if (this.cutDirection == 2) {
-        //   if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
-        //     if (pmouseX - mouseX > thresholdSlice && mouseX > v.x + this.size * scale) {
-        //       this.hit = true;
-        //     }
-        //   }
-        // }
-        // else if (this.cutDirection == 3) {
-        //   if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
-        //     if (pmouseX - mouseX < -thresholdSlice && mouseX < v.x - this.size * scale) {
-        //       this.hit = true;
-        //     }
-        //   }
-        // }
-        // else if (this.cutDirection == 8) {
-        //   if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
-        //     if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
-        //       this.hit = true;
-        //     }
-        //   }
-        // }
+      if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
         if (this.cutDirection == 0) {
           console.log(h.heading());
           if (h.heading() > -PI/2-PI/4 && h.heading() < -PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
@@ -148,6 +117,7 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
@@ -158,6 +128,7 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
@@ -168,18 +139,17 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
         }
-        
-        
-        
         else if (this.cutDirection == 4) {
           if (h.heading() > -PI && h.heading() < -PI / 2) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
@@ -189,6 +159,7 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
@@ -198,6 +169,7 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
             }
           }
@@ -207,7 +179,16 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
+                sliceFile.play();
               }
+            }
+          }
+        }
+        else if (this.cutDirection == 8) {
+          if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
+            if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
+              this.hit = true;
+              sliceFile.play();
             }
           }
         }

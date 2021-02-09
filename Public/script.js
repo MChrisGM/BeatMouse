@@ -15,6 +15,7 @@ let ppbutton;
 let songFile;
 let infoFile;
 let levelFile;
+let sliceFile;
 
 let playing = false;
 let paused = false;
@@ -32,6 +33,8 @@ let layers = [50, 10, -30];
 
 let sp = false;
 
+let songOffset = 300;
+
 function preload() {
 
   infoFile = loadJSON("/song/Info.dat");
@@ -39,6 +42,8 @@ function preload() {
   songFile = loadSound('/song/song.ogg');
 
   levelFile = loadJSON("/song/OneSaberNormal.dat");
+
+  sliceFile = loadSound("/sounds/HitShortRight2.ogg");
 
 }
 
@@ -91,7 +96,7 @@ function initialize() {
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
   cam = createCamera();
-  cameraPos = createVector(0, 0, 350);
+  cameraPos = createVector(0, 0, songOffset);
   cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
 
   scaleX = width / 1920;
@@ -134,9 +139,8 @@ function setup() {
   initialize();
 }
 
-
 function draw() {
-  background(30);
+  background(20);
 
   noStroke();
   fill(50);
