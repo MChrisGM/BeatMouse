@@ -35,6 +35,8 @@ let sp = false;
 
 let songOffset = 300;
 
+p5.disableFriendlyErrors = true;
+
 function preload() {
 
   infoFile = loadJSON("/song/Info.dat");

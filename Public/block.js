@@ -84,24 +84,17 @@ class Block {
       v.y = height - v.y;
       let edge = projectWorldToCanvas(canvas, createVector(370 / 4, 150 / 2, this.pos.z));
 
-      sliceFile.setVolume(0.3);
+      sliceFile.setVolume(0.4);
 
       let scale = edge.x / width;
 
       let h = createVector(10*(mouseX - pmouseX), 10*(mouseY - pmouseY));
-      // console.log(h.heading());
 
-      // console.log(scale);
-      // console.log(cam.centerZ - this.pos.z + 350*2);
-
-      // console.log(pmouseY - mouseY);
-      // console.log(mouseY , v.y - this.size*scale);
       let thresholdSlice = 15;
       let hitboxOffset = 20;
 
       if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
         if (this.cutDirection == 0) {
-          console.log(h.heading());
           if (h.heading() > -PI/2-PI/4 && h.heading() < -PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
@@ -112,7 +105,6 @@ class Block {
           }
         }
         else if (this.cutDirection == 1) {
-          console.log(h.heading());
           if (h.heading() > PI/4 && h.heading() < PI/2+PI/4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
@@ -123,7 +115,6 @@ class Block {
           }
         }
         else if (this.cutDirection == 2) {
-          console.log(h.heading());
           if (h.heading() > PI/2+PI/4 && h.heading() < PI  || h.heading() > -PI && h.heading() < -PI-PI/4  ) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
@@ -134,7 +125,6 @@ class Block {
           }
         }
         else if (this.cutDirection == 3) {
-          console.log(h.heading());
           if (h.heading() > -PI/4 && h.heading() < PI/4  ) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
