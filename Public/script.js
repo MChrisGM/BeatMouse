@@ -63,18 +63,18 @@ function initialize() {
     beats.push(block);
   }
 
-  // let obs = levelFile['_obstacles'];
-  // for (let obstacle of obs) {
-  //   let time = obstacle['_time'];
-  //   let type = obstacle['_type'];
-  //   let lineIndex = obstacle['_lineIndex'];
-  //   let duration = obstacle['_duration'];
-  //   let width = obstacle['_width'];
-  //   let o = new Obstacle(time, lineIndex, type, duration, width);
-  //   obstacles.push(o);
-  // }
+  let obs = levelFile['_obstacles'];
+  for (let obstacle of obs) {
+    let time = obstacle['_time'];
+    let type = obstacle['_type'];
+    let lineIndex = obstacle['_lineIndex'];
+    let duration = obstacle['_duration'];
+    let width = obstacle['_width'];
+    let o = new Obstacle(time, lineIndex, type, duration, width);
+    obstacles.push(o);
+  }
 
-  // beats.push(new Block(4, 1, 0, 1, 2));
+  // beats.push(new Block(4, 1, 1, 1, 6));
 
 
   // if (window.innerWidth < window.innerHeight){
