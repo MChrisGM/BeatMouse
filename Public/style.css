@@ -1,0 +1,79 @@
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#selector {
+    cursor: hand;
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 0px;
+    position: fixed;
+    height: 10%;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(51, 51, 51);
+    border: rgb(0, 0, 0);
+    z-index: 999;
+}
+
+#red {
+    background-color: red;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    width: 6%;
+    left: 44%;
+}
+
+#red:hover {
+    background-color: rgb(165, 7, 7);
+    border: white;
+    margin: 0px;
+}
+
+#blue {
+    background-color: blue;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    width: 6%;
+    left: 50%;
+}
+
+#blue:hover {
+    background-color: rgb(7, 7, 165);
+    border: white;
+    margin: 0px;
+}
+
+#sel {
+    position: relative;
+    display: inline-block;
+    color: white;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+#box {
+    position: absolute;
+    display: inline-block;
+    background-color: red;
+    left: 5%;
+    padding: 0px;
+    height: 50%;
+    width: 3%;
+    top: 25%;
+    left: 140px;
+    vertical-align: middle;
+}
