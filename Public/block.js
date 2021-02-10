@@ -101,30 +101,7 @@ class Block {
   }
 
   collision() {
-    if (!this.hit) {
-      // let v = projectWorldToCanvas(canvas, this.pos);
-      // v.y = height - v.y;
-      // let edge = projectWorldToCanvas(canvas, createVector(370 / 4, 150 / 2, this.pos.z));
-
-      // sliceFile.setVolume(volume/100 - 0.4);
-
-      // if(volume/100 - 0.4 <= 0 ){
-      //   sliceFile.setVolume(0);
-      // }else{
-      //   sliceFile.setVolume(volume/100 - 0.4);
-      // }
-
-      // let scale = edge.x / width;
-
-      // let h = createVector(100 * (mouseX - pmouseX), 100 * (mouseY - pmouseY));
-
-      // let hitboxOffsetB;
-      // if (this.type == 3){
-      //   hitboxOffsetB = 0;
-      // }else{
-      //   hitboxOffsetB = hitboxOffset;
-      // }
-
+    if (!this.hit && !this.missed) {
       if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
 
         let v = projectWorldToCanvas(canvas, this.pos);
@@ -150,7 +127,7 @@ class Block {
         if (this.type == 3) {
           hitboxOffsetB = 0;
         } else {
-          hitboxOffsetB = hitboxOffset;
+          hitboxOffsetB = 1.8*hitboxOffset;
         }
 
 
@@ -167,11 +144,11 @@ class Block {
         else if (this.cutDirection == 1) {
           if (h.heading() > PI / 4 && h.heading() < PI / 2 + PI / 4) {
 
-            console.log("Mouse: "+ mouseX,mouseY);
-            console.log("Left: " + (v.x - this.size * scale - hitboxOffsetB));
-            console.log("Right: " + (v.x + this.size * scale + hitboxOffsetB));
+            // console.log("Mouse: "+ mouseX,mouseY);
+            // console.log("Left: " + (v.x - this.size * scale - hitboxOffsetB));
+            // console.log("Right: " + (v.x + this.size * scale + hitboxOffsetB));
 
-            console.log(v.x, v.y);
+            // console.log(v.x, v.y);
 
 
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {

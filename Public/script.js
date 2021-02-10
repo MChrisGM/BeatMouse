@@ -287,6 +287,15 @@ function draw() {
     songFile.setVolume(volume/100 - 0.2);
   }
 
+  // push();
+  // console.log(cam)
+  // translate((-width/2)/cam.aspectRatio, (-height/2)/cam.aspectRatio, cam.eyeZ-500);
+  // fill(255);
+  // ellipse(mouseX,mouseY,10,10);
+  // console.log(mouseX,mouseY);
+  // console.log((-width/2)/cam.aspectRatio, (-height/2)/cam.aspectRatio);
+  // pop()
+
   noStroke();
   fill(65);
   push();
