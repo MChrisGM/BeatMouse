@@ -27,9 +27,14 @@ class Block {
     if (this.hit) { return; }
 
     normalMaterial();
-    stroke(60);
     smooth();
-    fill(this.color);
+    lights();
+
+    stroke(60);
+    emissiveMaterial(this.color);
+    // specularMaterial(this.color); 
+    shininess(1); 
+
     push();
 
     translate(this.pos.x, this.pos.y, this.pos.z);
@@ -65,16 +70,21 @@ class Block {
         rotation = 0;
         break;
     }
-    rotate(rotation)
-    box(this.size);
-    translate(0, 0, (this.size / 2) + 1);
-    fill(255);
-    stroke(51);
-    if (this.cutDirection != 8) {
-      triangle(-15, 15, 15, 15, 0, 0);
-    } else {
-      ellipse(0, 0, 15, 15);
+    if (this.type == 1 || this.type == 2) {
+      rotate(rotation)
+      box(this.size);
+      translate(0, 0, (this.size / 2) + 1);
+      fill(255);
+      stroke(51);
+      if (this.cutDirection != 8) {
+        triangle(-15, 15, 15, 15, 0, 0);
+      } else {
+        ellipse(0, 0, 15, 15);
+      }
+    }else if(this.type == 3){
+      sphere(this.size/2);
     }
+
     pop();
 
   }
@@ -89,11 +99,11 @@ class Block {
 
       let scale = edge.x / width;
 
-      let h = createVector(10*(mouseX - pmouseX), 10*(mouseY - pmouseY));
+      let h = createVector(10 * (mouseX - pmouseX), 10 * (mouseY - pmouseY));
 
       if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
         if (this.cutDirection == 0) {
-          if (h.heading() > -PI/2-PI/4 && h.heading() < -PI / 4) {
+          if (h.heading() > -PI / 2 - PI / 4 && h.heading() < -PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -103,7 +113,7 @@ class Block {
           }
         }
         else if (this.cutDirection == 1) {
-          if (h.heading() > PI/4 && h.heading() < PI/2+PI/4) {
+          if (h.heading() > PI / 4 && h.heading() < PI / 2 + PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -113,7 +123,7 @@ class Block {
           }
         }
         else if (this.cutDirection == 2) {
-          if (h.heading() > PI/2+PI/4 && h.heading() < PI  || h.heading() > -PI && h.heading() < -PI-PI/4  ) {
+          if (h.heading() > PI / 2 + PI / 4 && h.heading() < PI || h.heading() > -PI && h.heading() < -PI - PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -123,7 +133,7 @@ class Block {
           }
         }
         else if (this.cutDirection == 3) {
-          if (h.heading() > -PI/4 && h.heading() < PI/4  ) {
+          if (h.heading() > -PI / 4 && h.heading() < PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -143,7 +153,7 @@ class Block {
           }
         }
         else if (this.cutDirection == 5) {
-          if (h.heading() > -PI/2 && h.heading() <  0) {
+          if (h.heading() > -PI / 2 && h.heading() < 0) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -153,7 +163,7 @@ class Block {
           }
         }
         else if (this.cutDirection == 6) {
-          if (h.heading() > PI/2 && h.heading() < PI) {
+          if (h.heading() > PI / 2 && h.heading() < PI) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -163,7 +173,7 @@ class Block {
           }
         }
         else if (this.cutDirection == 7) {
-          if (h.heading() > 0 && h.heading() < PI/2) {
+          if (h.heading() > 0 && h.heading() < PI / 2) {
             if (mouseX > v.x - this.size * scale - hitboxOffset && mouseX < v.x + this.size * scale + hitboxOffset) {
               if (mouseY > v.y - this.size * scale - hitboxOffset && mouseY < v.y + this.size * scale + hitboxOffset) {
                 this.hit = true;
@@ -182,7 +192,7 @@ class Block {
         }
 
       }
-      if (cam.centerZ - this.pos.z + songOffset * 2 < -1000){
+      if (cam.centerZ - this.pos.z + songOffset * 2 < -1000) {
         this.missed = true;
       }
     }

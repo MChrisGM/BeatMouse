@@ -41,31 +41,35 @@ let sp = false;
 
 let songOffset = 300;
 
-let mode = 'normal';
+
 let combo = 0;
 let combos = [0];
 let missedNotes = 0;
 let mCombo;
 let mNotes;
+let songNames = ['Beat_saber','Lone_Digger','PopStars'];
+let songIndex = 1;
+let modes = ['easy','normal','hard','expert','expert+'];
+let modeIndex = 1;
 
 p5.disableFriendlyErrors = true;
 
 function preload() {
 
-  infoFile = loadJSON("/song/Info.dat");
+  infoFile = loadJSON("/songs/"+songNames[songIndex]+"/Info.dat");
+  songFile = loadSound('/songs/'+songNames[songIndex]+'/song.ogg');
 
-  songFile = loadSound('/song/song.ogg');
-
-  if (mode == 'normal') {
-    levelFile = loadJSON("/song/OneSaberNormal.dat");
-  } else if (mode == 'hard') {
-    levelFile = loadJSON("/song/OneSaberHard.dat");
-  } else if (mode == 'expert'){
-    levelFile = loadJSON("/song/OneSaberExpert.dat");
-  }else if (mode == 'expert+'){
-    levelFile = loadJSON("/song/OneSaberExpertPlus.dat");
+  if (modes[modeIndex] == 'easy') {
+    levelFile = loadJSON("/songs/"+songNames[songIndex]+"/OneSaberEasy.dat");
+  }else if (modes[modeIndex] == 'normal') {
+    levelFile = loadJSON("/songs/"+songNames[songIndex]+"/OneSaberNormal.dat");
+  } else if (modes[modeIndex] == 'hard') {
+    levelFile = loadJSON("/songs/"+songNames[songIndex]+"/OneSaberHard.dat");
+  } else if (modes[modeIndex] == 'expert'){
+    levelFile = loadJSON("/songs/"+songNames[songIndex]+"/OneSaberExpert.dat");
+  }else if (modes[modeIndex] == 'expert+'){
+    levelFile = loadJSON("/songs/"+songNames[songIndex]+"/OneSaberExpertPlus.dat");
   }
-
   sliceFile = loadSound("/sounds/HitShortRight2.ogg");
 
 }
@@ -98,6 +102,8 @@ function setup() {
   songDuration = songFile.duration();
   beatLength = songDuration * (bpm / 60);
   setBPM(bpm);
+
+  songFile.setVolume(0.8);
 
   let notes = levelFile['_notes'];
   for (let note of notes) {
@@ -155,10 +161,10 @@ function setup() {
 }
 
 function draw() {
-  background(20);
+  background(10);
 
   noStroke();
-  fill(50);
+  fill(70);
   push();
   translate(0, 150, 0);
   box(370, 1, 1000000);
@@ -187,6 +193,8 @@ function draw() {
   let max = combos.reduce(function(a, b) {
     return Math.max(a, b);
   });
+
+  if(combo > max){max = combo};
 
   mNotes.innerText = 'Missed notes: ' + missedNotes;
   mCombo.innerText = 'Max combo: ' + max;
