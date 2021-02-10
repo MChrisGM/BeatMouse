@@ -15,6 +15,10 @@ let scaleY;
 let songInput;
 let ppbutton;
 let scoreDiv;
+let leftContainer;
+let progressBar;
+let timeProgress;
+let rightContainer;
 
 let songFile;
 let infoFile;
@@ -39,6 +43,10 @@ let songOffset = 300;
 
 let mode = 'normal';
 let combo = 0;
+let combos = [0];
+let missedNotes = 0;
+let mCombo;
+let mNotes;
 
 p5.disableFriendlyErrors = true;
 
@@ -48,10 +56,14 @@ function preload() {
 
   songFile = loadSound('/song/song.ogg');
 
-  if(mode == 'normal'){
+  if (mode == 'normal') {
     levelFile = loadJSON("/song/OneSaberNormal.dat");
-  }else if (mode == 'hard'){
+  } else if (mode == 'hard') {
     levelFile = loadJSON("/song/OneSaberHard.dat");
+  } else if (mode == 'expert'){
+    levelFile = loadJSON("/song/OneSaberExpert.dat");
+  }else if (mode == 'expert+'){
+    levelFile = loadJSON("/song/OneSaberExpertPlus.dat");
   }
 
   sliceFile = loadSound("/sounds/HitShortRight2.ogg");
@@ -60,6 +72,25 @@ function preload() {
 
 
 function initialize() {
+
+  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
+  cam = createCamera();
+  cameraPos = createVector(0, 0, songOffset);
+  cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
+
+  scaleX = width / 1920;
+  scaleY = height / 1080;
+
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+}
+
+function windowResized() {
+  initialize();
+  leftContainer.position(width / 5, height / 2.5);
+  rightContainer.position(4 * width / 5, height / 2.5);
+}
+function setup() {
 
   frameRate(60);
 
@@ -90,68 +121,37 @@ function initialize() {
     obstacles.push(o);
   }
 
-  // beats.push(new Block(4, 1, 1, 1, 6));
+  initialize();
 
+    leftContainer = createDiv();
+  leftContainer.id("leftContainer");
+  leftContainer.position(width / 5, height / 2.5);
 
-  // if (window.innerWidth < window.innerHeight){
-  //   canvas = createCanvas(window.innerHeight,window.innerWidth);
-  //   canvas.id("drawingCanvas");
-  //   document.getElementById("drawingCanvas").style.transform = "rotate(-90deg)";
-  // }else{
-  //   canvas = createCanvas(window.innerWidth,window.innerHeight);
-  //   canvas.id("drawingCanvas");
-  //   document.getElementById("drawingCanvas").style.transform = "rotate(0deg)";
-  // }
-
-  // background(51);
-
-  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
-  cam = createCamera();
-  cameraPos = createVector(0, 0, songOffset);
-  cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
-
-  scaleX = width / 1920;
-  scaleY = height / 1080;
-
-  document.addEventListener('contextmenu', event => event.preventDefault());
-
-  // let inputWidth = 200;
-  // let inputHeight = 100;
-
-  // songInput = createFileInput(handleFile);
-  // songInput.position((width/2)-(inputWidth*scaleX/2), (height/2)-(inputHeight*scaleY/2));
-  // songInput.size(inputWidth*scaleX,inputHeight*scaleY);
-
-  // songInput.hide();
-
-  // ppbutton = createButton('Toggle');
-  // ppbutton.position(width/2, height/2);
-  // ppbutton.mousePressed(togglePlay);
+  rightContainer = createDiv();
+  rightContainer.id("rightContainer");
+  rightContainer.position(4 * width / 5, height / 2.5);
 
   scoreDiv = createDiv('Combo<br>0');
   scoreDiv.class('score');
-  scoreDiv.position(width/5,height/2.5);
+  scoreDiv.id('scoreDiv');
+  scoreDiv.parent(leftContainer);
 
-}
+  progressBar = document.createElement("div");
+  progressBar.classList = 'bar';
 
-function togglePlay() {
-  paused = !paused;
-  console.log(paused);
-}
+  timeProgress = document.createElement('p');
+  timeProgress.id = 'timeProgress';
 
-function handleFile(file) {
-  console.log(file);
-  if (file.subtype == "x-zip-compressed") {
-    zip.load(file);
-  }
-}
+  document.getElementById('leftContainer').appendChild(timeProgress);
+  document.getElementById('leftContainer').appendChild(progressBar);
 
+  mNotes = document.createElement('p');
+  mCombo = document.createElement('p');
+  mNotes.classList = 'stats';
+  mCombo.classList = 'stats';
+  document.getElementById('rightContainer').appendChild(mNotes);
+  document.getElementById('rightContainer').appendChild(mCombo);
 
-function windowResized() {
-  initialize();
-}
-function setup() {
-  initialize();
 }
 
 function draw() {
@@ -165,35 +165,47 @@ function draw() {
   pop();
 
   for (let block of beats) {
-    if(!block.hit && cam.centerZ - block.pos.z < 5000 && cam.centerZ - block.pos.z > -2000){
+    if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 5000 && cam.centerZ - block.pos.z > -2000) {
       block.display();
       block.collision();
-      if (block.missed){
+      if (block.missed) {
+        combos.push(parseInt(combo));
         combo = 0;
+        missedNotes += 1;
+        continue;
       }
-      if (block.hit){
+      if (block.hit) {
         combo += 1;
         continue;
       }
     }
   }
-  scoreDiv.html('Combo<br>'+combo);
+
+  var currentT = songFile.currentTime()
+  timeProgress.innerText = format(currentT) + '/' + format(songDuration);
+
+  let max = combos.reduce(function(a, b) {
+    return Math.max(a, b);
+  });
+
+  mNotes.innerText = 'Missed notes: ' + missedNotes;
+  mCombo.innerText = 'Max combo: ' + max;
+
+  scoreDiv.html('Combo<br>' + combo);
+  progressBar.style.width = (currentT / songDuration) * 100 + '%';
 
   for (let obstacle of obstacles) {
-    if(cam.centerZ - obstacle.pos.z < 5000 && cam.centerZ - obstacle.pos.z > -10000){
+    if (cam.centerZ - obstacle.pos.z < 5000 && cam.centerZ - obstacle.pos.z > -10000) {
       obstacle.display();
     }
-    
   }
 
   let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
-
   cameraPos.z = -camMS;
-  
 
   if (sp) {
     cam.move(cameraPos.x, cameraPos.y, cameraPos.z);
-    if (!songFile.isPlaying()) {
+    if (!songFile.isPlaying() && currentT < songDuration) {
       songFile.play();
     }
   } else {

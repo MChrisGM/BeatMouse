@@ -40,3 +40,39 @@ body, head {
     font-style: normal;
 
 }
+
+.bar {
+  color: white;
+  background-color: white;
+  height: 5px;
+  /* display: block; */
+  background: white;
+  transition: width .1s linear;
+  z-index: 9999;
+  
+}
+
+#leftContainer{
+  max-width: 200px;
+}
+#rightContainer{
+  max-width: 200px;
+}
+
+#timeProgress{
+  text-align: right;
+  color: white;
+  font-size: 2vw;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal; 
+}
+
+.stats{
+  text-align: center;
+  color: white;
+  font-size: 2vw;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal; 
+}
