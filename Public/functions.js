@@ -81,3 +81,41 @@ function format(time) {
     ret += "" + secs;
     return ret;
 }
+
+function setGradient(x, y, w, h, c1, c2, axis) {
+  noFill();
+
+  if (axis === Y_AXIS) {
+    // Top to bottom gradient
+    for (let i = y; i <= y + h; i++) {
+      let inter = map(i, y, y + h, 0, 1);
+      let c = lerpColor(c1, c2, inter);
+      stroke(c);
+      line(x, i, x + w, i);
+    }
+  } else if (axis === X_AXIS) {
+    // Left to right gradient
+    for (let i = x; i <= x + w; i++) {
+      let inter = map(i, x, x + w, 0, 1);
+      let c = lerpColor(c1, c2, inter);
+      stroke(c);
+      line(i, y, i, y + h);
+    }
+  }
+}
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+
+function songDropdown() {
+  document.getElementById("songDropdown").classList.toggle("show");
+}
+
+function levelDropdown() {
+  document.getElementById("levelDropdown").classList.toggle("show");
+}

@@ -10,30 +10,74 @@
 	<meta name="viewport" content="height=device-height, initial-scale=2">
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js">
+
 	</script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.js">
-	</script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js">
+	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.js">
+
+	</script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js" integrity="sha512-KxzVm+IqxNNq0+SzT/zzd5PHxY4LPrN+v5gZJ6+JKqjeU3Cr4y/djAg5eNlKDWurn1SeKZpql/yeOMWblMSzOg==" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js">
+
 	</script>
 
 
 	<!-- <script type="text/javascript" src="jszip.js">
 	</script> -->
 	<script type="text/javascript" src="script.js">
+
 	</script>
 	<script type="text/javascript" src="block.js">
+
 	</script>
 	<script type="text/javascript" src="obstacle.js">
+
 	</script>
-  <script type="text/javascript" src="functions.js">
+	<script type="text/javascript" src="functions.js">
+
 	</script>
-	
+
 
 	<link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
 
-<body class = "unselectable">
+<body class="unselectable">
+
+	<h1 class="glow" id="logo">Beat<br>Mouse</h1>
+  <h1 id="logo">Beat<br>Mouse</h1>
+
+  <span id="settingsButton" onclick="openNav()">&#9776; Settings</span>
+
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="dropdown">
+      <button onclick="songDropdown()" class="dropbtn">Song</button>
+      <div id="songDropdown" class="dropdown-content">
+      </div>
+      <hr>
+
+      <button onclick="levelDropdown()" class="dropbtn">Difficulty</button>
+      <div id="levelDropdown" class="dropdown-content">
+      </div>
+
+      <hr>
+
+      <div class="slidecontainer">
+        <p id="volumeValue">Master Volume: <span id="demo"></span></p>
+        <input type="range" min="1" max="100" value="50" class="slider" id="volumeSlider">
+      
+      </div>
+      <div class="slidecontainer">
+        <p id="hitvolumeValue">Hitsound Volume: <span id="hitdemo"></span></p>
+        <input type="range" min="1" max="100" value="50" class="slider" id="hitvolumeSlider">
+      
+      </div>
+
+    </div>
+  </div>
+
 </body>
 
 </html>

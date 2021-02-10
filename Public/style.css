@@ -4,6 +4,10 @@ body, head {
 	height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal;
+  color: white;
 }
 
 .fixed {
@@ -75,4 +79,190 @@ body, head {
   font-family: 'tekoregular';
   font-weight: normal;
   font-style: normal; 
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav button {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.sidenav button:hover {
+  color: #f1f1f1;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#settingsButton{
+  font-size:3vw;
+  cursor:pointer;
+  position:absolute;
+  top:0;
+  right:0;
+}
+
+#logo{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  height: 20%;
+  font-size: 5vw;
+  text-align: center;
+  color: #fff;
+}
+
+.glow {
+  color: #fff;
+  text-align: center;
+  animation: glow 10s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  0% {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000;
+  }
+  
+  100% {
+    text-shadow: 0 0 20px #fff, 0 0 30px #0000ff, 0 0 40px #0000ff, 0 0 50px #0000ff, 0 0 60px #0000ff, 0 0 70px #0000ff, 0 0 80px #0000ff;
+  }
+}
+
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  font-size: 3vw;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: none;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: rgb(255, 67, 67);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: rgb(255, 67, 67);
+  cursor: pointer;
+}
+
+#volumeValue{
+  text-align: left;
+  color: white;
+  font-size: 1.5vw;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal; 
+}
+
+#songInfo{
+  color: white;
+  text-align: center;
+  font-size: 2vw;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal;
+  left: 0;
+  top: 0;
+  padding: 2px;
+  position: absolute;
 }
