@@ -48,9 +48,9 @@ let missedNotes = 0;
 let mCombo;
 let mNotes;
 let songNames = ['Beat_saber','Lone_Digger','PopStars'];
-let songIndex = 1;
+let songIndex = 2;
 let modes = ['easy','normal','hard','expert','expert+'];
-let modeIndex = 1;
+let modeIndex = 0;
 
 p5.disableFriendlyErrors = true;
 
@@ -161,14 +161,28 @@ function setup() {
 }
 
 function draw() {
-  background(10);
+  background(15);
 
   noStroke();
-  fill(70);
+  fill(65);
   push();
   translate(0, 150, 0);
   box(370, 1, 1000000);
   pop();
+
+  if (keyIsDown(16)){ //Shift
+    cam.setPosition(cam.eyeX, 40, cam.eyeZ);
+  }else{
+    cam.setPosition(cam.eyeX, 0, cam.eyeZ);
+  }
+  if (keyIsDown(65)){ //A
+    cam.setPosition(-40, cam.eyeY, cam.eyeZ);
+  }else if (keyIsDown(68)){ //D
+    cam.setPosition(40, cam.eyeY, cam.eyeZ);
+  }else{
+    cam.setPosition(0, cam.eyeY, cam.eyeZ);
+  }
+  
 
   for (let block of beats) {
     if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 5000 && cam.centerZ - block.pos.z > -2000) {
@@ -208,11 +222,10 @@ function draw() {
     }
   }
 
-  let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
-  cameraPos.z = -camMS;
-
   if (sp) {
-    cam.move(cameraPos.x, cameraPos.y, cameraPos.z);
+    let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
+  cameraPos.z = -camMS;
+    cam.move(0, 0, cameraPos.z);
     if (!songFile.isPlaying() && currentT < songDuration) {
       songFile.play();
     }

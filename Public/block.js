@@ -25,7 +25,7 @@ class Block {
   }
   display() { //Display block
     if (this.hit) { return; }
-
+    
     normalMaterial();
     smooth();
     lights();
@@ -192,7 +192,7 @@ class Block {
         }
 
       }
-      if (cam.centerZ - this.pos.z + songOffset * 2 < -1000) {
+      if (this.type != 3 && cam.centerZ - this.pos.z + songOffset * 2 < -1000) {
         this.missed = true;
       }
     }

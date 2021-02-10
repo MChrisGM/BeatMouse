@@ -16,7 +16,16 @@ class Obstacle {
       this.h = 100;
     }
 
-    this.pos = createVector(indexs[this.lineIndex], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+    if(this.width == 1){
+      this.pos = createVector(indexs[this.lineIndex], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+    }else if(this.width == 2){
+      this.pos = createVector((indexs[this.lineIndex]+indexs[this.lineIndex+1])/2, this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+    }else if(this.width == 3){
+      this.pos = createVector(indexs[this.lineIndex+1], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+    }else if(this.width == 4){
+      this.pos = createVector((indexs[1]+indexs[2])/2, this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+    }
+
   }
 
   display() { //Display obstacle
@@ -37,7 +46,8 @@ class Obstacle {
 
     translate(this.pos.x, this.pos.y, this.pos.z);
 
-    box(35, this.h, -(this.duration / beatLength) * 100 * 35 * 100);
+
+    box(35*this.width, this.h, -(this.duration / beatLength) * 100 * 35 * 100);
 
     pop();
 
