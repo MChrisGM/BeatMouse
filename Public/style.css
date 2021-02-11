@@ -8,6 +8,7 @@ body, head {
   font-weight: normal;
   font-style: normal;
   color: white;
+  background: rgb(15, 15, 15);
 }
 
 .fixed {
@@ -30,7 +31,7 @@ body, head {
 .score {
   color: white;
   text-align: center;
-  font-size: 4vw;
+  font-size: 2vw;
   font-family: 'tekoregular';
   font-weight: normal;
   font-style: normal;  
@@ -141,6 +142,7 @@ body, head {
   position:absolute;
   top:0;
   right:0;
+  padding: 16px;
 }
 
 #logo{
@@ -158,6 +160,13 @@ body, head {
   color: #fff;
   text-align: center;
   animation: glow 10s ease-in-out infinite alternate;
+}
+
+#loading-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @-webkit-keyframes glow {
@@ -254,6 +263,15 @@ body, head {
   font-style: normal; 
 }
 
+#hitvolumeValue{
+  text-align: left;
+  color: white;
+  font-size: 1.5vw;
+  font-family: 'tekoregular';
+  font-weight: normal;
+  font-style: normal; 
+}
+
 #songInfo{
   color: white;
   text-align: center;
@@ -263,6 +281,11 @@ body, head {
   font-style: normal;
   left: 0;
   top: 0;
-  padding: 2px;
+  margin: 0;
+  padding: 16px;
   position: absolute;
+}
+
+audio {
+  display: hidden;
 }

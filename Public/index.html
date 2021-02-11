@@ -9,44 +9,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=2">
 	<meta name="viewport" content="height=device-height, initial-scale=2">
 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js">
-
-	</script>
-	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.js">
-
-	</script> -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js" integrity="sha512-KxzVm+IqxNNq0+SzT/zzd5PHxY4LPrN+v5gZJ6+JKqjeU3Cr4y/djAg5eNlKDWurn1SeKZpql/yeOMWblMSzOg==" crossorigin="anonymous"></script>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js">
-
-	</script>
-
-
-	<!-- <script type="text/javascript" src="jszip.js">
-	</script> -->
-	<script type="text/javascript" src="script.js">
-
-	</script>
-	<script type="text/javascript" src="block.js">
-
-	</script>
-	<script type="text/javascript" src="obstacle.js">
-
-	</script>
-	<script type="text/javascript" src="functions.js">
-
-	</script>
-
-
 	<link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
 
 <body class="unselectable">
-
 	<h1 class="glow" id="logo">Beat<br>Mouse</h1>
   <h1 id="logo">Beat<br>Mouse</h1>
+
+  <h1 id="loading-percentage"></h1>
 
   <span id="settingsButton" onclick="openNav()">&#9776; Settings</span>
 
@@ -74,10 +45,31 @@
         <input type="range" min="1" max="100" value="50" class="slider" id="hitvolumeSlider">
       
       </div>
+      <hr>
 
     </div>
   </div>
 
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js"></script>
+
+
+	<!-- <script type="text/javascript" src="jszip.js">
+	</script> -->
+
+  <script type="text/javascript" src="keyregister.js"></script>
+
+  <script type="text/javascript" src="sound.js"></script>
+
+	<script type="text/javascript" src="script.js"></script>
+
+	<script type="text/javascript" src="block.js"></script>
+
+	<script type="text/javascript" src="obstacle.js"></script>
+
+
+	<script type="text/javascript" src="functions.js"></script>
 </body>
 
 </html>

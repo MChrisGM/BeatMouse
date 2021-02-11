@@ -25,11 +25,13 @@ let songInfo;
 let mCombo;
 let mNotes;
 let noteHit;
+let mScore;
 
-let songFile;
+let song;
 let infoFile;
 let levelFile;
 let sliceFile;
+let drawable = false;
 
 let playing = false;
 let paused = false;
@@ -55,31 +57,40 @@ let combos = [0];
 let missedNotes = 0;
 let hit = 0;
 let noteCount = 0;
+let score = 0;
 
-let songNames = ['Beat_saber','Lone_Digger','PopStars'];
-let songDifficulties = [[3],[1,2,3,4],[0,1,2,3,4]];
+let songNames = ['Beat_saber', 'Lone_Digger', 'PopStars', 'Crab_Rave'];
+let songDifficulties = [[3], [1, 2, 3, 4], [0, 1, 2, 3, 4], [1, 2, 3, 4]];
 // let songIndex = 2;
 let songName = songNames[1];
-let modes = ['Easy','Normal','Hard','Expert','Expert+'];
-let modeIndexs = [0,1,2,3,4];
+let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
+let modeIndexs = [0, 1, 2, 3, 4];
 let modeIndex = 1;
 
 p5.disableFriendlyErrors = true;
 
-window.onload = function(){
+// preload()
+// async window.onload()
+// setup()
+// ...
 
-  if(localStorage.getItem('songName') != null){
-    songName = localStorage.getItem('songName');
-  }
-  if (localStorage.getItem('modeIndex') != null){
-    modeIndex = localStorage.getItem('modeIndex');
-  }
-  if (localStorage.getItem('volume') != null){
-    volume = localStorage.getItem('volume');
-  }
-  if (localStorage.getItem('hitvolume') != null){
-    hitvolume = localStorage.getItem('hitvolume');
-  }
+window.onload = function() {
+  console.log('window.onload() called');
+
+  // songFile = loadSound('/songs/'+songName+'/song.ogg');
+
+  // if(localStorage.getItem('songName') != null){
+  //   songName = localStorage.getItem('songName');
+  // }
+  // if (localStorage.getItem('modeIndex') != null){
+  //   modeIndex = localStorage.getItem('modeIndex');
+  // }
+  // if (localStorage.getItem('volume') != null){
+  //   volume = localStorage.getItem('volume');
+  // }
+  // if (localStorage.getItem('hitvolume') != null){
+  //   hitvolume = localStorage.getItem('hitvolume');
+  // }
 
   var slider = document.getElementById("volumeSlider");
   var output = document.getElementById("demo");
@@ -89,7 +100,7 @@ window.onload = function(){
   slider.oninput = function() {
     output.innerHTML = this.value;
     volume = this.value;
-    localStorage.setItem('volume',volume);
+    localStorage.setItem('volume', volume);
   }
 
   var hitslider = document.getElementById("hitvolumeSlider");
@@ -100,72 +111,71 @@ window.onload = function(){
   hitslider.oninput = function() {
     hitoutput.innerHTML = this.value;
     hitvolume = this.value;
-    localStorage.setItem('hitvolume',hitvolume);
+    localStorage.setItem('hitvolume', hitvolume);
   }
 
   let songDropdown = document.getElementById("songDropdown");
-  for (let element of songNames){
+  for (let element of songNames) {
     let sEl = document.createElement("button");
-    sEl.onclick = function() {setSong(element);};
+    sEl.onclick = function() { setSong(element); };
     sEl.innerText = element;
     songDropdown.appendChild(sEl);
   }
 
   let levelDropdown = document.getElementById("levelDropdown");
-  for (let element of modeIndexs){
-    if(songDifficulties[songNames.indexOf(songName)].indexOf(element) > -1){
+  for (let element of modeIndexs) {
+    if (songDifficulties[songNames.indexOf(songName)].indexOf(element) > -1) {
       let sEl = document.createElement("button");
-      sEl.onclick = function() {setLevel(element);};
+      sEl.onclick = function() { setLevel(element); };
       sEl.innerText = modes[element];
       levelDropdown.appendChild(sEl);
     }
   }
 }
 
-function setSong(name){
-  localStorage.setItem('songName',name);
+function setSong(name) {
+  localStorage.setItem('songName', name);
   location.reload(true);
 }
-function setLevel(level){
-  localStorage.setItem('modeIndex',level);
+function setLevel(level) {
+  localStorage.setItem('modeIndex', level);
   location.reload(true);
 }
 
-function preload() {
+async function preload() {
+  console.log('preload() called');
 
-  if(localStorage.getItem('songName') != null){
+  if (localStorage.getItem('songName') != null) {
     songName = localStorage.getItem('songName');
   }
-  if (localStorage.getItem('modeIndex') != null){
+  if (localStorage.getItem('modeIndex') != null) {
     modeIndex = localStorage.getItem('modeIndex');
   }
-  if (localStorage.getItem('volume') != null){
+  if (localStorage.getItem('volume') != null) {
     volume = localStorage.getItem('volume');
   }
-  if (localStorage.getItem('hitvolume') != null){
+  if (localStorage.getItem('hitvolume') != null) {
     hitvolume = localStorage.getItem('hitvolume');
   }
 
-  if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false){
+  if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false) {
     modeIndex = songDifficulties[songNames.indexOf(songName)][0];
   }
 
-  infoFile = loadJSON("/songs/"+songName+"/Info.dat");
-  songFile = loadSound('/songs/'+songName+'/song.ogg');
-
   if (modes[modeIndex] == modes[0]) {
-    levelFile = loadJSON("/songs/"+songName+"/OneSaberEasy.dat");
-  }else if (modes[modeIndex] == modes[1]) {
-    levelFile = loadJSON("/songs/"+songName+"/OneSaberNormal.dat");
+    levelFile = loadJSON("/songs/" + songName + "/OneSaberEasy.dat");
+  } else if (modes[modeIndex] == modes[1]) {
+    levelFile = loadJSON("/songs/" + songName + "/OneSaberNormal.dat");
   } else if (modes[modeIndex] == modes[2]) {
-    levelFile = loadJSON("/songs/"+songName+"/OneSaberHard.dat");
-  } else if (modes[modeIndex] == modes[3]){
-    levelFile = loadJSON("/songs/"+songName+"/OneSaberExpert.dat");
-  }else if (modes[modeIndex] == modes[4]){
-    levelFile = loadJSON("/songs/"+songName+"/OneSaberExpertPlus.dat");
+    levelFile = loadJSON("/songs/" + songName + "/OneSaberHard.dat");
+  } else if (modes[modeIndex] == modes[3]) {
+    levelFile = loadJSON("/songs/" + songName + "/OneSaberExpert.dat");
+  } else if (modes[modeIndex] == modes[4]) {
+    levelFile = loadJSON("/songs/" + songName + "/OneSaberExpertPlus.dat");
   }
-  sliceFile = loadSound("/sounds/HitShortRight2.ogg");
 
+  // sliceFile.load("/sounds/HitShortRight2.ogg");
+  infoFile = loadJSON("/songs/" + songName + "/Info.dat");
 }
 
 
@@ -181,6 +191,55 @@ function initialize() {
 
   document.addEventListener('contextmenu', event => event.preventDefault());
 
+}
+
+function windowResized() {
+  initialize();
+  leftContainer.position(width / 5, height / 2.5);
+  rightContainer.position(4 * width / 5, height / 2.5);
+}
+
+let originalName;
+let originalAuthor;
+
+async function setup() {
+  console.log('setup() called');
+
+  // Load slice file into memory for reuse
+
+  sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
+
+  // Load song
+
+  const songFile = await getSoundFile('/songs/' + songName + '/song.ogg',
+    e => {
+      const percentageString = (e.loaded / e.total * 100).toFixed(1) + '%';
+      document.querySelector("#loading-percentage").innerText = percentageString;
+    });
+  song = new Sound(songFile);
+  await song.waitUntilLoaded();
+  document.querySelector("#loading-percentage").innerText = "100%";
+
+  frameRate(60);
+
+  bpm = infoFile['_beatsPerMinute'];
+  originalName = infoFile['_songName'];
+  originalAuthor = infoFile['_songAuthorName'];
+
+  songDuration = song.duration();
+
+  console.log(songDuration);
+
+  if (songDuration == NaN) songDuration = 10000;
+  beatLength = songDuration * (bpm / 60);
+
+  song.setVolume(volume / 100 - 0.2);
+  song.onended(stopMusic);
+
+  placeNotes();
+
+  initialize();
+
   leftContainer = createDiv();
   leftContainer.id("leftContainer");
   leftContainer.position(width / 5, height / 2.5);
@@ -192,7 +251,6 @@ function initialize() {
   scoreDiv = createDiv('Combo<br>0');
   scoreDiv.class('score');
   scoreDiv.id('scoreDiv');
-  scoreDiv.parent(leftContainer);
 
   progressBar = document.createElement("div");
   progressBar.classList = 'bar';
@@ -200,6 +258,12 @@ function initialize() {
   timeProgress = document.createElement('p');
   timeProgress.id = 'timeProgress';
 
+  mScore = document.createElement('p');
+  mScore.classList = 'score';
+  mScore.innerText = "Score\n0";
+
+  document.getElementById('leftContainer').appendChild(mScore);
+  scoreDiv.parent(leftContainer);
   document.getElementById('leftContainer').appendChild(timeProgress);
   document.getElementById('leftContainer').appendChild(progressBar);
 
@@ -215,35 +279,16 @@ function initialize() {
 
   songInfo = document.createElement("p");
   songInfo.id = "songInfo";
-  songInfo.innerHTML = originalName+" - "+modes[modeIndex]+"<br>"+originalAuthor;
+  songInfo.innerHTML = originalName + " - " + modes[modeIndex] + "<br>" + originalAuthor;
   document.body.appendChild(songInfo);
 
+  drawable = true;
+  document.querySelector("#loading-percentage").innerText = "";
 }
 
-function windowResized() {
-  initialize();
-  leftContainer.position(width / 5, height / 2.5);
-  rightContainer.position(4 * width / 5, height / 2.5);
-}
-
-let originalName;
-let originalAuthor;
-
-function setup() {
-
-  frameRate(60);
-
-  bpm = infoFile['_beatsPerMinute'];
-  originalName = infoFile['_songName'];
-  originalAuthor = infoFile['_songAuthorName'];
-
-  songDuration = songFile.duration();
-  beatLength = songDuration * (bpm / 60);
-  setBPM(bpm);
-
-  songFile.setVolume(volume/100 - 0.2);
-  songFile.onended(stopMusic);
-
+function placeNotes() {
+  beats = [];
+  obstacles = [];
   let notes = levelFile['_notes'];
   for (let note of notes) {
     let time = note['_time'];
@@ -253,11 +298,11 @@ function setup() {
     let cutDirection = note['_cutDirection'];
     let block = new Block(time, lineIndex, lineLayer, type, cutDirection);
     beats.push(block);
-    if(type != 3){noteCount += 1;}
+    if (type != 3) { noteCount += 1; }
   }
 
   // beats.push(new Block(2, 1, 0, 1, 1)); //Debug note
-  
+
   let obs = levelFile['_obstacles'];
   for (let obstacle of obs) {
     let time = obstacle['_time'];
@@ -268,23 +313,24 @@ function setup() {
     let o = new Obstacle(time, lineIndex, type, duration, width);
     obstacles.push(o);
   }
-
-  initialize();
-
 }
 
-function stopMusic(){
-  songFile.stop();
-  cam.setPosition(0,0,songOffset);
+function stopMusic() {
+  song.stop();
+  cam.setPosition(0, 0, songOffset);
+  sp = false;
+  placeNotes();
 }
 
 function draw() {
+  if (!drawable) return;
+
   background(15);
 
-  if(volume/100 - 0.2 <= 0 ){
-    songFile.setVolume(0);
-  }else{
-    songFile.setVolume(volume/100 - 0.2);
+  if (volume / 100 - 0.2 <= 0) {
+    song.setVolume(0);
+  } else {
+    song.setVolume(volume / 100 - 0.2);
   }
 
   // push();
@@ -303,9 +349,7 @@ function draw() {
   box(350, 1, 1000000);
   pop();
 
-  var currentT = songFile.currentTime();
-
-  // console.log(songFile);
+  var currentT = song.time();
 
   timeProgress.innerText = format(currentT) + '/' + format(songDuration);
 
@@ -313,14 +357,15 @@ function draw() {
     return Math.max(a, b);
   });
 
-  if(combo > max){max = combo};
+  if (combo > max) { max = combo };
 
   mNotes.innerText = 'Missed notes: ' + missedNotes;
-  noteHit.innerText = 'Notes hit: '+hit+"/"+noteCount;
+  noteHit.innerText = 'Notes hit: ' + hit + "/" + noteCount;
   mCombo.innerText = 'Max combo: ' + max;
 
   scoreDiv.html('Combo<br>' + combo);
   progressBar.style.width = (currentT / songDuration) * 100 + '%';
+  mScore.innerText = "Score\n" + score;
 
   for (let block of beats) {
     if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 3000 && cam.centerZ - block.pos.z > -2000) {
@@ -335,6 +380,19 @@ function draw() {
       if (block.hit) {
         combo += 1;
         hit += 1;
+
+        if (combo == 0) {
+          score += block.score;
+        }
+        else if (combo > 0 && combo <= 7) {
+          score += (block.score * combo);
+        } else {
+          score += (block.score * 8);
+        }
+
+        score = Math.floor(score);
+
+        console.log('Score', score);
         continue;
       }
     }
@@ -346,31 +404,45 @@ function draw() {
     }
   }
 
-  if (keyIsDown(16)){ //Shift
+  if (keycodeIsDown('ShiftLeft')) { //Shift
     cam.setPosition(cam.eyeX, 40, cam.eyeZ);
-  }else{
+  } else {
     cam.setPosition(cam.eyeX, 0, cam.eyeZ);
   }
-  if (keyIsDown(65)){ //A
+  if (keycodeIsDown('KeyA')) { //A
     cam.setPosition(-40, cam.eyeY, cam.eyeZ);
-  }else if (keyIsDown(68)){ //D
+  } else if (keycodeIsDown('KeyD')) { //D
     cam.setPosition(40, cam.eyeY, cam.eyeZ);
-  }else{
+  } else {
     cam.setPosition(0, cam.eyeY, cam.eyeZ);
   }
 
   if (sp) {
     let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
-  cameraPos.z = -camMS;
+    cameraPos.z = -camMS;
     cam.move(0, 0, cameraPos.z);
-    if (songFile.isPaused() || !songFile.isPlaying()) {
-      songFile.play();
+    console.log(song);
+    if (song.isPaused()) {
+      resetStats();
+      song.play();
+    }
+    else if (!song.isPlaying()) {
+      song.play();
     }
   } else {
-    if (songFile.isPlaying()) {
-      songFile.pause();
+    if (song.isPlaying()) {
+      song.pause();
     }
   }
+}
+
+function resetStats() {
+  combo = 0;
+  combos = [0];
+  missedNotes = 0;
+  hit = 0;
+  noteCount = 0;
+  score = 0;
 }
 
 function keyPressed() {

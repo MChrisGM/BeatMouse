@@ -27,16 +27,25 @@ class Block {
     this.missed = false;
     this.score = 0;
 
+    this.sliceSound = new Sound(sliceFile);
   }
+
   display() { //Display block
     if (this.hit) { return; }
+
+    let cameraZdistance = cam.centerZ - this.pos.z + songOffset * 2;
 
     normalMaterial();
     smooth();
     lights();
 
     stroke(60);
-    emissiveMaterial(this.color);
+
+    let r = map(cameraZdistance, 500, 2500, this.color.levels[0], 0);
+    let g = map(cameraZdistance, 500, 2500, this.color.levels[1], 0);
+    let b = map(cameraZdistance, 500, 2500, this.color.levels[2], 0);
+
+    emissiveMaterial(r,g,b);
     // specularMaterial(this.color); 
     shininess(1);
 
@@ -81,7 +90,7 @@ class Block {
         rotation = 0;
         break;
     }
-    if (this.type == 1 || this.type == 2) {
+    if (this.type == 1 || this.type == 0) {
       rotate(rotation)
       box(this.size);
       translate(0, 0, (this.size / 2) + 1);
@@ -104,24 +113,19 @@ class Block {
     if (!this.hit && !this.missed) {
       if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
 
+        if ((volume / 100) - (1-(hitvolume/100)) <= 0) {
+          this.sliceSound.setVolume(0);
+        } else {
+          this.sliceSound.setVolume((volume / 100) - (1-(hitvolume/100)));
+        }
+
         let v = projectWorldToCanvas(canvas, this.pos);
         v.y = height - v.y;
         let edge = projectWorldToCanvas(canvas, createVector(370 / 4, 150 / 2, this.pos.z));
 
-        sliceFile.setVolume((volume / 100) - (1-(hitvolume/100)));
-
-        if ((volume / 100) - (1-(hitvolume/100)) <= 0) {
-          sliceFile.setVolume(0);
-        } else {
-          sliceFile.setVolume((volume / 100) - (1-(hitvolume/100)));
-        }
-
         let scale = edge.x / width;
 
         let h = createVector(100 * (mouseX - pmouseX), 100 * (mouseY - pmouseY));
-
-        // console.log(h.heading());
-
 
         let hitboxOffsetB;
         if (this.type == 3) {
@@ -130,34 +134,37 @@ class Block {
           hitboxOffsetB = 1.8*hitboxOffset;
         }
 
+        // let center = (v.x - this.size * scale - hitboxOffsetB) + (v.x + this.size * scale + hitboxOffsetB)/2;
+        // let right = v.x + this.size * scale + hitboxOffsetB;
+        // let left = v.x - this.size * scale - hitboxOffsetB;
+        
+        // if(mouseX>center){
+        //   this.score = map(mouseX, center, right, 30,0);
+        // }else{
+        //   this.score = map(mouseX, center, left, 30,0);
+        // }
+
+        let minSOffset = 0;
+        let maxSOffset = 8000;
 
         if (this.cutDirection == 0) {
           if (h.heading() > -PI / 2 - PI / 4 && h.heading() < -PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
         }
         else if (this.cutDirection == 1) {
           if (h.heading() > PI / 4 && h.heading() < PI / 2 + PI / 4) {
-
-            // console.log("Mouse: "+ mouseX,mouseY);
-            // console.log("Left: " + (v.x - this.size * scale - hitboxOffsetB));
-            // console.log("Right: " + (v.x + this.size * scale + hitboxOffsetB));
-
-            // console.log(v.x, v.y);
-
-
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              console.log('Inside X');
-              
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
-                console.log('Inside Y');
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -167,7 +174,8 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -177,7 +185,8 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -187,7 +196,8 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -197,7 +207,8 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -207,7 +218,8 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -217,7 +229,8 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                sliceFile.play();
+                this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+                this.sliceSound.play();
               }
             }
           }
@@ -226,15 +239,33 @@ class Block {
           if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
             if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
               this.hit = true;
-              sliceFile.play();
+              this.score = map(h.mag(),minSOffset,maxSOffset,0,100);
+              this.sliceSound.play();
             }
           }
         }
 
       }
+
+      if (this.type != 3 && this.hit){
+        if(this.score > 100){
+          this.score = 100;
+        }
+      }
+
+
       if (this.type != 3 && cam.centerZ - this.pos.z + songOffset * 2 < -1000) {
         this.missed = true;
+        this.sliceSound.destruct();
+        this.score = 0;
       }
+
+      if(this.hit && this.type == 3){
+        this.missed = true;
+        this.sliceSound.destruct();
+        this.score = 0;
+      }
+
     }
 
   }
