@@ -242,18 +242,24 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
           }
         }
+
+
         else if (this.cutDirection == 1) {
           if (h.heading() > PI / 4 && h.heading() < PI / 2 + PI / 4) {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -264,7 +270,9 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -275,7 +283,9 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -286,7 +296,9 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -297,7 +309,9 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -308,7 +322,9 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -319,7 +335,9 @@ class Block {
             if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
               if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
                 this.hit = true;
-                this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+                let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
                 this.sliceSound.play();
               }
             }
@@ -329,7 +347,9 @@ class Block {
           if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
             if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
               this.hit = true;
-              this.score = map(h.mag(), minSOffset, maxSOffset, 0, 100) + slicePoint(this.cutDirection);
+              let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
+                if (s > 100) { s = 100; }
+                this.score = s + slicePoint(this.cutDirection);
               this.sliceSound.play();
             }
           }
@@ -342,12 +362,11 @@ class Block {
           this.score = Math.floor(this.score);
 
           let scoreEl = document.createElement('div');
-          // scoreEl.classList = "face-out";
           scoreEl.style.position = "absolute";
-          scoreEl.style.left = centerX+ "px";
+          scoreEl.style.left = centerX + "px";
           scoreEl.style.bottom = "30%";
           scoreEl.style.textAlign = "left";
-          scoreEl.style.color = "rgb(80, 160, 255)";
+          scoreEl.style.color = "rgb(100, 180, 255)";
           scoreEl.style.fontSize = "2vw";
           scoreEl.innerHTML = this.score;
           document.body.appendChild(scoreEl);

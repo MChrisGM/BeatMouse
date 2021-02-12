@@ -59,6 +59,8 @@ let hit = 0;
 let noteCount = 0;
 let score = 0;
 
+let fpsCounter;
+
 let songNames = ['Beat_saber', 'Lone_Digger', 'PopStars', 'Crab_Rave','RealityCheck'];
 let songDifficulties = [[3], [1, 2, 3, 4], [0, 1, 2, 3, 4], [1, 2, 3, 4],[1,2,3,4]];
 // let songIndex = 2;
@@ -66,6 +68,8 @@ let songName = songNames[1];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
 let modeIndexs = [0, 1, 2, 3, 4];
 let modeIndex = 1;
+
+let username;
 
 p5.disableFriendlyErrors = true;
 
@@ -114,6 +118,10 @@ window.onload = function() {
     localStorage.setItem('hitvolume', hitvolume);
   }
 
+  fpsCounter = document.createElement('p');
+  fpsCounter.id = "fps";
+  document.body.appendChild(fpsCounter);
+
   let songDropdown = document.getElementById("songDropdown");
   for (let element of songNames) {
     let sEl = document.createElement("button");
@@ -157,6 +165,19 @@ async function preload() {
   if (localStorage.getItem('hitvolume') != null) {
     hitvolume = localStorage.getItem('hitvolume');
   }
+  if (localStorage.getItem('username') != null) {
+    username = localStorage.getItem('username');
+  }else{
+    username = prompt("Please enter your username:");
+    while(username == null || username == ""){
+      username = prompt("Please enter your username:");
+    }
+    localStorage.setItem('username', username);
+  }
+  document.getElementById("usernameWelcome").innerHTML = "Welcome back, "+username+"!";
+
+
+
 
   if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false) {
     modeIndex = songDifficulties[songNames.indexOf(songName)][0];
@@ -221,7 +242,7 @@ async function setup() {
   await song.waitUntilLoaded();
   document.querySelector("#loading-percentage").innerText = "100%";
 
-  frameRate(60);
+  frameRate(120);
 
   bpm = infoFile['_beatsPerMinute'];
   originalName = infoFile['_songName'];
@@ -327,6 +348,8 @@ function stopMusic() {
 
 function draw() {
   if (!drawable) return;
+
+  fpsCounter.innerText = Math.floor(frameRate());
 
   background(15);
 
