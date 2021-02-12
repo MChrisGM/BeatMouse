@@ -59,8 +59,8 @@ let hit = 0;
 let noteCount = 0;
 let score = 0;
 
-let songNames = ['Beat_saber', 'Lone_Digger', 'PopStars', 'Crab_Rave'];
-let songDifficulties = [[3], [1, 2, 3, 4], [0, 1, 2, 3, 4], [1, 2, 3, 4]];
+let songNames = ['Beat_saber', 'Lone_Digger', 'PopStars', 'Crab_Rave','RealityCheck'];
+let songDifficulties = [[3], [1, 2, 3, 4], [0, 1, 2, 3, 4], [1, 2, 3, 4],[1,2,3,4]];
 // let songIndex = 2;
 let songName = songNames[1];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
@@ -75,7 +75,7 @@ p5.disableFriendlyErrors = true;
 // ...
 
 window.onload = function() {
-  console.log('window.onload() called');
+  // console.log('window.onload() called');
 
   // songFile = loadSound('/songs/'+songName+'/song.ogg');
 
@@ -143,7 +143,7 @@ function setLevel(level) {
 }
 
 async function preload() {
-  console.log('preload() called');
+  // console.log('preload() called');
 
   if (localStorage.getItem('songName') != null) {
     songName = localStorage.getItem('songName');
@@ -182,6 +182,7 @@ async function preload() {
 function initialize() {
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
+  addScreenPositionFunction();
   cam = createCamera();
   cameraPos = createVector(0, 0, songOffset);
   cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
@@ -203,7 +204,7 @@ let originalName;
 let originalAuthor;
 
 async function setup() {
-  console.log('setup() called');
+  // console.log('setup() called');
 
   // Load slice file into memory for reuse
 
@@ -261,6 +262,7 @@ async function setup() {
   mScore = document.createElement('p');
   mScore.classList = 'score';
   mScore.innerText = "Score\n0";
+  mScore.style.fontSize = "3vw";
 
   document.getElementById('leftContainer').appendChild(mScore);
   scoreDiv.parent(leftContainer);
@@ -287,6 +289,7 @@ async function setup() {
 }
 
 function placeNotes() {
+  noteCount = 0;
   beats = [];
   obstacles = [];
   let notes = levelFile['_notes'];
@@ -377,7 +380,7 @@ function draw() {
         missedNotes += 1;
         continue;
       }
-      if (block.hit) {
+      if (block.score > 0) {
         combo += 1;
         hit += 1;
 
@@ -389,10 +392,7 @@ function draw() {
         } else {
           score += (block.score * 8);
         }
-
         score = Math.floor(score);
-
-        console.log('Score', score);
         continue;
       }
     }
@@ -421,7 +421,7 @@ function draw() {
     let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
     cameraPos.z = -camMS;
     cam.move(0, 0, cameraPos.z);
-    console.log(song);
+    // console.log(song);
     if (song.isPaused()) {
       resetStats();
       song.play();
@@ -441,7 +441,6 @@ function resetStats() {
   combos = [0];
   missedNotes = 0;
   hit = 0;
-  noteCount = 0;
   score = 0;
 }
 
