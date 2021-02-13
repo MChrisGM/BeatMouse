@@ -63,7 +63,7 @@ class Block {
 
   display() { //Display block
     if (this.hit) { return; }
-
+    
     let cameraZdistance = cam.centerZ - this.pos.z + songOffset * 2;
 
     normalMaterial();
@@ -94,7 +94,7 @@ class Block {
       rotate(this.rotation)
       box(this.size);
       translate(0, 0, (this.size / 2) + 1);
-      if(cam.centerZ - this.pos.z + songOffset * 2 < 500){
+      if(cam.centerZ - this.pos.z + songOffset * 2 < 500 && hitIndicator){
         fill(255,255,0);
       }else{
         fill(255);
@@ -115,6 +115,7 @@ class Block {
   }
 
   collision() {
+    if (!sp){return;}
     if (!this.hit && !this.missed) {
       if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
 

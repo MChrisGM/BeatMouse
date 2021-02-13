@@ -12,6 +12,10 @@ const X_AXIS = 2;
 let scaleX;
 let scaleY;
 
+let hitIndicator;
+let fullCtoggle;
+let displayObstacles;
+
 let songInput;
 let ppbutton;
 let scoreDiv;
@@ -69,7 +73,8 @@ let songNames = ['Beat_saber',
   'Megalovania',
   'Sandstorm',
   'Time_Lapse',
-  'HighHopes'];
+  'HighHopes',
+  'Dance_Silence'];
 
 let songDifficulties = [
   [3],
@@ -80,6 +85,7 @@ let songDifficulties = [
   [0, 1, 2, 3, 4],
   [0, 1, 2, 3, 4],
   [3],
+  [1, 2, 3, 4],
   [1, 2, 3, 4]];
 
 let songName = songNames[1];
@@ -177,6 +183,25 @@ async function preload() {
   }
   document.getElementById("usernameWelcome").innerHTML = "Welcome back, " + username + "!";
   document.getElementById("usernameWelcome").style.display = "none";
+
+  if (localStorage.getItem('hitIndicator') != null) {
+    hitIndicator = localStorage.getItem('hitIndicator') == 'false'
+      ? false : true;
+  }
+  document.getElementById("SliceInd").checked = hitIndicator;
+
+  if (localStorage.getItem('fullCtoggle') != null) {
+    fullCtoggle = localStorage.getItem('fullCtoggle') == 'false'
+      ? false : true;
+  }
+  document.getElementById("fullCtoggle").checked = fullCtoggle;
+
+  if (localStorage.getItem('displayObstacles') != null) {
+    displayObstacles = localStorage.getItem('displayObstacles') == 'false'
+      ? false : true;
+  }
+  document.getElementById("displayObstacles").checked = displayObstacles;
+
 
   if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false) {
     modeIndex = songDifficulties[songNames.indexOf(songName)][0];
@@ -342,10 +367,22 @@ function stopMusic() {
   placeNotes();
 }
 
+addEventListener('unload', () => {
+  // Remember, this code has to be synchronous
+  localStorage.setItem('hitIndicator', hitIndicator);
+  localStorage.setItem('fullCtoggle', fullCtoggle);
+
+  localStorage.setItem('displayObstacles', displayObstacles);
+});
+
 function draw() {
   if (!drawable) return;
 
   fpsCounter.innerText = Math.floor(frameRate());
+
+  hitIndicator = document.getElementById("SliceInd").checked;
+  fullCtoggle = document.getElementById("fullCtoggle").checked;
+  displayObstacles = document.getElementById("displayObstacles").checked;
 
   background(15);
 
@@ -388,6 +425,11 @@ function draw() {
         combos.push(parseInt(combo));
         combo = 0;
         missedNotes += 1;
+
+        if (fullCtoggle) {
+          stopMusic();
+        }
+
         continue;
       }
       if (block.missed && block.type == 3) {
@@ -413,10 +455,10 @@ function draw() {
     }
   }
 
-  for (let obstacle of obstacles) {
-    // if (cam.centerZ - obstacle.pos.z < 5000 && cam.centerZ - obstacle.pos.z > -10000) {
-    obstacle.display();
-    // }
+  if (displayObstacles) {
+    for (let obstacle of obstacles) {
+      obstacle.display();
+    }
   }
 
   if (keycodeIsDown('ShiftLeft')) { //Shift
@@ -446,10 +488,10 @@ function draw() {
     }
   } else {
     if (cam.eyeX > 5) {
-      cam.setPosition(cam.eyeX-5, cam.eyeY, cam.eyeZ);
+      cam.setPosition(cam.eyeX - 5, cam.eyeY, cam.eyeZ);
     }
     if (cam.eyeX < -5) {
-      cam.setPosition(cam.eyeX+5, cam.eyeY, cam.eyeZ);
+      cam.setPosition(cam.eyeX + 5, cam.eyeY, cam.eyeZ);
     }
   }
 
