@@ -104,12 +104,20 @@ function setGradient(x, y, w, h, c1, c2, axis) {
   }
 }
 
+let navOpen = false;
+
 function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("volumeSlider").style.display = "block";
+  document.getElementById("hitvolumeSlider").style.display = "block";
+  document.getElementById("usernameWelcome").style.display = "block";
 }
 
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
+document.getElementById("volumeSlider").style.display = "none";
+document.getElementById("hitvolumeSlider").style.display = "none";
+document.getElementById("usernameWelcome").style.display = "none";
 }
 
 function songDropdown() {

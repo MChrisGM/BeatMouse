@@ -1,0 +1,280 @@
+{
+  "_version": "2.0.0",
+  "_songName": "Megalovania",
+  "_songSubName": "Remix (Kole Edit)",
+  "_songAuthorName": "Camellia",
+  "_levelAuthorName": "Kolezan (Lighting by Skeelie)",
+  "_beatsPerMinute": 242,
+  "_shuffle": 0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 29,
+  "_previewDuration": 13,
+  "_songFilename": "camellia_megalovania_remix_kole_edit.egg",
+  "_coverImageFilename": "cover.jpg",
+  "_environmentName": "PanicEnvironment",
+  "_songTimeOffset": 0,
+  "_customData": {
+    "_contributors": [{
+				"_role": "Mapper",
+				"_name": "Kolezan",
+				"_iconPath": "Kolezan.png"
+			}, {
+				"_role": "Lighter",
+				"_name": "Skeelie",
+				"_iconPath": "Skeelie.png"
+			}]
+  },
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "Lightshow",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Easy",
+          "_difficultyRank": 1,
+          "_beatmapFilename": "Lightshow.dat",
+          "_noteJumpMovementSpeed": 10,
+          "_noteJumpStartBeatOffset": 0,
+          "_customData": {
+            "_difficultyLabel": "Lightshow",
+            "_editorOffset": 0,
+            "_editorOldOffset": 0,
+            "_warnings": [],
+            "_information": [],
+            "_suggestions": ["ChromaLite mod"],
+            "_requirements": [],
+            "_colorLeft": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_colorRight": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_envColorLeft": {
+              "r": 0.8,
+              "g": 0.8,
+              "b": 0.8
+            },
+            "_envColorRight": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 0.7
+            },
+            "_obstacleColor": {
+              "r": 0.9,
+              "g": 0.9,
+              "b": 0.9
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_beatmapCharacteristicName": "OneSaber",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "Easy",
+          "_difficultyRank": 1,
+          "_beatmapFilename": "EasyOneSaber.dat",
+          "_noteJumpMovementSpeed": 11,
+          "_noteJumpStartBeatOffset": 1,
+          "_customData": {
+            "_editorOffset": 0,
+            "_editorOldOffset": 0,
+            "_warnings": [],
+            "_information": [],
+            "_suggestions": ["ChromaLite mod"],
+            "_requirements": [],
+            "_colorLeft": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_colorRight": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_envColorLeft": {
+              "r": 0.8,
+              "g": 0.8,
+              "b": 0.8
+            },
+            "_envColorRight": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 0.7
+            },
+            "_obstacleColor": {
+              "r": 0.9,
+              "g": 0.9,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "_difficulty": "Normal",
+          "_difficultyRank": 3,
+          "_beatmapFilename": "NormalOneSaber.dat",
+          "_noteJumpMovementSpeed": 13,
+          "_noteJumpStartBeatOffset": 1,
+          "_customData": {
+            "_editorOffset": 0,
+            "_editorOldOffset": 0,
+            "_warnings": [],
+            "_information": [],
+            "_suggestions": ["ChromaLite mod"],
+            "_requirements": [],
+            "_colorLeft": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_colorRight": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_envColorLeft": {
+              "r": 0.8,
+              "g": 0.8,
+              "b": 0.8
+            },
+            "_envColorRight": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 0.7
+            },
+            "_obstacleColor": {
+              "r": 0.9,
+              "g": 0.9,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "_difficulty": "Hard",
+          "_difficultyRank": 5,
+          "_beatmapFilename": "HardOneSaber.dat",
+          "_noteJumpMovementSpeed": 15,
+          "_noteJumpStartBeatOffset": 0.7,
+          "_customData": {
+            "_editorOffset": 0,
+            "_editorOldOffset": 0,
+            "_warnings": [],
+            "_information": [],
+            "_suggestions": ["ChromaLite mod"],
+            "_requirements": [],
+            "_colorLeft": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_colorRight": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_envColorLeft": {
+              "r": 0.8,
+              "g": 0.8,
+              "b": 0.8
+            },
+            "_envColorRight": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 0.7
+            },
+            "_obstacleColor": {
+              "r": 0.9,
+              "g": 0.9,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "_difficulty": "Expert",
+          "_difficultyRank": 7,
+          "_beatmapFilename": "ExpertOneSaber.dat",
+          "_noteJumpMovementSpeed": 18,
+          "_noteJumpStartBeatOffset": 0,
+          "_customData": {
+            "_editorOffset": 0,
+            "_editorOldOffset": 0,
+            "_warnings": [],
+            "_information": [],
+            "_suggestions": ["ChromaLite mod"],
+            "_requirements": [],
+            "_colorLeft": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_colorRight": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_envColorLeft": {
+              "r": 0.8,
+              "g": 0.8,
+              "b": 0.8
+            },
+            "_envColorRight": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 0.7
+            },
+            "_obstacleColor": {
+              "r": 0.9,
+              "g": 0.9,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusOneSaber.dat",
+          "_noteJumpMovementSpeed": 20,
+          "_noteJumpStartBeatOffset": 1.2,
+          "_customData": {
+            "_editorOffset": 0,
+            "_editorOldOffset": 0,
+            "_warnings": [],
+            "_information": [],
+            "_suggestions": ["ChromaLite mod"],
+            "_requirements": [],
+            "_colorLeft": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_colorRight": {
+              "r": 0.25,
+              "g": 0.45,
+              "b": 0.75
+            },
+            "_envColorLeft": {
+              "r": 0.8,
+              "g": 0.8,
+              "b": 0.8
+            },
+            "_envColorRight": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 0.7
+            },
+            "_obstacleColor": {
+              "r": 0.9,
+              "g": 0.9,
+              "b": 0.9
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

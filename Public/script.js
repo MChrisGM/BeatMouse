@@ -65,13 +65,22 @@ let songNames = ['Beat_saber',
   'Lone_Digger',
   'PopStars',
   'Crab_Rave',
-  'RealityCheck'];
+  'RealityCheck',
+  'Megalovania',
+  'Sandstorm',
+  'Time_Lapse',
+  'HighHopes'];
 
-let songDifficulties = [[3],
-[1, 2, 3, 4],
-[0, 1, 2, 3, 4],
-[1, 2, 3, 4],
-[1, 2, 3, 4]];
+let songDifficulties = [
+  [3],
+  [1, 2, 3, 4],
+  [0, 1, 2, 3, 4],
+  [1, 2, 3, 4],
+  [1, 2, 3, 4],
+  [0, 1, 2, 3, 4],
+  [0, 1, 2, 3, 4],
+  [3],
+  [1, 2, 3, 4]];
 
 let songName = songNames[1];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
@@ -91,6 +100,7 @@ window.onload = function() {
   var output = document.getElementById("demo");
   slider.value = volume;
   output.innerHTML = slider.value;
+  slider.style.display = "none";
 
   slider.oninput = function() {
     output.innerHTML = this.value;
@@ -102,6 +112,7 @@ window.onload = function() {
   var hitoutput = document.getElementById("hitdemo");
   hitslider.value = hitvolume;
   hitoutput.innerHTML = hitslider.value;
+  hitslider.style.display = "none";
 
   hitslider.oninput = function() {
     hitoutput.innerHTML = this.value;
@@ -165,6 +176,7 @@ async function preload() {
     localStorage.setItem('username', username);
   }
   document.getElementById("usernameWelcome").innerHTML = "Welcome back, " + username + "!";
+  document.getElementById("usernameWelcome").style.display = "none";
 
   if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false) {
     modeIndex = songDifficulties[songNames.indexOf(songName)][0];
@@ -191,7 +203,7 @@ function initialize(resize) {
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
   addScreenPositionFunction();
 
-  if(cam != null){
+  if (cam != null) {
     let cZ = cam.centerZ;
     cam = createCamera();
     cam.move(0, 0, cZ);
@@ -402,24 +414,36 @@ function draw() {
   }
 
   for (let obstacle of obstacles) {
-    if (cam.centerZ - obstacle.pos.z < 5000 && cam.centerZ - obstacle.pos.z > -10000) {
-      obstacle.display();
-    }
+    // if (cam.centerZ - obstacle.pos.z < 5000 && cam.centerZ - obstacle.pos.z > -10000) {
+    obstacle.display();
+    // }
   }
 
   if (keycodeIsDown('ShiftLeft')) { //Shift
-    cam.setPosition(cam.eyeX, 40, cam.eyeZ);
+    if (cam.eyeY < 35) {
+      cam.setPosition(cam.eyeX, cam.eyeY + 5, cam.eyeZ);
+    }
   } else {
-    cam.setPosition(cam.eyeX, 0, cam.eyeZ);
+    if (cam.eyeY > 5) {
+      cam.setPosition(cam.eyeX, cam.eyeY - 5, cam.eyeZ);
+    }
   }
   if (keycodeIsDown('KeyA')) { //A
-    cam.setPosition(-40, cam.eyeY, cam.eyeZ);
+    if (cam.eyeX > -35) {
+      cam.setPosition(cam.eyeX - 5, cam.eyeY, cam.eyeZ);
+    }
   } else if (keycodeIsDown('KeyD')) { //D
-    cam.setPosition(40, cam.eyeY, cam.eyeZ);
-  } else if(keycodeIsDown('KeyE')){ //E
-    cam.setPosition(20, cam.eyeY, cam.eyeZ);
-  } else if(keycodeIsDown('KeyQ')){ //Q
-    cam.setPosition(-20, cam.eyeY, cam.eyeZ);
+    if (cam.eyeX < 35) {
+      cam.setPosition(cam.eyeX + 5, cam.eyeY, cam.eyeZ);
+    }
+  } else if (keycodeIsDown('KeyE')) { //E
+    if (cam.eyeX < 15) {
+      cam.setPosition(cam.eyeX + 5, cam.eyeY, cam.eyeZ);
+    }
+  } else if (keycodeIsDown('KeyQ')) { //Q
+    if (cam.eyeX > -15) {
+      cam.setPosition(cam.eyeX - 5, cam.eyeY, cam.eyeZ);
+    }
   } else {
     cam.setPosition(0, cam.eyeY, cam.eyeZ);
   }
