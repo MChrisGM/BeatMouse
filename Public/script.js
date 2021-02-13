@@ -445,7 +445,12 @@ function draw() {
       cam.setPosition(cam.eyeX - 5, cam.eyeY, cam.eyeZ);
     }
   } else {
-    cam.setPosition(0, cam.eyeY, cam.eyeZ);
+    if (cam.eyeX > 5) {
+      cam.setPosition(cam.eyeX-5, cam.eyeY, cam.eyeZ);
+    }
+    if (cam.eyeX < -5) {
+      cam.setPosition(cam.eyeX+5, cam.eyeY, cam.eyeZ);
+    }
   }
 
   if (sp) {
