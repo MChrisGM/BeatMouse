@@ -372,10 +372,15 @@ function draw() {
     if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 3000 && cam.centerZ - block.pos.z > -2000) {
       block.display();
       block.collision();
-      if (block.missed) {
+      if (block.missed && block.type != 3) {
         combos.push(parseInt(combo));
         combo = 0;
         missedNotes += 1;
+        continue;
+      }
+      if (block.missed && block.type == 3) {
+        combos.push(parseInt(combo));
+        combo = 0;
         continue;
       }
       if (block.score > 0) {
@@ -411,6 +416,10 @@ function draw() {
     cam.setPosition(-40, cam.eyeY, cam.eyeZ);
   } else if (keycodeIsDown('KeyD')) { //D
     cam.setPosition(40, cam.eyeY, cam.eyeZ);
+  } else if(keycodeIsDown('KeyE')){ //E
+    cam.setPosition(20, cam.eyeY, cam.eyeZ);
+  } else if(keycodeIsDown('KeyQ')){ //Q
+    cam.setPosition(-20, cam.eyeY, cam.eyeZ);
   } else {
     cam.setPosition(0, cam.eyeY, cam.eyeZ);
   }

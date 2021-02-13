@@ -94,7 +94,12 @@ class Block {
       rotate(this.rotation)
       box(this.size);
       translate(0, 0, (this.size / 2) + 1);
-      fill(255);
+      if(cam.centerZ - this.pos.z + songOffset * 2 < 500){
+        fill(255,255,0);
+      }else{
+        fill(255);
+      }
+      
       stroke(51);
       if (this.cutDirection != 8) {
         triangle(-15, 15, 15, 15, 0, 0);
@@ -225,14 +230,6 @@ class Block {
           if (point > 30) { point = 30; }
           return point;
         }
-
-
-
-        // console.log('Mouse',mouseX,mouseY);
-        // console.log(left,center,right);
-        // console.log(v.x,v.y);
-
-
 
         let minSOffset = 0;
         let maxSOffset = 8000;
