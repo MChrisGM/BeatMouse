@@ -61,9 +61,18 @@ let score = 0;
 
 let fpsCounter;
 
-let songNames = ['Beat_saber', 'Lone_Digger', 'PopStars', 'Crab_Rave','RealityCheck'];
-let songDifficulties = [[3], [1, 2, 3, 4], [0, 1, 2, 3, 4], [1, 2, 3, 4],[1,2,3,4]];
-// let songIndex = 2;
+let songNames = ['Beat_saber',
+  'Lone_Digger',
+  'PopStars',
+  'Crab_Rave',
+  'RealityCheck'];
+
+let songDifficulties = [[3],
+[1, 2, 3, 4],
+[0, 1, 2, 3, 4],
+[1, 2, 3, 4],
+[1, 2, 3, 4]];
+
 let songName = songNames[1];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
 let modeIndexs = [0, 1, 2, 3, 4];
@@ -71,30 +80,12 @@ let modeIndex = 1;
 
 let username;
 
+let originalName;
+let originalAuthor;
+
 p5.disableFriendlyErrors = true;
 
-// preload()
-// async window.onload()
-// setup()
-// ...
-
 window.onload = function() {
-  // console.log('window.onload() called');
-
-  // songFile = loadSound('/songs/'+songName+'/song.ogg');
-
-  // if(localStorage.getItem('songName') != null){
-  //   songName = localStorage.getItem('songName');
-  // }
-  // if (localStorage.getItem('modeIndex') != null){
-  //   modeIndex = localStorage.getItem('modeIndex');
-  // }
-  // if (localStorage.getItem('volume') != null){
-  //   volume = localStorage.getItem('volume');
-  // }
-  // if (localStorage.getItem('hitvolume') != null){
-  //   hitvolume = localStorage.getItem('hitvolume');
-  // }
 
   var slider = document.getElementById("volumeSlider");
   var output = document.getElementById("demo");
@@ -151,7 +142,6 @@ function setLevel(level) {
 }
 
 async function preload() {
-  // console.log('preload() called');
 
   if (localStorage.getItem('songName') != null) {
     songName = localStorage.getItem('songName');
@@ -167,17 +157,14 @@ async function preload() {
   }
   if (localStorage.getItem('username') != null) {
     username = localStorage.getItem('username');
-  }else{
+  } else {
     username = prompt("Please enter your username:");
-    while(username == null || username == ""){
+    while (username == null || username == "") {
       username = prompt("Please enter your username:");
     }
     localStorage.setItem('username', username);
   }
-  document.getElementById("usernameWelcome").innerHTML = "Welcome back, "+username+"!";
-
-
-
+  document.getElementById("usernameWelcome").innerHTML = "Welcome back, " + username + "!";
 
   if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false) {
     modeIndex = songDifficulties[songNames.indexOf(songName)][0];
@@ -195,18 +182,26 @@ async function preload() {
     levelFile = loadJSON("/songs/" + songName + "/OneSaberExpertPlus.dat");
   }
 
-  // sliceFile.load("/sounds/HitShortRight2.ogg");
   infoFile = loadJSON("/songs/" + songName + "/Info.dat");
 }
 
 
-function initialize() {
+function initialize(resize) {
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
   addScreenPositionFunction();
-  cam = createCamera();
-  cameraPos = createVector(0, 0, songOffset);
-  cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
+
+  if(cam != null){
+    let cZ = cam.centerZ;
+    cam = createCamera();
+    cam.move(0, 0, cZ);
+  }
+
+  if (!resize) {
+    cam = createCamera();
+    cameraPos = createVector(0, 0, songOffset);
+    cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
+  }
 
   scaleX = width / 1920;
   scaleY = height / 1080;
@@ -216,23 +211,16 @@ function initialize() {
 }
 
 function windowResized() {
-  initialize();
+  initialize(true);
   leftContainer.position(width / 5, height / 2.5);
   rightContainer.position(4 * width / 5, height / 2.5);
 }
 
-let originalName;
-let originalAuthor;
-
 async function setup() {
-  // console.log('setup() called');
-
   // Load slice file into memory for reuse
-
   sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
 
   // Load song
-
   const songFile = await getSoundFile('/songs/' + songName + '/song.ogg',
     e => {
       const percentageString = (e.loaded / e.total * 100).toFixed(1) + '%';
@@ -249,8 +237,6 @@ async function setup() {
   originalAuthor = infoFile['_songAuthorName'];
 
   songDuration = song.duration();
-
-  console.log(songDuration);
 
   if (songDuration == NaN) songDuration = 10000;
   beatLength = songDuration * (bpm / 60);
@@ -325,8 +311,6 @@ function placeNotes() {
     if (type != 3) { noteCount += 1; }
   }
 
-  // beats.push(new Block(2, 1, 0, 1, 1)); //Debug note
-
   let obs = levelFile['_obstacles'];
   for (let obstacle of obs) {
     let time = obstacle['_time'];
@@ -358,15 +342,6 @@ function draw() {
   } else {
     song.setVolume(volume / 100 - 0.2);
   }
-
-  // push();
-  // console.log(cam)
-  // translate((-width/2)/cam.aspectRatio, (-height/2)/cam.aspectRatio, cam.eyeZ-500);
-  // fill(255);
-  // ellipse(mouseX,mouseY,10,10);
-  // console.log(mouseX,mouseY);
-  // console.log((-width/2)/cam.aspectRatio, (-height/2)/cam.aspectRatio);
-  // pop()
 
   noStroke();
   fill(65);
@@ -444,7 +419,6 @@ function draw() {
     let camMS = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
     cameraPos.z = -camMS;
     cam.move(0, 0, cameraPos.z);
-    // console.log(song);
     if (song.isPaused()) {
       resetStats();
       song.play();
@@ -472,23 +446,3 @@ function keyPressed() {
     sp = !sp;
   }
 }
-
-function displayMenu() {
-  let blue = color(0, 0, 255);
-  let red = color(255, 0, 0);
-
-  let menuWidth = 500;
-  let menuHeight = 600;
-
-  setGradient((width / 2) - (menuWidth * scaleX / 2), (height / 2) - (menuHeight * scaleY / 2), menuWidth * scaleX, menuHeight * scaleY, red, blue, X_AXIS);
-
-  stroke(0);
-  fill(255);
-  strokeWeight(2);
-  textAlign(CENTER);
-  textSize(90 * scaleX);
-  text("BeatMouse", width / 2, height / 2 - (200 * scaleY))
-
-}
-
-
