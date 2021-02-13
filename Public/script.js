@@ -88,10 +88,10 @@ let songDifficulties = [
   [1, 2, 3, 4],
   [1, 2, 3, 4]];
 
-let songName = songNames[1];
+let songName = songNames[2];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
 let modeIndexs = [0, 1, 2, 3, 4];
-let modeIndex = 1;
+let modeIndex = 0;
 
 let username;
 
@@ -187,19 +187,19 @@ async function preload() {
   if (localStorage.getItem('hitIndicator') != null) {
     hitIndicator = localStorage.getItem('hitIndicator') == 'false'
       ? false : true;
-  }
+  }else{hitIndicator = false;}
   document.getElementById("SliceInd").checked = hitIndicator;
 
   if (localStorage.getItem('fullCtoggle') != null) {
     fullCtoggle = localStorage.getItem('fullCtoggle') == 'false'
       ? false : true;
-  }
+  }else{fullCtoggle = false;}
   document.getElementById("fullCtoggle").checked = fullCtoggle;
 
   if (localStorage.getItem('displayObstacles') != null) {
     displayObstacles = localStorage.getItem('displayObstacles') == 'false'
       ? false : true;
-  }
+  }else{displayObstacles = true;}
   document.getElementById("displayObstacles").checked = displayObstacles;
 
 
@@ -435,6 +435,11 @@ function draw() {
       if (block.missed && block.type == 3) {
         combos.push(parseInt(combo));
         combo = 0;
+
+        if (fullCtoggle) {
+          stopMusic();
+        }
+        
         continue;
       }
       if (block.score > 0) {

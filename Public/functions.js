@@ -14,8 +14,8 @@ function multMatrixVector(m, v) {
   // Multiply in column major order.
   _dest.x = mat[0] * v.x + mat[4] * v.y + mat[8] * v.z + mat[12];
   _dest.y = mat[1] * v.x + mat[5] * v.y + mat[9] * v.z + mat[13];
-  _dest.z = mat[2] * v.x + mat[6] * v.y + mat[10] * v.z + mat[14]; 
-  var w =   mat[3] * v.x + mat[7] * v.y + mat[11] * v.z + mat[15];
+  _dest.z = mat[2] * v.x + mat[6] * v.y + mat[10] * v.z + mat[14];
+  var w = mat[3] * v.x + mat[7] * v.y + mat[11] * v.z + mat[15];
 
   if (Math.abs(w) > Number.EPSILON) {
     _dest.mult(1.0 / w);
@@ -28,14 +28,14 @@ function multMatrixVector(m, v) {
 function projectCanvasToWorld(canvas, vCanvas) {
   // Retrieve the ModelView and Projection matrices.
   var mv = canvas.uMVMatrix.copy();
-  var p  = canvas.uPMatrix.copy();
+  var p = canvas.uPMatrix.copy();
 
   // Compute the ModelViewProjection matrix.
   var mvp = mv.mult(p);
 
   // Inverts the MVP.
   var invMVP = mvp.invert(mvp);
- 
+
   // Transform the canvas vector to Normalized Device Coordinates (in [-1, 1]³),
   // Here viewport is (0, 0, drawingBufferWidth, drawingBufferHeight).
   var vNDC = createVector();
@@ -66,20 +66,20 @@ function projectWorldToCanvas(canvas, vWorld) {
   return vCanvas;
 }
 
-function format(time) {   
-    // Hours, minutes and seconds
-    var hrs = ~~(time / 3600);
-    var mins = ~~((time % 3600) / 60);
-    var secs = ~~time % 60;
+function format(time) {
+  // Hours, minutes and seconds
+  var hrs = ~~(time / 3600);
+  var mins = ~~((time % 3600) / 60);
+  var secs = ~~time % 60;
 
-    // Output like "1:01" or "4:03:59" or "123:03:59"
-    var ret = "";
-    if (hrs > 0) {
-        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
-    }
-    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-    ret += "" + secs;
-    return ret;
+  // Output like "1:01" or "4:03:59" or "123:03:59"
+  var ret = "";
+  if (hrs > 0) {
+    ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+  }
+  ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+  ret += "" + secs;
+  return ret;
 }
 
 function setGradient(x, y, w, h, c1, c2, axis) {
@@ -107,17 +107,21 @@ function setGradient(x, y, w, h, c1, c2, axis) {
 let navOpen = false;
 
 function openNav() {
+  navOpen = true;
   document.getElementById("mySidenav").style.width = "250px";
   document.getElementById("volumeSlider").style.display = "block";
   document.getElementById("hitvolumeSlider").style.display = "block";
   document.getElementById("usernameWelcome").style.display = "block";
+  
 }
 
 function closeNav() {
+  navOpen = false;
   document.getElementById("mySidenav").style.width = "0";
-document.getElementById("volumeSlider").style.display = "none";
-document.getElementById("hitvolumeSlider").style.display = "none";
-document.getElementById("usernameWelcome").style.display = "none";
+  document.getElementById("volumeSlider").style.display = "none";
+  document.getElementById("hitvolumeSlider").style.display = "none";
+  document.getElementById("usernameWelcome").style.display = "none";
+  
 }
 
 function songDropdown() {
@@ -127,3 +131,25 @@ function songDropdown() {
 function levelDropdown() {
   document.getElementById("levelDropdown").classList.toggle("show");
 }
+
+// document.addEventListener("click", function(evt) {
+//   if (navOpen) {
+//     console.log('Opened');
+//     var flyoutElement = document.getElementById('mySidenav'),
+//       targetElement = evt.target;  // clicked element
+
+//     do {
+//       if (targetElement == flyoutElement) {
+//         return;
+//       }
+//       // Go up the DOM
+//       targetElement = targetElement.parentNode;
+//     } while (targetElement);
+
+//     // This is a click outside.
+//     // console.log(document.getElementById("mySidenav").style.width);
+//     // if(document.getElementById("mySidenav").style.width == '250px' ){closeNav();}
+    
+//   }
+
+// });
