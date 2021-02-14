@@ -47,9 +47,9 @@ class Obstacle {
 
     push();
 
-    translate(this.pos.x, this.pos.y, this.pos.z);
+    translate(this.pos.x, this.pos.y, this.pos.z+(-(this.duration / beatLength) * 100 * 35 * 100 )/4);
 
-    box(35*this.width, this.h, -(this.duration / beatLength) * 100 * 35 * 100);
+    box(35*this.width, this.h, (-(this.duration / beatLength) * 100 * 35 * 100 )/2);
 
     pop();
 

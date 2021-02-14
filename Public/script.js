@@ -65,16 +65,17 @@ let score = 0;
 
 let fpsCounter;
 
-let songNames = ['Beat_saber',
+let songNames = ['Beat_Saber',
   'Lone_Digger',
-  'PopStars',
+  'Pop_Stars',
   'Crab_Rave',
-  'RealityCheck',
+  'Reality_Check',
   'Megalovania',
   'Sandstorm',
   'Time_Lapse',
-  'HighHopes',
-  'Dance_Silence'];
+  'High_Hopes',
+  'Dance_with_Silence',
+  'Mayday'];
 
 let songDifficulties = [
   [3],
@@ -85,6 +86,7 @@ let songDifficulties = [
   [0, 1, 2, 3, 4],
   [0, 1, 2, 3, 4],
   [3],
+  [1, 2, 3, 4],
   [1, 2, 3, 4],
   [1, 2, 3, 4]];
 
@@ -134,7 +136,7 @@ window.onload = function() {
   for (let element of songNames) {
     let sEl = document.createElement("button");
     sEl.onclick = function() { setSong(element); };
-    sEl.innerText = element;
+    sEl.innerText = element.replaceAll("_"," ");
     songDropdown.appendChild(sEl);
   }
 
