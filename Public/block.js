@@ -97,7 +97,7 @@ class Block {
       box(this.size);
       translate(0, 0, (this.size / 2) + 1);
       if(cam.centerZ - this.pos.z + songOffset * 2 < 500 && hitIndicator){
-        fill(252, 186, 3);
+        fill(255, 119, 41);
       }else{
         fill(255);
       }
