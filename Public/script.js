@@ -47,11 +47,12 @@ let bpm;
 let songDuration;
 
 let indexs = [-60, -20, 20, 60];
-let layers = [50, 10, -30];
+let layers = [55, 15, -35];
 
 let sp = false;
 
-let songOffset = 300;
+let songOffset = 250;
+// let songOffset = 0;
 
 let volume = 100;
 let hitvolume = 100;
@@ -339,11 +340,13 @@ function initialize(resize) {
   if (!resize) {
     cam = createCamera();
     cameraPos = createVector(0, 0, songOffset);
-    cam.setPosition(cameraPos.x, cameraPos.y, cameraPos.z);
+    cam.setPosition(0, 0, 0);
   }
 
   scaleX = width / 1920;
   scaleY = height / 1080;
+
+  cam.move(0,0,300);
 
   document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -537,11 +540,37 @@ function draw() {
     song.setVolume(volume / 100 - 0.2);
   }
 
-  noStroke();
-  fill(65);
+  
+  // noStroke();
   push();
-  translate(0, 150, 0);
-  box(350, 1, 1000000);
+  translate(0,-80,80);
+  fill(40);
+  stroke(50)
+  push();
+  translate(0, 190, cam.centerZ-2800);
+  box(190, 21, 6000);
+  pop();
+  push();
+  translate(-120,530,cam.centerZ+169);
+  box(50,700,65);
+  pop();
+  push();
+  translate(120,530,cam.centerZ+169);
+  box(50,700,65);
+  pop();
+  push();
+  translate(-120,580,cam.centerZ-700);
+  box(50,800,65);
+  pop();
+  push();
+  translate(120,580,cam.centerZ-700);
+  box(50,800,65);
+  pop();
+  push();
+  fill(60);
+  translate(0,190,cam.centerZ+700);
+  box(170,20,300);
+  pop();
   pop();
 
   var currentT = song.time();
