@@ -51,8 +51,8 @@ let layers = [55, 15, -35];
 
 let sp = false;
 
-let songOffset = 250;
-// let songOffset = 0;
+// let songOffset = 250;
+let songOffset = 0;
 
 let volume = 100;
 let hitvolume = 100;
@@ -325,6 +325,7 @@ async function preload() {
   infoFile = loadJSON("/songs/" + songName + "/Info.dat");
 }
 
+let camScale;
 
 function initialize(resize) {
 
@@ -334,19 +335,21 @@ function initialize(resize) {
   if (cam != null) {
     let cZ = cam.centerZ;
     cam = createCamera();
+    camScale = ((100-cam.cameraNear)/100)+1;
     cam.move(0, 0, cZ);
   }
 
   if (!resize) {
     cam = createCamera();
-    cameraPos = createVector(0, 0, songOffset);
+    camScale = ((100-cam.cameraNear)/100)+1;
+    cameraPos = createVector(0, 0, 0);
     cam.setPosition(0, 0, 0);
   }
 
   scaleX = width / 1920;
   scaleY = height / 1080;
 
-  cam.move(0,0,300);
+  cam.move(0,0,((height/2))*camScale);
 
   document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -496,6 +499,8 @@ function placeNotes() {
     if (type != 3) { noteCount += 1; }
   }
 
+  // beats.push(new Block(2,1,0,0,1));
+
   let obs = levelFile['_obstacles'];
   for (let obstacle of obs) {
     let time = obstacle['_time'];
@@ -543,7 +548,7 @@ function draw() {
   
   // noStroke();
   push();
-  translate(0,-80,80);
+  translate(0,-80,80*camScale);
   fill(40);
   stroke(50)
   push();

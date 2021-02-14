@@ -65,8 +65,8 @@ class Block {
 
   display() { //Display block
     if (this.hit) { return; }
-    
-    let cameraZdistance = cam.centerZ - this.pos.z + songOffset * 2;
+
+    let cameraZdistance = cam.centerZ - this.pos.z;
 
     normalMaterial();
     smooth();
@@ -89,19 +89,16 @@ class Block {
     }
 
     push();
-
     translate(this.pos.x, this.pos.y, this.pos.z);
-
     if (this.type == 1 || this.type == 0) {
       rotate(this.rotation)
       box(this.size);
       translate(0, 0, (this.size / 2) + 1);
-      if(cam.centerZ - this.pos.z + songOffset * 2 < 500 && hitIndicator){
+      if (cam.centerZ - this.pos.z < -100 * camScale && hitIndicator) {
         fill(255, 119, 41);
-      }else{
+      } else {
         fill(255);
       }
-      
       stroke(51);
       if (this.cutDirection != 8) {
         triangle(-15, 15, 15, 15, 0, 0);
@@ -111,15 +108,13 @@ class Block {
     } else if (this.type == 3) {
       sphere(this.size / 2);
     }
-
     pop();
-
   }
 
   collision() {
     if (!sp){return;}
     if (!this.hit && !this.missed) {
-      if (cam.centerZ - this.pos.z + songOffset * 2 < 300 && cam.centerZ - this.pos.z + songOffset * 2 > -1000) {
+      if (cam.centerZ - this.pos.z < -200 * camScale && cam.centerZ - this.pos.z > -1000 * camScale) {
 
         if ((volume / 100) - (1 - (hitvolume / 100)) <= 0) {
           this.sliceSound.setVolume(0);
@@ -127,21 +122,15 @@ class Block {
           this.sliceSound.setVolume((volume / 100) - (1 - (hitvolume / 100)));
         }
 
-        // let v = projectWorldToCanvas(canvas, this.pos);
-
         let v = screenPosition(this.pos);
         v.x = v.x + width / 2;
         v.y = v.y + height / 2;
 
-        // v.y = height - v.y;
-        // let edge = projectWorldToCanvas(canvas, createVector(370 / 4, 150 / 2, this.pos.z));
-
-        let edge = screenPosition(createVector(370 / 4, 150 / 2, this.pos.z));
-
+        let edge = screenPosition(createVector(this.pos.x + this.size / 2, 
+        
+        this.pos.y + this.size / 2, this.pos.z));
         edge.x = edge.x + width / 2;
         edge.y = edge.y + height / 2;
-
-        let scale = edge.x / width;
 
         let h = createVector(100 * (mouseX - pmouseX), 100 * (mouseY - pmouseY));
 
@@ -152,15 +141,16 @@ class Block {
           hitboxOffsetB = 1.8 * hitboxOffset;
         }
 
+        let projectionSizeX = edge.x - v.x;
+        let projectionSizeY = edge.y - v.y;
 
-        let rightX = v.x + this.size * scale + hitboxOffsetB;
-        let leftX = v.x - this.size * scale - hitboxOffsetB;
+        let rightX = v.x + projectionSizeX + hitboxOffsetB;
+        let leftX = v.x - projectionSizeX - hitboxOffsetB;
         let centerX = (leftX + rightX) / 2;
 
-        let upY = v.y + this.size * scale + hitboxOffsetB;
-        let downY = v.y - this.size * scale - hitboxOffsetB;
+        let upY = v.y + projectionSizeY + hitboxOffsetB;
+        let downY = v.y - projectionSizeY - hitboxOffsetB;
         let centerY = (downY + upY) / 2;
-
 
         function slicePoint(cut) {
           let point = 0;
@@ -194,31 +184,25 @@ class Block {
               }
               break;
             case 4:
-
               if (mouseX < rightX && mouseY > (centerY + downY) / 2) {
                 point = map(mouseX, rightX, centerX, 30, 0);
               } else {
                 point = map(mouseY, downY, centerY, 30, 0);
               }
-
               break;
             case 5:
-
               if (mouseX > leftX / 2 && mouseY > (centerY + downY) / 2) {
                 point = map(mouseX, leftX, centerX, 30, 0);
               } else {
                 point = map(mouseY, downY, centerY, 30, 0);
               }
-
               break;
             case 6:
-
               if (mouseX < rightX / 2 && mouseY < (centerY + upY) / 2) {
                 point = map(mouseX, rightX, centerX, 30, 0);
               } else {
                 point = map(mouseY, upY, centerY, 30, 0);
               }
-
               break;
             case 7:
               if (mouseX > leftX && mouseY < (centerY + upY) / 2) {
@@ -227,8 +211,8 @@ class Block {
                 point = map(mouseY, upY, centerY, 30, 0);
               }
               break;
-
           }
+
           point = Math.abs(point);
           if (point > 30) { point = 30; }
           return point;
@@ -237,10 +221,10 @@ class Block {
         let minSOffset = 0;
         let maxSOffset = 8000;
 
-        if (this.cutDirection == 0) {
-          if (h.heading() > -PI / 2 - PI / 4 && h.heading() < -PI / 4) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+        if (mouseX > leftX && mouseX < rightX) {
+          if (mouseY > downY && mouseY < upY) {
+            if (this.cutDirection == 0) {
+              if (h.heading() > -PI / 2 - PI / 4 && h.heading() < -PI / 4) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -248,14 +232,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-
-
-        else if (this.cutDirection == 1) {
-          if (h.heading() > PI / 4 && h.heading() < PI / 2 + PI / 4) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 1) {
+              if (h.heading() > PI / 4 && h.heading() < PI / 2 + PI / 4) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -263,12 +241,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 2) {
-          if (h.heading() > PI / 2 + PI / 4 && h.heading() < PI || h.heading() > -PI && h.heading() < -PI - PI / 4) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 2) {
+              if (h.heading() > PI / 2 + PI / 4 && h.heading() < PI || h.heading() > -PI && h.heading() < -PI - PI / 4) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -276,12 +250,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 3) {
-          if (h.heading() > -PI / 4 && h.heading() < PI / 4) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 3) {
+              if (h.heading() > -PI / 4 && h.heading() < PI / 4) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -289,12 +259,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 4) {
-          if (h.heading() > -PI && h.heading() < -PI / 2) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 4) {
+              if (h.heading() > -PI && h.heading() < -PI / 2) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -302,12 +268,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 5) {
-          if (h.heading() > -PI / 2 && h.heading() < 0) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 5) {
+              if (h.heading() > -PI / 2 && h.heading() < 0) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -315,12 +277,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 6) {
-          if (h.heading() > PI / 2 && h.heading() < PI) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 6) {
+              if (h.heading() > PI / 2 && h.heading() < PI) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -328,12 +286,8 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 7) {
-          if (h.heading() > 0 && h.heading() < PI / 2) {
-            if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-              if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 7) {
+              if (h.heading() > 0 && h.heading() < PI / 2) {
                 this.hit = true;
                 let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
                 if (s > 100) { s = 100; }
@@ -341,15 +295,11 @@ class Block {
                 this.sliceSound.play();
               }
             }
-          }
-        }
-        else if (this.cutDirection == 8) {
-          if (mouseX > v.x - this.size * scale - hitboxOffsetB && mouseX < v.x + this.size * scale + hitboxOffsetB) {
-            if (mouseY > v.y - this.size * scale - hitboxOffsetB && mouseY < v.y + this.size * scale + hitboxOffsetB) {
+            else if (this.cutDirection == 8) {
               this.hit = true;
               let s = map(h.mag(), minSOffset, maxSOffset, 0, 100);
-                if (s > 100) { s = 100; }
-                this.score = s + slicePoint(this.cutDirection);
+              if (s > 100) { s = 100; }
+              this.score = s + slicePoint(this.cutDirection);
               this.sliceSound.play();
             }
           }
@@ -369,10 +319,10 @@ class Block {
           scoreEl.style.color = this.color.toString();
           scoreEl.style.fontSize = "2vw";
           scoreEl.innerHTML = this.score;
-          this.color.setRed(this.color.levels[0] +30);
-          this.color.setGreen(this.color.levels[1] +30);
-          this.color.setBlue(this.color.levels[2] +30);
-          scoreEl.style.webkitTextStroke = "1px "+this.color.toString();
+          this.color.setRed(this.color.levels[0] + 30);
+          this.color.setGreen(this.color.levels[1] + 30);
+          this.color.setBlue(this.color.levels[2] + 30);
+          scoreEl.style.webkitTextStroke = "1px " + this.color.toString();
           document.body.appendChild(scoreEl);
 
           jQuery(scoreEl).fadeOut("slow", function() {
@@ -382,10 +332,7 @@ class Block {
 
       }
 
-
-
-
-      if (this.type != 3 && cam.centerZ - this.pos.z + songOffset * 2 < -1000) {
+      if (this.type != 3 && cam.centerZ - this.pos.z < -1000 * camScale) {
         this.missed = true;
         this.sliceSound.destruct();
         this.score = 0;
