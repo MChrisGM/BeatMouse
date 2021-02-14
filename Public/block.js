@@ -11,10 +11,12 @@ class Block {
     this.lineLayer = lineLayer;
     this.cutDirection = cutDirection;
 
+    let c = levelScheme;
+
     if (this.type == 1) {
-      this.color = color(0, 0, 255);
+      this.color = color(c['R'][0], c['R'][1], c['R'][2]);
     } else if (this.type == 0) {
-      this.color = color(255, 0, 0);
+      this.color = color(c['L'][0], c['L'][1], c['L'][2]);
     } else if (this.type == 3) {
       this.color = color(20, 20, 20);
       this.cutDirection = 8;
@@ -364,8 +366,8 @@ class Block {
           scoreEl.style.left = centerX + "px";
           scoreEl.style.bottom = "30%";
           scoreEl.style.textAlign = "left";
-          scoreEl.style.color = "rgb(100, 180, 255)";
-          scoreEl.style.fontSize = "2vw";
+          scoreEl.style.color = this.color.toString();
+          scoreEl.style.fontSize = "2.2vw";
           scoreEl.innerHTML = this.score;
           document.body.appendChild(scoreEl);
 

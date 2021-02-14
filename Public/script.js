@@ -65,6 +65,88 @@ let score = 0;
 
 let fpsCounter;
 
+let levelScheme = {
+  'L':[],
+  'R':[],
+  'W':[]
+};
+
+let environments = {
+  'DefaultEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'OriginsEnvironment':{
+    'L':[255,255,0],
+    'R':[255,0,255]
+  },
+  'TriangleEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'NiceEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'BigMirrorEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'DragonsEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'KDAEnvironment':{
+    'L':[255,128,0],
+    'R':[127,0,255]
+  },
+  'MonstercatEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'CrabRaveEnvironment':{
+    'L':[0,255,0],
+    'R':[0,0,255]
+  },
+  'PanicEnvironment':{
+    'L':[255,0,0],
+    'R':[0,0,255]
+  },
+  'RocketEnvironment':{
+    'L':[255,128,0],
+    'R':[0,0,255]
+  },
+  'GreenDayEnvironment':{
+    'L':[0,255,0],
+    'R':[0,255,255]
+  },
+  'GreenDayGrenadeEnvironment':{
+    'L':[0,255,0],
+    'R':[0,255,255]
+  },
+  'TimbalandEnvironment':{
+    'L':[128,128,128],
+    'R':[0,0,255]
+  },
+  'FitBeatEnvironment':{
+    'L':[255,255,0],
+    'R':[255,0,255]
+  },
+  'LinkinParkEnvironment':{
+    'L':[255,0,0],
+    'R':[51,153,255]
+  },
+  'BTSEnvironment':{
+    'L':[255,0,255],
+    'R':[127,0,255]
+  },
+  'GlassDesertEnvironment':{
+    'L':[255,255,0],
+    'R':[255,0,255]
+  }
+
+};
+
 let songNames = ['Beat_Saber',
   'Lone_Digger',
   'Pop_Stars',
@@ -91,7 +173,7 @@ let songDifficulties = [
   [1, 2, 3, 4]];
 
 let songName = songNames[2];
-let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'Expert+'];
+let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];
 let modeIndexs = [0, 1, 2, 3, 4];
 let modeIndex = 0;
 
@@ -274,6 +356,50 @@ async function setup() {
   bpm = infoFile['_beatsPerMinute'];
   originalName = infoFile['_songName'];
   originalAuthor = infoFile['_songAuthorName'];
+
+  for(let env of Object.entries(environments)){
+    let name = env[0]+'';
+    if(name.includes(infoFile['_environmentName'])){
+      levelScheme = env[1];
+    }
+  }
+
+  let beatMapSets = infoFile['_difficultyBeatmapSets'];
+  for (let mapSet of beatMapSets){
+    if(mapSet['_beatmapCharacteristicName'] == 'OneSaber'){
+      for(let diff of mapSet['_difficultyBeatmaps']){
+        if(diff['_difficulty'] == modes[modeIndex]){
+          let customData = diff['_customData'];
+
+          // console.log(customData);
+
+          if(customData['_colorLeft']){
+            let c = customData['_colorLeft'];
+            levelScheme['L'] = [
+              Math.floor(c['r']*255),
+              Math.floor(c['g']*255),
+              Math.floor(c['b']*255)];
+          }
+          if(customData['_colorRight']){
+            let c = customData['_colorRight'];
+            levelScheme['R'] = [
+              Math.floor(c['r']*255),
+              Math.floor(c['g']*255),
+              Math.floor(c['b']*255)];
+          }
+          if(customData['_obstacleColor']){
+            let c = customData['_obstacleColor'];
+            levelScheme['W'] = [
+              Math.floor(c['r']*255),
+              Math.floor(c['g']*255),
+              Math.floor(c['b']*255)];
+          }
+        }
+      }
+    }
+  }
+
+  // console.log(levelScheme);
 
   songDuration = song.duration();
 

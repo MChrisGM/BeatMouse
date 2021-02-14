@@ -6,6 +6,9 @@ class Obstacle {
     this.duration = duration;
     this.width = width;
 
+    let c = levelScheme;
+    this.color = color(c['W'][0], c['W'][1], c['W'][2]);
+
     this.crh = 10;
     this.h = 100;
     if (this.type == 1) {
@@ -43,7 +46,8 @@ class Obstacle {
 
     shininess(20);
     stroke(255);
-    emissiveMaterial(255,0,0, 200);
+    this.color.setAlpha(200);
+    emissiveMaterial(this.color);
 
     push();
 
