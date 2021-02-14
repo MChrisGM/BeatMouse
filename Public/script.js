@@ -66,101 +66,101 @@ let score = 0;
 let fpsCounter;
 
 let levelScheme = {
-  'L':[255,0,0],
-  'R':[0,0,255],
-  'W':[255,0,0],
+  'L': [255, 0, 0],
+  'R': [0, 0, 255],
+  'W': [255, 0, 0],
 };
 
 let environments = {
-  'DefaultEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'DefaultEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'OriginsEnvironment':{
-    'L':[255,255,0],
-    'R':[255,0,255],
-    'W':[255,0,0],
+  'OriginsEnvironment': {
+    'L': [255, 255, 0],
+    'R': [255, 0, 255],
+    'W': [255, 0, 0],
   },
-  'TriangleEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'TriangleEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'NiceEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'NiceEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'BigMirrorEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'BigMirrorEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'DragonsEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'DragonsEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'KDAEnvironment':{
-    'L':[255,128,0],
-    'R':[127,0,255],
-    'W':[255,0,0],
+  'KDAEnvironment': {
+    'L': [255, 128, 0],
+    'R': [127, 0, 255],
+    'W': [255, 0, 0],
   },
-  'MonstercatEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'MonstercatEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'CrabRaveEnvironment':{
-    'L':[0,255,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'CrabRaveEnvironment': {
+    'L': [0, 255, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'PanicEnvironment':{
-    'L':[255,0,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'PanicEnvironment': {
+    'L': [255, 0, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'RocketEnvironment':{
-    'L':[255,128,0],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'RocketEnvironment': {
+    'L': [255, 128, 0],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'GreenDayEnvironment':{
-    'L':[0,255,0],
-    'R':[0,255,255],
-    'W':[255,0,0],
+  'GreenDayEnvironment': {
+    'L': [0, 255, 0],
+    'R': [0, 255, 255],
+    'W': [255, 0, 0],
   },
-  'GreenDayGrenadeEnvironment':{
-    'L':[0,255,0],
-    'R':[0,255,255],
-    'W':[255,0,0],
+  'GreenDayGrenadeEnvironment': {
+    'L': [0, 255, 0],
+    'R': [0, 255, 255],
+    'W': [255, 0, 0],
   },
-  'TimbalandEnvironment':{
-    'L':[128,128,128],
-    'R':[0,0,255],
-    'W':[255,0,0],
+  'TimbalandEnvironment': {
+    'L': [128, 128, 128],
+    'R': [0, 0, 255],
+    'W': [255, 0, 0],
   },
-  'FitBeatEnvironment':{
-    'L':[255,255,0],
-    'R':[255,0,255],
-    'W':[255,0,0],
+  'FitBeatEnvironment': {
+    'L': [255, 255, 0],
+    'R': [255, 0, 255],
+    'W': [255, 0, 0],
   },
-  'LinkinParkEnvironment':{
-    'L':[255,0,0],
-    'R':[51,153,255],
-    'W':[255,0,0],
+  'LinkinParkEnvironment': {
+    'L': [255, 0, 0],
+    'R': [51, 153, 255],
+    'W': [255, 0, 0],
   },
-  'BTSEnvironment':{
-    'L':[255,0,255],
-    'R':[127,0,255],
-    'W':[255,0,0],
+  'BTSEnvironment': {
+    'L': [255, 0, 255],
+    'R': [127, 0, 255],
+    'W': [255, 0, 0],
   },
-  'GlassDesertEnvironment':{
-    'L':[255,255,0],
-    'R':[255,0,255],
-    'W':[255,0,0],
+  'GlassDesertEnvironment': {
+    'L': [255, 255, 0],
+    'R': [255, 0, 255],
+    'W': [255, 0, 0],
   }
 
 };
@@ -236,7 +236,7 @@ window.onload = function() {
   for (let element of songNames) {
     let sEl = document.createElement("button");
     sEl.onclick = function() { setSong(element); };
-    sEl.innerText = element.replaceAll("_"," ");
+    sEl.innerText = element.replaceAll("_", " ");
     songDropdown.appendChild(sEl);
   }
 
@@ -289,19 +289,19 @@ async function preload() {
   if (localStorage.getItem('hitIndicator') != null) {
     hitIndicator = localStorage.getItem('hitIndicator') == 'false'
       ? false : true;
-  }else{hitIndicator = false;}
+  } else { hitIndicator = false; }
   document.getElementById("SliceInd").checked = hitIndicator;
 
   if (localStorage.getItem('fullCtoggle') != null) {
     fullCtoggle = localStorage.getItem('fullCtoggle') == 'false'
       ? false : true;
-  }else{fullCtoggle = false;}
+  } else { fullCtoggle = false; }
   document.getElementById("fullCtoggle").checked = fullCtoggle;
 
   if (localStorage.getItem('displayObstacles') != null) {
     displayObstacles = localStorage.getItem('displayObstacles') == 'false'
       ? false : true;
-  }else{displayObstacles = true;}
+  } else { displayObstacles = true; }
   document.getElementById("displayObstacles").checked = displayObstacles;
 
 
@@ -375,42 +375,41 @@ async function setup() {
   originalName = infoFile['_songName'];
   originalAuthor = infoFile['_songAuthorName'];
 
-  for(let env of Object.entries(environments)){
-    let name = env[0]+'';
-    if(name.includes(infoFile['_environmentName'])){
+  for (let env of Object.entries(environments)) {
+    let name = env[0] + '';
+    if (name.includes(infoFile['_environmentName'])) {
       levelScheme = env[1];
     }
   }
 
   let beatMapSets = infoFile['_difficultyBeatmapSets'];
-  for (let mapSet of beatMapSets){
-    if(mapSet['_beatmapCharacteristicName'] == 'OneSaber'){
-      for(let diff of mapSet['_difficultyBeatmaps']){
-        if(diff['_difficulty'] == modes[modeIndex]){
+  for (let mapSet of beatMapSets) {
+    if (mapSet['_beatmapCharacteristicName'] == 'OneSaber') {
+      for (let diff of mapSet['_difficultyBeatmaps']) {
+        if (diff['_difficulty'] == modes[modeIndex]) {
           let customData = diff['_customData'];
-
-          // console.log(customData);
-
-          if(customData['_colorLeft']){
-            let c = customData['_colorLeft'];
-            levelScheme['L'] = [
-              Math.floor(c['r']*255),
-              Math.floor(c['g']*255),
-              Math.floor(c['b']*255)];
-          }
-          if(customData['_colorRight']){
-            let c = customData['_colorRight'];
-            levelScheme['R'] = [
-              Math.floor(c['r']*255),
-              Math.floor(c['g']*255),
-              Math.floor(c['b']*255)];
-          }
-          if(customData['_obstacleColor']){
-            let c = customData['_obstacleColor'];
-            levelScheme['W'] = [
-              Math.floor(c['r']*255),
-              Math.floor(c['g']*255),
-              Math.floor(c['b']*255)];
+          if (customData) {
+            if (customData['_colorLeft']) {
+              let c = customData['_colorLeft'];
+              levelScheme['L'] = [
+                Math.floor(c['r'] * 255),
+                Math.floor(c['g'] * 255),
+                Math.floor(c['b'] * 255)];
+            }
+            if (customData['_colorRight']) {
+              let c = customData['_colorRight'];
+              levelScheme['R'] = [
+                Math.floor(c['r'] * 255),
+                Math.floor(c['g'] * 255),
+                Math.floor(c['b'] * 255)];
+            }
+            if (customData['_obstacleColor']) {
+              let c = customData['_obstacleColor'];
+              levelScheme['W'] = [
+                Math.floor(c['r'] * 255),
+                Math.floor(c['g'] * 255),
+                Math.floor(c['b'] * 255)];
+            }
           }
         }
       }
@@ -585,7 +584,7 @@ function draw() {
         if (fullCtoggle) {
           stopMusic();
         }
-        
+
         continue;
       }
       if (block.score > 0) {

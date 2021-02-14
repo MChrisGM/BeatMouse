@@ -367,8 +367,12 @@ class Block {
           scoreEl.style.bottom = "30%";
           scoreEl.style.textAlign = "left";
           scoreEl.style.color = this.color.toString();
-          scoreEl.style.fontSize = "2.2vw";
+          scoreEl.style.fontSize = "2vw";
           scoreEl.innerHTML = this.score;
+          this.color.setRed(this.color.levels[0] +30);
+          this.color.setGreen(this.color.levels[1] +30);
+          this.color.setBlue(this.color.levels[2] +30);
+          scoreEl.style.webkitTextStroke = "1px "+this.color.toString();
           document.body.appendChild(scoreEl);
 
           jQuery(scoreEl).fadeOut("slow", function() {
