@@ -10,7 +10,7 @@
   "_shufflePeriod": 0.5,
   "_previewStartTime": 51,
   "_previewDuration": 11,
-  "_songFilename": "KDA_POPSTARS.egg",
+  "_songFilename": "song.ogg",
   "_coverImageFilename": "Cover.jpg",
   "_environmentName": "KDAEnvironment",
   "_customData": {
@@ -25,7 +25,7 @@
         {
           "_difficulty": "Easy",
           "_difficultyRank": 1,
-          "_beatmapFilename": "Easy.dat",
+          "_beatmapFilename": "OneSaberEasy.dat",
           "_noteJumpMovementSpeed": 9,
           "_noteJumpStartBeatOffset": 0,
           "_customData": {
@@ -43,7 +43,7 @@
         {
           "_difficulty": "Normal",
           "_difficultyRank": 3,
-          "_beatmapFilename": "Normal.dat",
+          "_beatmapFilename": "OneSaberNormal.dat",
           "_noteJumpMovementSpeed": 10,
           "_noteJumpStartBeatOffset": 0,
           "_customData": {
@@ -61,7 +61,7 @@
         {
           "_difficulty": "Hard",
           "_difficultyRank": 5,
-          "_beatmapFilename": "Hard.dat",
+          "_beatmapFilename": "OneSaberHard.dat",
           "_noteJumpMovementSpeed": 13,
           "_noteJumpStartBeatOffset": 1,
           "_customData": {
@@ -79,7 +79,7 @@
         {
           "_difficulty": "Expert",
           "_difficultyRank": 7,
-          "_beatmapFilename": "Expert.dat",
+          "_beatmapFilename": "OneSaberExpert.dat",
           "_noteJumpMovementSpeed": 14,
           "_noteJumpStartBeatOffset": 0,
           "_customData": {
@@ -97,7 +97,7 @@
         {
           "_difficulty": "ExpertPlus",
           "_difficultyRank": 9,
-          "_beatmapFilename": "ExpertPlus.dat",
+          "_beatmapFilename": "OneSaberExpertPlus.dat",
           "_noteJumpMovementSpeed": 15,
           "_noteJumpStartBeatOffset": 0,
           "_customData": {

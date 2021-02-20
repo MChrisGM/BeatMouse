@@ -9,7 +9,7 @@
   "_shufflePeriod" : 0.5,
   "_previewStartTime" : 34,
   "_previewDuration" : 10,
-  "_songFilename" : "song.egg",
+  "_songFilename" : "song.ogg",
   "_coverImageFilename" : "cover.jpg",
   "_environmentName" : "Origins",
   "_songTimeOffset" : 0,
@@ -23,7 +23,7 @@
         {
           "_difficulty" : "Expert",
           "_difficultyRank" : 7,
-          "_beatmapFilename" : "ExpertOneSaber.dat",
+          "_beatmapFilename" : "OneSaberExpert.dat",
           "_noteJumpMovementSpeed" : 16,
           "_noteJumpStartBeatOffset" : 0,
           "_customData" : {

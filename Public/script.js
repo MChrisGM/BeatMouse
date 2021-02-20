@@ -51,7 +51,6 @@ let layers = [55, 15, -35];
 
 let sp = false;
 
-// let songOffset = 250;
 let songOffset = 0;
 
 let volume = 100;
@@ -178,19 +177,6 @@ let songNames = ['Beat_Saber',
   'Dance_with_Silence',
   'Mayday'];
 
-let songDifficulties = [
-  [3],
-  [1, 2, 3, 4],
-  [0, 1, 2, 3, 4],
-  [1, 2, 3, 4],
-  [1, 2, 3, 4],
-  [0, 1, 2, 3, 4],
-  [0, 1, 2, 3, 4],
-  [3],
-  [1, 2, 3, 4],
-  [1, 2, 3, 4],
-  [1, 2, 3, 4]];
-
 let songName = songNames[2];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];
 let modeIndexs = [0, 1, 2, 3, 4];
@@ -204,6 +190,7 @@ let originalAuthor;
 p5.disableFriendlyErrors = true;
 
 window.onload = function() {
+  
 
   var slider = document.getElementById("volumeSlider");
   var output = document.getElementById("demo");
@@ -232,24 +219,7 @@ window.onload = function() {
   fpsCounter = document.createElement('p');
   fpsCounter.id = "fps";
   document.body.appendChild(fpsCounter);
-
-  let songDropdown = document.getElementById("songDropdown");
-  for (let element of songNames) {
-    let sEl = document.createElement("button");
-    sEl.onclick = function() { setSong(element); };
-    sEl.innerText = element.replaceAll("_", " ");
-    songDropdown.appendChild(sEl);
-  }
-
-  let levelDropdown = document.getElementById("levelDropdown");
-  for (let element of modeIndexs) {
-    if (songDifficulties[songNames.indexOf(songName)].indexOf(element) > -1) {
-      let sEl = document.createElement("button");
-      sEl.onclick = function() { setLevel(element); };
-      sEl.innerText = modes[element];
-      levelDropdown.appendChild(sEl);
-    }
-  }
+  
 }
 
 function setSong(name) {
@@ -305,24 +275,63 @@ async function preload() {
   } else { displayObstacles = true; }
   document.getElementById("displayObstacles").checked = displayObstacles;
 
+  
+  infoFile = loadJSON("/songs/" + songName + "/Info.dat", loadMap);
+}
 
-  if (songDifficulties[songNames.indexOf(songName)].includes(parseInt(modeIndex)) == false) {
-    modeIndex = songDifficulties[songNames.indexOf(songName)][0];
+let songFileName = '';
+let currentDifficulties = [];
+
+function loadMap(){
+  songFileName = infoFile['_songFilename'];
+
+  let beatMapSets = infoFile['_difficultyBeatmapSets'];
+
+  for (let mapset of beatMapSets){
+    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
+      for(let diffs of mapset['_difficultyBeatmaps']){
+        currentDifficulties.push(modeIndexs[modes.indexOf(diffs['_difficulty'])]);
+      }
+    }
+  }
+  if (currentDifficulties.includes(parseInt(modeIndex)) == false) {
+    modeIndex = currentDifficulties[0];
+  }
+  for (let mapset of beatMapSets){
+    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
+      for(let diffs of mapset['_difficultyBeatmaps']){
+        if (diffs['_difficulty'] == modes[modeIndex]){
+          levelFile = loadJSON("/songs/" + songName+"/" + diffs['_beatmapFilename']);
+        }
+      }
+    }
   }
 
-  if (modes[modeIndex] == modes[0]) {
-    levelFile = loadJSON("/songs/" + songName + "/OneSaberEasy.dat");
-  } else if (modes[modeIndex] == modes[1]) {
-    levelFile = loadJSON("/songs/" + songName + "/OneSaberNormal.dat");
-  } else if (modes[modeIndex] == modes[2]) {
-    levelFile = loadJSON("/songs/" + songName + "/OneSaberHard.dat");
-  } else if (modes[modeIndex] == modes[3]) {
-    levelFile = loadJSON("/songs/" + songName + "/OneSaberExpert.dat");
-  } else if (modes[modeIndex] == modes[4]) {
-    levelFile = loadJSON("/songs/" + songName + "/OneSaberExpertPlus.dat");
-  }
+  setMapnameDropdown();
+  setDifficultyDropdown();
 
-  infoFile = loadJSON("/songs/" + songName + "/Info.dat");
+}
+
+function setMapnameDropdown(){
+  let songDropdown = document.getElementById("songDropdown");
+  for (let element of songNames) {
+    let sEl = document.createElement("button");
+    sEl.onclick = function() { setSong(element); };
+    sEl.innerText = element.replaceAll("_", " ");
+    songDropdown.appendChild(sEl);
+  }
+}
+
+function setDifficultyDropdown(){
+  let levelDropdown = document.getElementById("levelDropdown");
+  for (let element of modeIndexs) {
+    if (currentDifficulties.indexOf(element) > -1) {
+      let sEl = document.createElement("button");
+      sEl.onclick = function() { setLevel(element); };
+      sEl.innerText = modes[element];
+      levelDropdown.appendChild(sEl);
+    }
+  }
 }
 
 let camScale;
@@ -349,7 +358,7 @@ function initialize(resize) {
   scaleX = width / 1920;
   scaleY = height / 1080;
 
-  cam.move(0,0,((height/2))*camScale);
+  cam.move(0,0,((height/2)-100)*camScale);
 
   document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -366,7 +375,7 @@ async function setup() {
   sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
 
   // Load song
-  const songFile = await getSoundFile('/songs/' + songName + '/song.ogg',
+  const songFile = await getSoundFile('/songs/' + songName + '/'+songFileName,
     e => {
       const percentageString = (e.loaded / e.total * 100).toFixed(1) + '%';
       document.querySelector("#loading-percentage").innerText = percentageString;
@@ -518,6 +527,7 @@ function stopMusic() {
   cam.setPosition(0, 0, songOffset);
   sp = false;
   placeNotes();
+  cam.move(0,0,((height/2)-100)*camScale);
 }
 
 addEventListener('unload', () => {
