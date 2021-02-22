@@ -176,8 +176,8 @@ let songNames = ['Beat_Saber',
   'High_Hopes',
   'Dance_with_Silence',
   'Mayday',
-  'Mario_Kart',
-  'More'];
+  'More',
+  'Mario_Kart'];
 
 let songName = songNames[2];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];
@@ -189,11 +189,12 @@ let username;
 let originalName;
 let originalAuthor;
 
+let enableTrail = true;
+
 p5.disableFriendlyErrors = true;
 
 window.onload = function() {
   
-
   var slider = document.getElementById("volumeSlider");
   var output = document.getElementById("demo");
   slider.value = volume;
@@ -256,8 +257,8 @@ async function preload() {
     }
     localStorage.setItem('username', username);
   }
-  document.getElementById("usernameWelcome").innerHTML = "Welcome back, " + username + "!";
-  document.getElementById("usernameWelcome").style.display = "none";
+  // document.getElementById("usernameWelcome").innerHTML = "Welcome back, " + username + "!";
+  // document.getElementById("usernameWelcome").style.display = "none";
 
   if (localStorage.getItem('hitIndicator') != null) {
     hitIndicator = localStorage.getItem('hitIndicator') == 'false'
@@ -276,6 +277,12 @@ async function preload() {
       ? false : true;
   } else { displayObstacles = true; }
   document.getElementById("displayObstacles").checked = displayObstacles;
+
+  if (localStorage.getItem('enableTrail') != null) {
+    enableTrail = localStorage.getItem('enableTrail') == 'false'
+      ? false : true;
+  } else { enableTrail = true; }
+  document.getElementById("enableTrail").checked = enableTrail;
 
   
   infoFile = loadJSON("/songs/" + songName + "/Info.dat", loadMap);
@@ -543,8 +550,8 @@ addEventListener('unload', () => {
   // Remember, this code has to be synchronous
   localStorage.setItem('hitIndicator', hitIndicator);
   localStorage.setItem('fullCtoggle', fullCtoggle);
-
   localStorage.setItem('displayObstacles', displayObstacles);
+  localStorage.setItem('enableTrail', enableTrail);
 });
 
 function draw() {
@@ -555,6 +562,7 @@ function draw() {
   hitIndicator = document.getElementById("SliceInd").checked;
   fullCtoggle = document.getElementById("fullCtoggle").checked;
   displayObstacles = document.getElementById("displayObstacles").checked;
+  enableTrail = document.getElementById("enableTrail").checked;
 
   background(15);
 
@@ -710,8 +718,12 @@ function draw() {
       song.play();
     }
 
-    drawTrail();
-
+    if(enableTrail){
+      drawTrail();
+    }else{
+      hideTrail();
+    }
+    
   } else {
     if (song.isPlaying()) {
       song.pause();

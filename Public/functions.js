@@ -111,7 +111,7 @@ function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
   document.getElementById("volumeSlider").style.display = "block";
   document.getElementById("hitvolumeSlider").style.display = "block";
-  document.getElementById("usernameWelcome").style.display = "block";
+  // document.getElementById("usernameWelcome").style.display = "block";
   
 }
 
@@ -120,7 +120,7 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("volumeSlider").style.display = "none";
   document.getElementById("hitvolumeSlider").style.display = "none";
-  document.getElementById("usernameWelcome").style.display = "none";
+  // document.getElementById("usernameWelcome").style.display = "none";
   
 }
 
@@ -195,14 +195,21 @@ function drawTrail() {
   dots.forEach(function(dot, index, dots) {
     var nextDot = dots[index + 1] || dots[0];
     
-    dot.x = x;
-    dot.y = y;
+    dot.x = x-4;
+    dot.y = y-4;
     dot.draw();
     x += (nextDot.x - dot.x) * 0.1;
     y += (nextDot.y - dot.y) * 0.1;
 
+    dot.node.style.display = 'block';
     dot.node.style.opacity = (1/(index/40))*15+"%";
 
+  });
+}
+
+function hideTrail(){
+  dots.forEach(function(dot, index, dots) {
+    dot.node.style.display = 'none';
   });
 }
 

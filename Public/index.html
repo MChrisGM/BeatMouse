@@ -23,13 +23,13 @@
 
   <span id="settingsButton" onclick="openNav()">&#9776; Settings</span>
 
-  <div id="mySidenav" class="sidenav" style="overflow: hidden;">
+  <div id="mySidenav" class="sidenav" style="overflow-y: hidden;overflow-x: auto;">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
 
     <div>
     <p style="font-size:2vw;margin:0">How to play:</p>
-    <p style="font-size:1.6vw;">Move your mouse to slice the incoming blocks in the beat of the song. <br> If you're having trouble with the timing, make sure to enable "Slice indicators"</p>
+    <p style="font-size:1.6vw;">To start the song press "Space". Move your mouse to slice the incoming blocks in the beat of the song. <br> If you're having trouble with the timing, make sure to enable "Slice indicators"</p>
     </div>
 
     <hr>
@@ -86,8 +86,19 @@
         </label>
       </div>
 
+      <hr>
+
+      <div id="switch-container">
+        <p class="settingsOption">Enable trail</p>
+        <label class="switch">
+          <input id="enableTrail" type="checkbox">
+          <span class="sliderSwitch round"></span>
+        </label>
+      </div>
+
+
     </div>
-    <div class="nav-bottom" id="usernameWelcome">Test</div>
+    <!-- <div class="nav-bottom" id="usernameWelcome"></div> -->
      
   </div>
 
