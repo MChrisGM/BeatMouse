@@ -172,10 +172,12 @@ let songNames = ['Beat_Saber',
   'Reality_Check',
   'Megalovania',
   'Sandstorm',
-  'Time_Lapse',
+  'Time_Lapse', //Max score: 512200
   'High_Hopes',
   'Dance_with_Silence',
-  'Mayday'];
+  'Mayday',
+  'Mario_Kart',
+  'More'];
 
 let songName = songNames[2];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];
@@ -700,11 +702,18 @@ function draw() {
     else if (!song.isPlaying()) {
       song.play();
     }
+
+    drawTrail();
+
   } else {
     if (song.isPlaying()) {
       song.pause();
     }
   }
+
+
+  
+
 }
 
 function resetStats() {

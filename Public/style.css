@@ -396,3 +396,10 @@ input:checked + .sliderSwitch:before {
 .settingsOption{
   font-size: 2vw;
 }
+
+.trail { /* className for the trail elements */
+    position: absolute;
+    height: 6px; width: 6px;
+    border-radius: 3px;
+    background: white;
+  }

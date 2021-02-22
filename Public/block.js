@@ -112,7 +112,7 @@ class Block {
   }
 
   collision() {
-    if (!sp){return;}
+    if (!sp) { return; }
     if (!this.hit && !this.missed) {
       if (cam.centerZ - this.pos.z < -200 * camScale && cam.centerZ - this.pos.z > -1000 * camScale) {
 
@@ -126,9 +126,9 @@ class Block {
         v.x = v.x + width / 2;
         v.y = v.y + height / 2;
 
-        let edge = screenPosition(createVector(this.pos.x + this.size / 2, 
-        
-        this.pos.y + this.size / 2, this.pos.z));
+        let edge = screenPosition(createVector(this.pos.x + this.size / 2,
+
+          this.pos.y + this.size / 2, this.pos.z));
         edge.x = edge.x + width / 2;
         edge.y = edge.y + height / 2;
 
@@ -333,10 +333,28 @@ class Block {
       }
 
       if (this.type != 3 && cam.centerZ - this.pos.z < -1000 * camScale) {
-        this.missed = true;
-        this.sliceSound.destruct();
-        this.score = 0;
-      }
+          this.missed = true;
+          this.sliceSound.destruct();
+          this.score = 0;
+
+          let scoreEl = document.createElement('div');
+          scoreEl.style.position = "absolute";
+          scoreEl.style.left = width/2 + "px";
+          scoreEl.style.bottom = "30%";
+          scoreEl.style.textAlign = "left";
+          scoreEl.style.color = "pink";
+          scoreEl.style.fontSize = "2vw";
+          scoreEl.innerHTML = "Miss";
+          scoreEl.style.webkitTextStroke = "1px red";
+          document.body.appendChild(scoreEl);
+
+          jQuery(scoreEl).fadeOut("slow", function() {
+            jQuery(this).remove();
+          });
+
+        }
+
+
 
       if (this.hit && this.type == 3) {
         this.missed = true;
