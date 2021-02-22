@@ -54,7 +54,6 @@ body, head {
   background: white;
   transition: width .1s linear;
   z-index: 9999;
-  
 }
 
 #leftContainer{

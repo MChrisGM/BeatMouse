@@ -339,9 +339,9 @@ class Block {
 
           let scoreEl = document.createElement('div');
           scoreEl.style.position = "absolute";
-          scoreEl.style.left = width/2 + "px";
+          scoreEl.style.left = window.innerWidth/2 + "px";
           scoreEl.style.bottom = "30%";
-          scoreEl.style.textAlign = "left";
+          scoreEl.style.textAlign = "center";
           scoreEl.style.color = "pink";
           scoreEl.style.fontSize = "2vw";
           scoreEl.innerHTML = "Miss";

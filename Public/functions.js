@@ -179,7 +179,7 @@ Dot.prototype.draw = function() {
 };
 
 // Creates the Dot objects, populates the dots array
-for (var i = 0; i < 25; i++) {
+for (var i = 0; i < 40; i++) {
   var d = new Dot();
   dots.push(d);
 }
@@ -198,8 +198,10 @@ function drawTrail() {
     dot.x = x;
     dot.y = y;
     dot.draw();
-    x += (nextDot.x - dot.x) * 0.05;
-    y += (nextDot.y - dot.y) * 0.05;
+    x += (nextDot.x - dot.x) * 0.1;
+    y += (nextDot.y - dot.y) * 0.1;
+
+    dot.node.style.opacity = (1/(index/40))*15+"%";
 
   });
 }
@@ -209,3 +211,12 @@ addEventListener("mousemove", function(event) {
   mouse.x = event.pageX;
   mouse.y = event.pageY;
 });
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}

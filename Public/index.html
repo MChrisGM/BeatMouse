@@ -23,9 +23,18 @@
 
   <span id="settingsButton" onclick="openNav()">&#9776; Settings</span>
 
-  <div id="mySidenav" class="sidenav">
+  <div id="mySidenav" class="sidenav" style="overflow: hidden;">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <div class="dropdown">
+
+
+    <div>
+    <p style="font-size:2vw;margin:0">How to play:</p>
+    <p style="font-size:1.6vw;">Move your mouse to slice the incoming blocks in the beat of the song. <br> If you're having trouble with the timing, make sure to enable "Slice indicators"</p>
+    </div>
+
+    <hr>
+
+    <div class="dropdown" style="overflow:auto; overflow-x: hidden;">
       <button onclick="songDropdown()" class="dropbtn">Song</button>
       <div id="songDropdown" class="dropdown-content">
       </div>

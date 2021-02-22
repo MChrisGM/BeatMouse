@@ -492,6 +492,13 @@ async function setup() {
 
   drawable = true;
   document.querySelector("#loading-percentage").innerText = "";
+
+  let c = levelScheme;
+
+  for(let div of document.getElementsByClassName('trail')){
+    div.style.background = rgbToHex(c['R'][0], c['R'][1], c['R'][2]);
+  }
+
 }
 
 function placeNotes() {
