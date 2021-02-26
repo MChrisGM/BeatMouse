@@ -177,7 +177,8 @@ let songNames = ['Beat_Saber',
   'Dance_with_Silence',
   'Mayday',
   'More',
-  'Mario_Kart'];
+  'Mario_Kart',
+  'The_Baddest'];
 
 let songName = songNames[2];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];
