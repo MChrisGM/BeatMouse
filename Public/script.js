@@ -165,20 +165,22 @@ let environments = {
 
 };
 
-let songNames = ['Beat_Saber',
-  'Lone_Digger',
-  'Pop_Stars',
-  'Crab_Rave',
-  'Reality_Check',
-  'Megalovania',
-  'Sandstorm',
-  'Time_Lapse', //Max score: 512200
-  'High_Hopes',
-  'Dance_with_Silence',
-  'Mayday',
-  'More',
-  'Mario_Kart',
-  'The_Baddest'];
+let songNames = [];
+
+// let songNames = ['Beat_Saber',
+//   'Lone_Digger',
+//   'Pop_Stars',
+//   'Crab_Rave',
+//   'Reality_Check',
+//   'Megalovania',
+//   'Sandstorm',
+//   'Time_Lapse', //Max score: 512200
+//   'High_Hopes',
+//   'Dance_with_Silence',
+//   'Mayday',
+//   'More',
+//   'Mario_Kart',
+//   'The_Baddest'];
 
 let songName = songNames[2];
 let modes = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];
@@ -194,8 +196,52 @@ let enableTrail = true;
 
 p5.disableFriendlyErrors = true;
 
+let songBlobs;
+let files;
+
+
+// Get song files from server request
+
+const getSong = (song) => new Promise((resolve, reject) => {
+  const files = new Map();
+  let filesReceived = 0;
+
+  for (const file of song.filenames) {
+    const oReq = new XMLHttpRequest();
+    oReq.open("POST", "/get-song");
+    oReq.responseType = "blob";
+
+    oReq.addEventListener("load", () => {
+      files.set(file, oReq.response);
+      filesReceived++;
+
+      if (filesReceived == song.filenames.length) {
+        songBlobs = files;
+        resolve(files);
+      }
+    });
+
+    oReq.setRequestHeader('song', song.name);
+    oReq.setRequestHeader('file', file);
+    oReq.send();
+  }
+});
+
+const getList = () => new Promise((resolve, reject) => {
+  var oReq = new XMLHttpRequest();
+  oReq.open("POST", "/get-list");
+  oReq.addEventListener("load", () => {
+    let list = JSON.parse(oReq.response);
+    resolve(list);
+  });
+  oReq.send();
+});
+
+let listGettingPromise;
+let filesGettingPromise;
+
 window.onload = function() {
-  
+
   var slider = document.getElementById("volumeSlider");
   var output = document.getElementById("demo");
   slider.value = volume;
@@ -236,7 +282,6 @@ function setLevel(level) {
 }
 
 async function preload() {
-
   if (localStorage.getItem('songName') != null) {
     songName = localStorage.getItem('songName');
   }
@@ -285,49 +330,17 @@ async function preload() {
   } else { enableTrail = true; }
   document.getElementById("enableTrail").checked = enableTrail;
 
-  
-  infoFile = loadJSON("/songs/" + songName + "/Info.dat", loadMap);
 }
 
 let songFileName = '';
 let currentDifficulties = [];
 
-function loadMap(){
-  songFileName = infoFile['_songFilename'];
-
-  let beatMapSets = infoFile['_difficultyBeatmapSets'];
-
-  for (let mapset of beatMapSets){
-    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
-      for(let diffs of mapset['_difficultyBeatmaps']){
-        currentDifficulties.push(modeIndexs[modes.indexOf(diffs['_difficulty'])]);
-      }
-    }
-  }
-  if (currentDifficulties.includes(parseInt(modeIndex)) == false) {
-    modeIndex = currentDifficulties[0];
-  }
-  for (let mapset of beatMapSets){
-    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
-      for(let diffs of mapset['_difficultyBeatmaps']){
-        if (diffs['_difficulty'] == modes[modeIndex]){
-          levelFile = loadJSON("/songs/" + songName+"/" + diffs['_beatmapFilename']);
-        }
-      }
-    }
-  }
-
-  setMapnameDropdown();
-  setDifficultyDropdown();
-
-}
-
 function setMapnameDropdown(){
   let songDropdown = document.getElementById("songDropdown");
   for (let element of songNames) {
     let sEl = document.createElement("button");
-    sEl.onclick = function() { setSong(element); };
-    sEl.innerText = element.replaceAll("_", " ");
+    sEl.onclick = function() { setSong(element['name']); };
+    sEl.innerText = element['name'].replaceAll("_", " ");
     songDropdown.appendChild(sEl);
   }
 }
@@ -344,35 +357,7 @@ function setDifficultyDropdown(){
   }
 }
 
-let camScale;
 
-function initialize(resize) {
-
-  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
-  addScreenPositionFunction();
-
-  if (cam != null) {
-    let cZ = cam.centerZ;
-    cam = createCamera();
-    camScale = ((100-cam.cameraNear)/100)+1;
-    cam.move(0, 0, cZ);
-  }
-
-  if (!resize) {
-    cam = createCamera();
-    camScale = ((100-cam.cameraNear)/100)+1;
-    cameraPos = createVector(0, 0, 0);
-    cam.setPosition(0, 0, 0);
-  }
-
-  scaleX = width / 1920;
-  scaleY = height / 1080;
-
-  cam.move(0,0,((height/2)-100)*camScale);
-
-  document.addEventListener('contextmenu', event => event.preventDefault());
-
-}
 
 function windowResized() {
   initialize(true);
@@ -384,17 +369,53 @@ async function setup() {
   // Load slice file into memory for reuse
   sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
 
-  // Load song
-  const songFile = await getSoundFile('/songs/' + songName + '/'+songFileName,
-    e => {
-      const percentageString = (e.loaded / e.total * 100).toFixed(1) + '%';
-      document.querySelector("#loading-percentage").innerText = percentageString;
-    });
-  song = new Sound(songFile);
-  await song.waitUntilLoaded();
-  document.querySelector("#loading-percentage").innerText = "100%";
+  listGettingPromise = getList();
+  songNames = await listGettingPromise;
 
-  frameRate(120);
+  let fis;
+  for( let i of songNames){
+    if(i['name'] == songName){
+      fis = i['filenames'];
+    }
+  }
+
+  filesGettingPromise = getSong({name:songName,filenames:fis});
+  files = await filesGettingPromise;
+
+  infoFile = JSON.parse(await files.get('Info.dat').text());
+  
+  songFileName = infoFile['_songFilename'];
+  let beatMapSets = infoFile['_difficultyBeatmapSets'];
+
+  for (let mapset of beatMapSets){
+    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
+      for(let diffs of mapset['_difficultyBeatmaps']){
+        currentDifficulties.push(modeIndexs[modes.indexOf(diffs['_difficulty'])]);
+      }
+    }
+  }
+  if (currentDifficulties.includes(parseInt(modeIndex)) == false) {
+    modeIndex = currentDifficulties[0];
+  }
+  for (let mapset of beatMapSets){
+    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
+      for(let diffs of mapset['_difficultyBeatmaps']){
+        if (diffs['_difficulty'] == modes[modeIndex]){
+          
+          levelFile = JSON.parse(await files.get(diffs['_beatmapFilename']).text());
+
+        }
+      }
+    }
+  }
+
+  console.log(songFileName);
+  song = new Sound(await files.get(songFileName));
+  // await song.waitUntilLoaded();
+  console.log(song);
+
+  setMapnameDropdown();
+  setDifficultyDropdown();
 
   bpm = infoFile['_beatsPerMinute'];
   originalName = infoFile['_songName'];
@@ -407,7 +428,7 @@ async function setup() {
     }
   }
 
-  let beatMapSets = infoFile['_difficultyBeatmapSets'];
+  // let beatMapSets = infoFile['_difficultyBeatmapSets'];
   for (let mapSet of beatMapSets) {
     if (mapSet['_beatmapCharacteristicName'] == 'OneSaber') {
       for (let diff of mapSet['_difficultyBeatmaps']) {
@@ -441,7 +462,7 @@ async function setup() {
     }
   }
 
-  // console.log(levelScheme);
+  frameRate(120);
 
   songDuration = song.duration();
 
@@ -506,6 +527,36 @@ async function setup() {
   for(let div of document.getElementsByClassName('trail')){
     div.style.background = rgbToHex(c['R'][0], c['R'][1], c['R'][2]);
   }
+
+}
+
+let camScale;
+
+function initialize(resize) {
+
+  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
+  addScreenPositionFunction();
+
+  if (cam != null) {
+    let cZ = cam.centerZ;
+    cam = createCamera();
+    camScale = ((100-cam.cameraNear)/100)+1;
+    cam.move(0, 0, cZ);
+  }
+
+  if (!resize) {
+    cam = createCamera();
+    camScale = ((100-cam.cameraNear)/100)+1;
+    cameraPos = createVector(0, 0, 0);
+    cam.setPosition(0, 0, 0);
+  }
+
+  scaleX = width / 1920;
+  scaleY = height / 1080;
+
+  cam.move(0,0,((height/2)-100)*camScale);
+
+  document.addEventListener('contextmenu', event => event.preventDefault());
 
 }
 
@@ -730,10 +781,6 @@ function draw() {
       song.pause();
     }
   }
-
-
-  
-
 }
 
 function resetStats() {
