@@ -58,22 +58,46 @@ app.post('/get-list', (req, res) => {
 
 
 
-function getFiles() {
+async function getFiles() {
   const url = "https://mega.nz/folder/Dl4XSKIC#v6LWGlvfQ_h_laF3GuLHvQ";
   const dir = mega.file(url);
 
-  dir.loadAttributes((error, songs) => {
+  dir.loadAttributes(async function(error, songs){
     for (const song of songs.children) {
       let fileObjects = [];
       let filenames = [];
-      for (const songFile of song.children) {
-        fileObjects.push(songFile);
-        filenames.push(songFile.name);
+      let _info;
+      let diffs=[];
+      for (const file of song.children) {
+        fileObjects.push(file);
+        filenames.push(file.name);
+        // if(file.name == "Info.dat" || file.name == "info.dat"){
+
+        //   await file.download(async function(err, data){
+        //     if (err) throw err;
+        //     let dataJSON = JSON.parse(data.toString());
+        //     for (const i of dataJSON['_difficultyBeatmapSets']){
+        //       if(i['_beatmapCharacteristicName']=='OneSaber'){
+        //         for (const j of i['_difficultyBeatmaps']){
+        //           diffs.push(j['_difficulty']);
+        //         }
+        //       }
+        //     }
+        //     _info = {
+        //       _songName: dataJSON['_songName'],
+        //       _songAuthorName: dataJSON['_songAuthorName'],
+        //       _bpm: dataJSON['_songAuthorName'],
+        //       _difficulties:diffs
+        //     };
+        //   });
+        // }
       }
       const f = {
         name: song.name,
-        filenames: filenames
+        filenames: filenames,
+        // info:_info
       }
+      console.log(f);
       files.push(f);
       cached.set(song.name, fileObjects);
     }

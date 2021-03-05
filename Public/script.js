@@ -71,7 +71,7 @@ let levelScheme = {
   'W': [255, 0, 0],
 };
 
-let environments = {
+const environments = {
   'DefaultEnvironment': {
     'L': [255, 0, 0],
     'R': [0, 0, 255],
