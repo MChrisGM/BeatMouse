@@ -29,8 +29,10 @@ async function preload() {
   // await song_audio.waitUntilLoaded();
 
   console.log("Preload finished");
-
+  prld = true;
 }
+
+
 
 
 function setup() {
@@ -39,21 +41,24 @@ function setup() {
 
   canvas = createCanvas(innerWidth,innerHeight,WEBGL);
 
-  cam = camera();
+  cam = createCamera();
   background(0);
 
   console.log("Setup finished");
-
+  stp = true;
 }
 
 
 function draw() {
+  player_movement();
   switch (canvasState) {
     case MENU:
       menu();
       break;
     case GAME:
       game();
+      break;
+    case LOADING:
       break;
     default:
       menu();
@@ -64,6 +69,7 @@ function draw() {
 
 
 function menu() {
+  background(0);
 
   //Floor
   push();

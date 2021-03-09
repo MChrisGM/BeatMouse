@@ -2,8 +2,12 @@ let version = 2;
 let canvas;
 let cam;
 
+let stp = false;
+let prld = false;
+
 const MENU = 'menu';
 const GAME = 'game';
+const LOADING = 'loading';
 
 let canvasState = MENU;
 
