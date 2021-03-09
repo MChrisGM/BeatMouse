@@ -1,6 +1,10 @@
+let beatFont;
+
 async function preload() {
 
   console.log("Preload called");
+
+  beatFont = loadFont("styles/Teko-Regular.ttf");
 
   loadOptions();
 
@@ -42,6 +46,9 @@ function setup() {
   canvas = createCanvas(innerWidth,innerHeight,WEBGL);
 
   cam = createCamera();
+
+  addScreenPositionFunction();
+
   background(0);
 
   console.log("Setup finished");
@@ -50,6 +57,7 @@ function setup() {
 
 
 function draw() {
+  // if(!prld){return;}
   player_movement();
   switch (canvasState) {
     case MENU:
@@ -71,25 +79,49 @@ function draw() {
 function menu() {
   background(0);
 
+  pointLight(80, 155, 255, 0, 0, cam.eyeZ);
+
   //Floor
   push();
-  translate(0,400,0);
+  specularMaterial(100);
+  shininess(1);
+  translate(0,200,cam.eyeZ);
   rotateX(PI/2);
-  plane(10000, 10000);
+  plane(900, 750,2,2);
   pop();
 
   //Front menu
   push();
   translate(0,0,-300);
-  plane(900,600);
+  fill(255,255,255,200);
+  plane(900,600,2,2);
   pop();
 
   //Left menu
   push();
-  translate(-700*Math.sin(PI/2),0,-700*Math.cos(PI/2));
+  translate(-800*Math.sin(PI/2),0,-800*Math.cos(PI/2));
   rotateY(PI/4);
-  plane(600,600)
+  fill(255,255,255,200);
+  plane(750,550,2,2)
   pop();
+
+  //Right menu
+  push();
+  translate(-800*Math.sin(-PI/2),0,-800*Math.cos(-PI/2));
+  rotateY(-PI/4);
+  fill(255,255,255,200);
+  plane(750,550,2,2)
+  pop();
+
+  push();
+  translate(0,0,-299);
+  fill(255,255,255);
+  textFont(beatFont);
+  textSize(300);
+  textAlign(CENTER)
+  text("Hello",0,0);
+  pop();
+
 
 }
 
