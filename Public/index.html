@@ -15,99 +15,9 @@
 </head>
 
 <body class="unselectable">
-	<h1 class="glow" id="logo">Beat<br>Mouse</h1>
-  <h1 id="logo">Beat<br>Mouse</h1>
-
-  <h1 id="loading-percentage"></h1>
-
-  <span id="settingsButton" onclick="openNav()">&#9776; Settings</span>
-
-  <div id="mySidenav" class="sidenav" style="overflow-y: hidden;overflow-x: auto;">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-
-    <div>
-    <p style="font-size:2vw;margin:0">How to play:</p>
-    <p style="font-size:1.6vw;">To start the song press "Space". Move your mouse to slice the incoming blocks in the beat of the song. <br> If you're having trouble with the timing, make sure to enable "Slice indicators"</p>
-    </div>
-
-    <hr>
-
-    <div class="dropdown" style="overflow:auto; overflow-x: hidden;">
-      <button onclick="songDropdown()" class="dropbtn">Song</button>
-      <div id="songDropdown" class="dropdown-content">
-      </div>
-      <hr>
-
-      <button onclick="levelDropdown()" class="dropbtn">Difficulty</button>
-      <div id="levelDropdown" class="dropdown-content">
-      </div>
-
-      <hr>
-
-      <div class="slidecontainer">
-        <p id="volumeValue">Master Volume: <span id="demo"></span></p>
-        <input type="range" min="1" max="100" value="50" class="slider" id="volumeSlider">
-      
-      </div>
-      <div class="slidecontainer">
-        <p id="hitvolumeValue">Hitsound Volume: <span id="hitdemo"></span></p>
-        <input type="range" min="1" max="100" value="50" class="slider" id="hitvolumeSlider">
-      
-      </div>
-      <hr>
-
-      <div id="switch-container">
-        <p class="settingsOption">Slice indicators</p>
-        <label class="switch">
-          <input id="SliceInd" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
-      
-      <hr>
-
-      <div id="switch-container">
-        <p class="settingsOption">Instant fail</p>
-        <label class="switch">
-          <input id="fullCtoggle" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
-
-      <hr>
-
-      <div id="switch-container">
-        <p class="settingsOption">Display obstacles</p>
-        <label class="switch">
-          <input id="displayObstacles" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
-
-      <hr>
-
-      <div id="switch-container">
-        <p class="settingsOption">Enable trail</p>
-        <label class="switch">
-          <input id="enableTrail" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
-
-
-    </div>
-    <!-- <div class="nav-bottom" id="usernameWelcome"></div> -->
-     
-  </div>
-
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js"></script>
-
-
-	<!-- <script type="text/javascript" src="jszip.js">
-	</script> -->
 
   <script type="text/javascript" src="keyregister.js"></script>
 

@@ -1,6 +1,6 @@
 let version = 2;
 let canvas;
-let camera;
+let cam;
 
 const MENU = 'menu';
 const GAME = 'game';
@@ -68,6 +68,11 @@ function setup() {
 
   console.log("Setup called");
 
+  canvas = createCanvas(innerWidth,innerHeight,WEBGL);
+
+  cam = camera();
+  background(0);
+
   console.log("Setup finished");
 
 }
@@ -90,6 +95,26 @@ function draw() {
 
 
 function menu() {
+
+  //Floor
+  push();
+  translate(0,400,0);
+  rotateX(PI/2);
+  plane(10000, 10000);
+  pop();
+
+  //Front menu
+  push();
+  translate(0,0,-300);
+  plane(900,600);
+  pop();
+
+  //Left menu
+  push();
+  translate(-700*Math.sin(PI/2),0,-700*Math.cos(PI/2));
+  rotateY(PI/4);
+  plane(600,600)
+  pop();
 
 }
 
