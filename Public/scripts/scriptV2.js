@@ -11,14 +11,14 @@ async function preload() {
   let listGettingPromise = getList();
   songs = await listGettingPromise;
 
-  if(options['song_Name']==''){
+  if (options['song_Name'] == '') {
     options['song_Name'] = songs[0]['name'];
   }
 
   let selected_Song;
 
-  for(const i of songs){
-    if (i['name']==options['song_Name']){
+  for (const i of songs) {
+    if (i['name'] == options['song_Name']) {
       selected_Song = i;
     }
   }
@@ -43,7 +43,7 @@ function setup() {
 
   console.log("Setup called");
 
-  canvas = createCanvas(innerWidth,innerHeight,WEBGL);
+  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
 
   cam = createCamera();
 
@@ -85,47 +85,43 @@ function menu() {
   push();
   specularMaterial(100);
   shininess(1);
-  translate(0,200,cam.eyeZ);
-  rotateX(PI/2);
-  plane(900, 750,2,2);
+  translate(0, 200, cam.eyeZ);
+  rotateX(PI / 2);
+  plane(900, 750, 2, 2);
   pop();
 
   //Front menu
   push();
-  translate(0,0,-300);
-  fill(255,255,255,200);
-  plane(900,600,2,2);
+  translate(0, 0, -300);
+  fill(255, 255, 255, 200);
+  plane(900, 600, 2, 2);
   pop();
 
   //Left menu
   push();
-  translate(-800*Math.sin(PI/2),0,-800*Math.cos(PI/2));
-  rotateY(PI/4);
-  fill(255,255,255,200);
-  plane(750,550,2,2)
+  translate(-800 * Math.sin(PI / 2), 0, -800 * Math.cos(PI / 2));
+  rotateY(PI / 4);
+  fill(255, 255, 255, 200);
+  plane(750, 550, 2, 2)
   pop();
 
   //Right menu
   push();
-  translate(-800*Math.sin(-PI/2),0,-800*Math.cos(-PI/2));
-  rotateY(-PI/4);
-  fill(255,255,255,200);
-  plane(750,550,2,2)
-  pop();
-
-  push();
-  translate(0,0,-299);
-  fill(255,255,255);
-  textFont(beatFont);
-  textSize(300);
-  textAlign(CENTER)
-  text("Hello",0,0);
+  translate(-800 * Math.sin(-PI / 2), 0, -800 * Math.cos(-PI / 2));
+  rotateY(-PI / 4);
+  fill(255, 255, 255, 200);
+  plane(750, 550, 2, 2)
   pop();
 
 
+  if(!prld){
+    new clickText(createVector(0, 0,-300), 300, "Loading...");
+  }else{
+    new clickText(createVector(0, 0,-300), 300, "Start", function() {
+    console.log("Click");
+  });
+  }
 }
-
-
 
 function game() {
 
@@ -143,13 +139,13 @@ function loadOptions() {
     } else {
       console.error("Outdated client! Try refreshing the page.");
     }
-  }else{
+  } else {
     options = default_options;
   }
   saveOptions();
 }
 
-function saveOptions(){
+function saveOptions() {
   localStorage.setItem('options', JSON.stringify(options));
 }
 //----------------------------------------------------------------------------------------
