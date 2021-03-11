@@ -1,9 +1,10 @@
 class clickText {
-  constructor(pos, size, txt, onClick) {
+  constructor(pos, rotation, size, txt, onClick) {
     this.pos = pos;
     this.size = size;
     this.txt = txt;
     this.onClick = onClick;
+    this.rot = rotation;
 
     this.cnvCoords = screenPosition(this.pos);
     this.cnvCoords.x = this.cnvCoords.x + width / 2;
@@ -27,11 +28,14 @@ class clickText {
 
     push();
     translate(this.pos.x, this.pos.y + this.size / 3, this.pos.z + 2);
-    if (inside) {
+    if (inside && this.onClick) {
       fill(233, 237, 107);
     } else {
       fill(255, 255, 255);
     }
+    rotateX(this.rot.x);
+    rotateY(this.rot.y);
+    rotateZ(this.rot.z);
 
     textFont(beatFont);
     textSize(this.size);

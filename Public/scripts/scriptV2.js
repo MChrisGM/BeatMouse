@@ -1,10 +1,14 @@
 let beatFont;
+let neonFont;
+
+p5.disableFriendlyErrors = true;
 
 async function preload() {
 
   console.log("Preload called");
 
   beatFont = loadFont("styles/Teko-Regular.ttf");
+  neonFont = loadFont("styles/NeonTubes2.otf");
 
   loadOptions();
 
@@ -42,6 +46,8 @@ async function preload() {
 function setup() {
 
   console.log("Setup called");
+
+  document.oncontextmenu = function() { return false; }
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
 
@@ -113,15 +119,45 @@ function menu() {
   plane(750, 550, 2, 2)
   pop();
 
+  push();
+  translate(0, -800 + 180 / 3, -400);
+  rotateX(-0.25);
+  fill(255, 0, 0);
+  textFont(neonFont);
+  textSize(180);
+  textStyle(BOLD);
+  textAlign(CENTER)
+  shininess(1);
+  text("Beat", 0, 0);
+  pop();
+
+  push();
+  translate(0, -600 + 180 / 3, -400);
+  rotateX(-0.3);
+  fill(0, 0, 255);
+  textFont(neonFont);
+  textSize(180);
+  textStyle(BOLD);
+  textAlign(CENTER)
+  shininess(1);
+  text("Mouse", 0, 0);
+  pop();
 
   if(!prld){
-    new clickText(createVector(0, 0,-300), 300, "Loading...");
+    new clickText(createVector(0, 0,-300),createVector(0,0,0), 300, "Loading...");
   }else{
-    new clickText(createVector(0, 0,-300), 300, "Start", function() {
+    new clickText(createVector(0, 0,-300),createVector(0,0,0), 300, "Start", function() {
     console.log("Click");
   });
   }
+
+  new clickText(createVector(-800 * Math.sin(PI / 2), -200, -800 * Math.cos(PI / 2)),createVector(0,PI/4,0), 100, "Settings");
+
+  new clickText(createVector(-800 * Math.sin(-PI / 2), -200, -800 * Math.cos(-PI / 2)),createVector(0,-PI/4,0), 100, "Leaderboard");
+
 }
+
+
 
 function game() {
 
