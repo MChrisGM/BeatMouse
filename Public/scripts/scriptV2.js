@@ -50,9 +50,7 @@ function setup() {
   document.oncontextmenu = function() { return false; }
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
-
   cam = createCamera();
-
   addScreenPositionFunction();
 
   background(0);
@@ -61,10 +59,20 @@ function setup() {
   stp = true;
 }
 
+function windowResized(){
+  canvas = createCanvas(innerWidth, innerHeight, WEBGL);
+  cam = createCamera();
+  addScreenPositionFunction();
+}
+
 
 function draw() {
   // if(!prld){return;}
+
   player_movement();
+
+  scale((window.innerWidth/1920),(window.innerHeight/1080),1);
+
   switch (canvasState) {
     case MENU:
       menu();
@@ -96,73 +104,49 @@ function menu() {
   plane(900, 750, 2, 2);
   pop();
 
-  //Front menu
+  mainMenu(
+    createVector(0, 0, -300),
+    createVector(0,0,0),
+  );
+
+  settings(
+    createVector(-800 * Math.sin(PI / 2), 0, -800 * Math.cos(PI / 2)),
+    createVector(0,PI/4,0)
+  );
+
+  leaderboard(
+    createVector(-800 * Math.sin(-PI / 2), 0, -800 * Math.cos(-PI / 2)),
+    createVector(0,-PI/4,0)
+  );
+  
+  logo();
+  
+}
+
+function mainMenu(p,r){
+  //Main menu
   push();
-  translate(0, 0, -300);
+  translate(p.x,p.y,p.z);
+  rotateX(r.x);
+  rotateY(r.y);
+  rotateZ(r.z);
   fill(255, 255, 255, 200);
   plane(900, 600, 2, 2);
   pop();
 
-  //Left menu
-  push();
-  translate(-800 * Math.sin(PI / 2), 0, -800 * Math.cos(PI / 2));
-  rotateY(PI / 4);
-  fill(255, 255, 255, 200);
-  plane(750, 550, 2, 2)
-  pop();
-
-  //Right menu
-  push();
-  translate(-800 * Math.sin(-PI / 2), 0, -800 * Math.cos(-PI / 2));
-  rotateY(-PI / 4);
-  fill(255, 255, 255, 200);
-  plane(750, 550, 2, 2)
-  pop();
-
-  push();
-  translate(0, -800 + 180 / 3, -400);
-  rotateX(-0.25);
-  fill(255, 0, 0);
-  textFont(neonFont);
-  textSize(180);
-  textStyle(BOLD);
-  textAlign(CENTER)
-  shininess(1);
-  text("Beat", 0, 0);
-  pop();
-
-  push();
-  translate(0, -600 + 180 / 3, -400);
-  rotateX(-0.3);
-  fill(0, 0, 255);
-  textFont(neonFont);
-  textSize(180);
-  textStyle(BOLD);
-  textAlign(CENTER)
-  shininess(1);
-  text("Mouse", 0, 0);
-  pop();
-
   if(!prld){
-    new clickText(createVector(0, 0,-300),createVector(0,0,0), 300, "Loading...");
+    new clickText(p,r, 300, "Loading...");
   }else{
-    new clickText(createVector(0, 0,-300),createVector(0,0,0), 300, "Start", function() {
-    console.log("Click");
+    new clickText(p,r, 300, "Start", function() {
+
   });
   }
-
-  new clickText(createVector(-800 * Math.sin(PI / 2), -200, -800 * Math.cos(PI / 2)),createVector(0,PI/4,0), 100, "Settings");
-
-  new clickText(createVector(-800 * Math.sin(-PI / 2), -200, -800 * Math.cos(-PI / 2)),createVector(0,-PI/4,0), 100, "Leaderboard");
-
 }
-
 
 
 function game() {
 
 }
-
 
 
 

@@ -10,24 +10,20 @@ function player_movement() {
       cam.setPosition(cam.eyeX, cam.eyeY - 5, cam.eyeZ);
     }
   }
-
-
   if (keycodeIsDown('KeyW')) { //W
-    if (tiltRotation > -0.6) {
-      cam._rotateView(-0.02, 1, 0, 0);
+    if (tiltRotation > -0.4) {
+      cam.tilt(-0.02);
       tiltRotation -= 0.02;
     }
-  } else if (keycodeIsDown('KeyS')) {
-    if (tiltRotation < 0.6) {
-      cam._rotateView(0.02, 1, 0, 0);
+  } else if (keycodeIsDown('KeyS')) { //S
+    if (tiltRotation < 0.4) {
+      cam.tilt(0.02);
       tiltRotation += 0.02;
     }
   } else {
     if (Math.abs(tiltRotation)<0.05) {
-
       cam._rotateView(-tiltRotation, 1, 0, 0);
       tiltRotation = 0;
-
     } else {
       if (tiltRotation > 0.02) {
         cam._rotateView(-0.02, 1, 0, 0);
@@ -37,13 +33,7 @@ function player_movement() {
         tiltRotation += 0.02;
       }
     }
-
-
-    console.log(tiltRotation);
   }
-
-
-
   if (canvasState == GAME) {
     if (keycodeIsDown('KeyA')) { //A
       if (cam.eyeX > -50) {
