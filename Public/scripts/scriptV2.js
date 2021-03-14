@@ -55,8 +55,7 @@ async function loadSong(sng) {
   song_audio = new Sound(URL.createObjectURL(song_audio));
 
   song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
-
-
+  song_cover = await loadImage(URL.createObjectURL(song_cover));
 
   loading = false;
   loaded = true;
@@ -89,10 +88,7 @@ function windowResized() {
 
 
 function draw() {
-  // if(!prld){return;}
-
   player_movement();
-
   scale((window.innerWidth / 1920), (window.innerHeight / 1080), 1);
 
   switch (canvasState) {
@@ -108,19 +104,19 @@ function draw() {
       menu();
       break;
   }
-
 }
 
 
 function menu() {
   background(0);
-
-  pointLight(80, 155, 255, 0, 0, cam.eyeZ);
+  // pointLight(80, 155, 255, 0, 0, cam.eyeZ);
+  lights();
 
   //Floor
   push();
-  specularMaterial(100);
-  shininess(1);
+  // specularMaterial(100);
+  // shininess(1);
+  specularMaterial(80, 155, 255);
   translate(0, 200, cam.eyeZ);
   rotateX(PI / 2);
   plane(900, 750, 2, 2);
@@ -144,7 +140,6 @@ function menu() {
   logo();
 
 }
-
 
 function game() {
 

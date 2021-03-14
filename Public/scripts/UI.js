@@ -31,7 +31,7 @@ function settings(p,r){
   rotateY(r.y);
   rotateX(r.x);
   rotateZ(r.z);
-  fill(255, 255, 255, 200);
+  fill(60, 135, 235,200);
   plane(750, 550, 2, 2)
   pop();
   new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Settings").display();
@@ -44,7 +44,7 @@ function leaderboard(p,r){
   rotateY(r.y);
   rotateX(r.x);
   rotateZ(r.z);
-  fill(255, 255, 255, 200);
+  fill(60, 135, 235,200);
   plane(750, 550, 2, 2)
   pop();
   new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Leaderboard").display();
@@ -57,7 +57,7 @@ function mainMenu(p, r) {
   rotateX(r.x);
   rotateY(r.y);
   rotateZ(r.z);
-  fill(255, 255, 255, 200);
+  fill(60, 135, 235,200);
   plane(900, 600, 2, 2);
   pop();
 
@@ -113,7 +113,14 @@ function scrollMenu(p,r){
 }
 
 function displaySongInfo(p,r){
+  //Cover image
+  push();
+  translate(p.x+200,p.y+200,p.z+1);
+  texture(song_cover);
+  plane(256,256);
+  pop();
 
   
+
 
 }
