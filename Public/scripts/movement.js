@@ -1,4 +1,5 @@
 let tiltRotation = 0;
+let panRotation = 0;
 
 function player_movement() {
   if (keycodeIsDown('ShiftLeft')) { //Shift
@@ -61,9 +62,16 @@ function player_movement() {
     }
   } else if (canvasState == MENU) {
     if (keycodeIsDown('KeyQ')) { //Q
-      cam.pan(0.02);
+      if(panRotation<1){
+        panRotation+=0.02;
+        cam.pan(0.02);
+      }
+      
     } else if (keycodeIsDown('KeyE')) { //E
-      cam.pan(-0.02);
+      if(panRotation>-1){
+        panRotation-=0.02;
+        cam.pan(-0.02);
+      }
     }
     if (keycodeIsDown('KeyA')) { //A
       if (cam.eyeX > -50) {
