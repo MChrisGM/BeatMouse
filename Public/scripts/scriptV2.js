@@ -114,8 +114,6 @@ function menu() {
 
   //Floor
   push();
-  // specularMaterial(100);
-  // shininess(1);
   specularMaterial(80, 155, 255);
   translate(0, 200, cam.eyeZ);
   rotateX(PI / 2);
