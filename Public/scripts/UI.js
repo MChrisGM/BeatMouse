@@ -34,7 +34,7 @@ function settings(p,r){
   fill(255, 255, 255, 200);
   plane(750, 550, 2, 2)
   pop();
-  new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Settings");
+  new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Settings").display();
 }
 
 function leaderboard(p,r){
@@ -47,5 +47,5 @@ function leaderboard(p,r){
   fill(255, 255, 255, 200);
   plane(750, 550, 2, 2)
   pop();
-  new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Leaderboard");
+  new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Leaderboard").display();
 }
