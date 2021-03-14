@@ -1,6 +1,3 @@
-let tiltRotation = 0;
-let panRotation = 0;
-
 function player_movement() {
   if (keycodeIsDown('ShiftLeft')) { //Shift
     if (cam.eyeY < 50) {

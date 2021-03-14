@@ -42,3 +42,6 @@ let loading = false;
 let loaded = false;
 
 let strt = false;
+
+let tiltRotation = 0;
+let panRotation = 0;
