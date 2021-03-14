@@ -30,7 +30,15 @@ const default_options = {
 
 let options;
 
+let scrollIdx = 0;
+
 let songs;
 let songFiles;
 let song_infoDat;
 let song_audio;
+let song_cover;
+
+let loading = false;
+let loaded = false;
+
+let strt = false;

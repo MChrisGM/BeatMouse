@@ -49,3 +49,71 @@ function leaderboard(p,r){
   pop();
   new clickText(createVector(p.x,p.y-200,p.z),createVector(r.x,r.y,r.z), 100, "Leaderboard").display();
 }
+
+function mainMenu(p, r) {
+  //Main menu
+  push();
+  translate(p.x, p.y, p.z);
+  rotateX(r.x);
+  rotateY(r.y);
+  rotateZ(r.z);
+  fill(255, 255, 255, 200);
+  plane(900, 600, 2, 2);
+  pop();
+
+  if (!prld && !strt) {
+    new clickText(p, r, 300, "Loading...").display();
+  } else if(prld && !strt) {
+    new clickText(p, r, 300, "Start", function() {
+      strt = true;
+    }).display();
+  }
+
+  if(strt){
+    scrollMenu(p,r);
+  }
+}
+
+
+function scrollMenu(p,r){
+  let lst = displaySongs();
+
+  p.y -= 300;
+
+  let ys = [35,100,200,300,400,500,565];
+
+  let xOffset = 200;
+
+  if(loaded){
+    displaySongInfo(p,r);
+  }else{
+    new clickText(createVector(p.x+200,p.y+ys[3],p.z), r, 100, "Loading...").display();
+  }
+
+  p.x-=xOffset;
+
+  new clickText(createVector(p.x,p.y+ys[0],p.z), r, 80, "^", function() {
+      if(scrollIdx>0){
+        scrollIdx-=1;
+      }
+  }).display();
+
+  for (let i = 0;i<lst.length;i++){
+    lst[i].pos = createVector(p.x,p.y,p.z);
+    lst[i].pos.y += ys[i+1];
+    lst[i].rot = r;
+    lst[i].calcB();
+    lst[i].display();
+  }
+  new clickText(createVector(p.x,p.y+ys[6],p.z), r, 80, "v", function() {
+      if(scrollIdx<songs.length-2){
+        scrollIdx+=1;
+      }
+  }).display();
+}
+
+function displaySongInfo(p,r){
+
+  
+
+}

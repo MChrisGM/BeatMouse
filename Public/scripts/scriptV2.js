@@ -38,15 +38,28 @@ async function preload() {
   prld = true;
 }
 
+
+
 async function loadSong(sng) {
   console.log("Loading: ", sng);
+  
+  loading = true;
+  loaded = false;
+
   let songGettingPromise = getSong(sng);
   songFiles = await songGettingPromise;
 
   song_infoDat = JSON.parse(await (songFiles.get('Info.dat')).text()) || JSON.parse(await (songFiles.get('info.dat')).text());
 
-  song_audio = songFiles.get(song_infoDat['_songFilename']);
+  song_audio = songFiles.get(song_infoDat['_songFilename']);  
   song_audio = new Sound(URL.createObjectURL(song_audio));
+
+  song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
+
+
+
+  loading = false;
+  loaded = true;
 }
 
 
@@ -132,70 +145,7 @@ function menu() {
 
 }
 
-let strt = false;
-
-function mainMenu(p, r) {
-  //Main menu
-  push();
-  translate(p.x, p.y, p.z);
-  rotateX(r.x);
-  rotateY(r.y);
-  rotateZ(r.z);
-  fill(255, 255, 255, 200);
-  plane(900, 600, 2, 2);
-  pop();
-
-  if (!prld && !strt) {
-    new clickText(p, r, 300, "Loading...").display();
-  } else if(prld && !strt) {
-    new clickText(p, r, 300, "Start", function() {
-      strt = true;
-    }).display();
-  }
-
-  if(strt){
-    scrollMenu(p,r);
-  }
-}
-
-
-function scrollMenu(p,r){
-  let lst = displaySongs();
-
- let ys = [0,100,200,300,400];
-
-  for (let i = 0;i<lst.length;i++){
-    lst[i].pos = p;
-    lst[i].pos.y += 100;
-    lst[i].rot = r;
-    lst[i].calcB();
-    lst[i].display();
-  }
-}
-
 
 function game() {
 
 }
-
-
-
-//----------------------Load & Save Game Options-------------------------------------
-function loadOptions() {
-  if (localStorage.getItem('options') != null) {
-    options = JSON.parse(localStorage.getItem('options'));
-    if (options['app_version'] < version) {
-      options = default_options;
-    } else if (options['app_version'] > version) {
-      console.error("Outdated client! Try refreshing the page.");
-    }
-  } else {
-    options = default_options;
-  }
-  saveOptions();
-}
-
-function saveOptions() {
-  localStorage.setItem('options', JSON.stringify(options));
-}
-//----------------------------------------------------------------------------------------
