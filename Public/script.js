@@ -179,6 +179,7 @@ let songNames = ['Beat_Saber',
   'More',
   'Mario_Kart',
   'The_Baddest',
+  'Heart_Afire',
   'Change_the_World',
   'Heathens',
   'Bones'];
