@@ -123,7 +123,8 @@ function draw() {
 function menu() {
   background(0);
   // pointLight(80, 155, 255, 0, 0, cam.eyeZ);
-  lights();
+  pointLight(255, 255, 255, 0, 0, cam.eyeZ);
+  // lights();
 
   //Floor
   push();
