@@ -4,9 +4,6 @@ let neonFont;
 p5.disableFriendlyErrors = true;
 
 async function preload() {
-
-  console.log("Preload called");
-
   beatFont = loadFont("styles/Teko-Regular.ttf");
   neonFont = loadFont("styles/NeonTubes2.otf");
 
@@ -16,9 +13,6 @@ async function preload() {
   songs = await listGettingPromise;
 
   songs.sort((a, b) => a.name.localeCompare(b.name));
-
-  // console.log(songs);
-  console.log(options)
 
   if (options['song_Name'] == '') {
     options['song_Name'] = songs[0]['name'];
@@ -34,15 +28,11 @@ async function preload() {
 
   await loadSong(selected_Song);
 
-  console.log("Preload finished");
   prld = true;
 }
 
-
-
 async function loadSong(sng) {
-  console.log("Loading: ", sng);
-  
+
   loading = true;
   loaded = false;
 
@@ -57,6 +47,23 @@ async function loadSong(sng) {
   song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
   song_cover = await loadImage(URL.createObjectURL(song_cover));
 
+  difficulties = [];
+  let beatMapSets = song_infoDat['_difficultyBeatmapSets'];
+  for (let mapset of beatMapSets){
+    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
+      for(let diffs of mapset['_difficultyBeatmaps']){
+        let flnm = diffs['_beatmapFilename'];
+        let diffName = diffs['_difficulty'];
+        difficulties.push(
+          new clickText(createVector(), createVector(), 50, diffName, async function() {
+            selected_difficulty = this.txt;
+            beatmap = JSON.parse(await (songFiles.get(flnm)).text())
+          },false)
+        );
+      }
+    }
+  }
+
   loading = false;
   loaded = true;
 }
@@ -66,17 +73,16 @@ async function loadSong(sng) {
 
 function setup() {
 
-  console.log("Setup called");
-
   document.oncontextmenu = function() { return false; }
 
   canvas = createCanvas(innerWidth, innerHeight, WEBGL);
   cam = createCamera();
   addScreenPositionFunction();
 
+  smooth();
+
   background(0);
 
-  console.log("Setup finished");
   stp = true;
 }
 

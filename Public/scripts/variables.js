@@ -45,3 +45,7 @@ let strt = false;
 
 let tiltRotation = 0;
 let panRotation = 0;
+
+let difficulties;
+let selected_difficulty;
+let beatmap;
