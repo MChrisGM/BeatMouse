@@ -185,7 +185,7 @@ function displaySongInfo(p,r){
     new clickText(createVector(p.x+275,p.y+525,p.z+1), r, 100, "Play",function(){
 
       
-
+      canvasState = GAME;
     },true).display();
   }
 

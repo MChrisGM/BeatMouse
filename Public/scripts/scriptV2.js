@@ -99,7 +99,10 @@ function windowResized() {
 
 function draw() {
   player_movement();
-  scale((window.innerWidth / 1920), (window.innerHeight / 1080), 1);
+  let xSc = window.innerWidth / 1920;
+  let ySc = window.innerHeight / 1080;
+  // scale(xSc, ySc, Math.hypot(xSc,ySc));
+  scale(xSc, ySc, 1);
 
   switch (canvasState) {
     case MENU:
@@ -150,5 +153,9 @@ function menu() {
 }
 
 function game() {
+  background(0);
+
+
+
 
 }

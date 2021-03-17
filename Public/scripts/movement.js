@@ -63,7 +63,6 @@ function player_movement() {
         panRotation+=0.02;
         cam.pan(0.02);
       }
-      
     } else if (keycodeIsDown('KeyE')) { //E
       if(panRotation>-1){
         panRotation-=0.02;
@@ -86,6 +85,5 @@ function player_movement() {
         cam.setPosition(cam.eyeX + 5, cam.eyeY, cam.eyeZ);
       }
     }
-
   }
 }
