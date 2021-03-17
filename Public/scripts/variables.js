@@ -49,3 +49,11 @@ let panRotation = 0;
 let difficulties;
 let selected_difficulty;
 let beatmap;
+
+let indexs = [-60, -20, 20, 60];
+let layers = [55, 15, -35];
+
+let song_volume = 100;
+let beatLength;
+let songDuration;
+let sliceFile;

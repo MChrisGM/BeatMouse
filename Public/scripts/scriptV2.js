@@ -24,6 +24,8 @@ async function preload() {
     }
   }
 
+  sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
+
   await loadSong(selected_Song);
   prld = true;
 }
@@ -68,12 +70,18 @@ async function loadSong(sng) {
     }
   }
 
+  songDuration = song_audio.duration();
+  let bpm = song_infoDat['_beatsPerMinute'];
+
+  if (songDuration == NaN) songDuration = 10000;
+
+  beatLength = songDuration * (bpm / 60);
+  song_audio.setVolume(song_volume / 100 - 0.2);
+  song_audio.onended();
+
   loading = false;
   loaded = true;
 }
-
-
-
 
 function setup() {
 
@@ -156,6 +164,8 @@ function menu() {
 
 function game() {
   background(0);
+
+  platform();
 
 
 

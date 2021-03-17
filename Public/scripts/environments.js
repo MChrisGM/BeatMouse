@@ -91,3 +91,9 @@ const environments = {
   }
 
 };
+
+let levelScheme = {
+  'L': [255, 0, 0],
+  'R': [0, 0, 255],
+  'W': [255, 0, 0],
+};
