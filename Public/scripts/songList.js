@@ -1,7 +1,9 @@
 function displaySongs() {
   if (songs) {
     let songDisplay = [];
-    for (let i = scrollIdx; i < scrollIdx+5; i++) {
+    let idx = parseInt(Math.floor(scrollIdx));
+    if(idx<0){idx=0;}
+    for (let i = idx; i < idx+5; i++) {
       if (songs[i]) {
         let name = "";
         if(songs[i].name.length > 15){

@@ -103,13 +103,17 @@ function scrollMenu(p,r){
 
   new clickText(createVector(p.x,p.y+ys[0],p.z), r, 80, "^", function() {
       if(scrollIdx>0){
-        scrollIdx-=1;
+        scrollIdx-=0.2;
       }
   },false,false).display();
 
   for (let i = 0;i<lst.length;i++){
+    let nme;
+    if(song_infoDat['_songName'].length > 15){
+      nme = song_infoDat['_songName'].substring(0,15);
+    }else{nme = song_infoDat['_songName'];}
 
-    if(song_infoDat['_songName'].substring(0,15) == lst[i].txt){
+    if(nme.replaceAll("_"," ") == lst[i].txt){
       lst[i].highlight = true;
       lst[i].border = true;
     }else{
@@ -125,7 +129,7 @@ function scrollMenu(p,r){
   }
   new clickText(createVector(p.x,p.y+ys[6],p.z), r, 80, "v", function() {
       if(scrollIdx<songs.length-4){
-        scrollIdx+=1;
+        scrollIdx+=0.2;
       }
   },false,false).display();
 }
@@ -138,6 +142,7 @@ function displaySongInfo(p,r){
   plane(200,200);
   pop();
 
+  //Modes
   let ys = [100,180,260,340,420];
   for (let i = 0;i<difficulties.length;i++){
     if(selected_difficulty == difficulties[i].txt){
@@ -154,6 +159,7 @@ function displaySongInfo(p,r){
     difficulties[i].display();
   }
 
+  //Text and lines
   push();
   translate(p.x, p.y, p.z);
   rotateX(r.x);
@@ -166,17 +172,21 @@ function displaySongInfo(p,r){
   pop();
 
   let nme = song_infoDat['_songName'].substring(0,16);
-
   let authr = song_infoDat['_songAuthorName'].substring(0,14);
 
   new clickText(createVector(p.x+275,p.y+275,p.z+1), r, 60, nme,false,false).display();
   new clickText(createVector(p.x+275,p.y+325,p.z+1), r, 60, "By "+authr,false,false).display();
-
   new clickText(createVector(p.x+275,p.y+375,p.z+1), r, 60, "BPM: "+parseInt(song_infoDat['_beatsPerMinute']),false,false).display();
 
   if(beatmap){
     let noteNmr = beatmap['_notes'].length;
     new clickText(createVector(p.x+275,p.y+425,p.z+1), r, 60, "Notes: "+parseInt(noteNmr),false,false).display();
+
+    new clickText(createVector(p.x+275,p.y+525,p.z+1), r, 100, "Play",function(){
+
+      
+
+    },true).display();
   }
 
 }

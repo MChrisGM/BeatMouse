@@ -11,7 +11,6 @@ async function preload() {
 
   let listGettingPromise = getList();
   songs = await listGettingPromise;
-
   songs.sort((a, b) => a.name.localeCompare(b.name));
 
   if (options['song_Name'] == '') {
@@ -19,7 +18,6 @@ async function preload() {
   }
 
   let selected_Song;
-
   for (const i of songs) {
     if (i['name'] == options['song_Name']) {
       selected_Song = i;
@@ -27,7 +25,6 @@ async function preload() {
   }
 
   await loadSong(selected_Song);
-
   prld = true;
 }
 
@@ -48,6 +45,8 @@ async function loadSong(sng) {
   song_cover = await loadImage(URL.createObjectURL(song_cover));
 
   difficulties = [];
+  beatmap = null;
+  selected_difficulty = options["song_Difficulty"]||null;
   let beatMapSets = song_infoDat['_difficultyBeatmapSets'];
   for (let mapset of beatMapSets){
     if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
@@ -57,9 +56,14 @@ async function loadSong(sng) {
         difficulties.push(
           new clickText(createVector(), createVector(), 50, diffName, async function() {
             selected_difficulty = this.txt;
-            beatmap = JSON.parse(await (songFiles.get(flnm)).text())
+            beatmap = JSON.parse(await (songFiles.get(flnm)).text());
+            options["song_Difficulty"] = selected_difficulty;
+            saveOptions();
           },false)
         );
+        if(diffName == selected_difficulty){
+          beatmap = JSON.parse(await (songFiles.get(flnm)).text());
+        }
       }
     }
   }
