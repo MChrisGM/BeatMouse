@@ -1,6 +1,8 @@
 var express = require('express');
 const mega = require('megajs');
 const mime = require('mime');
+const DiscordOauth2 = require("discord-oauth2");
+const asyncHandler = require("express-async-handler");
 var app = express();
 
 var server = app.listen(process.env.PORT || 3000, listen);
@@ -54,6 +56,50 @@ app.post('/get-list', (req, res) => {
   res.send(JSON.stringify(files));
   return;
 });
+
+app.get(
+  "/",
+  asyncHandler(async (req, res, next) => {
+    console.log("Logged through discord");
+
+    if (!req.query.code) return res.send(content.index);
+
+    let result = undefined;
+    try {
+      result = await oauth.tokenRequest({
+        code: req.query.code,
+        grantType: "authorization_code",
+        scope: ["identify"]
+      });
+    } catch {
+      return next(new Error("The access code seems to be incorrect."));
+    }
+
+    let user = undefined;
+    try {
+      user = await oauth.getUser(result.access_token);
+    } catch (err) {
+      console.error(err.stack);
+      return next(
+        new Error(
+          `The server was unable to retrieve the user info from Discord.\n${defaultErrorMessage}`
+        )
+      );
+    }
+
+    let potentialError = await logUserPassing(user.id, Date.now());
+    if (potentialError) throw new Error(potentialError);
+
+    return res.send(
+      insertValues(content.result, {
+        USER_NAME: user.username,
+        USER_DISC: user.discriminator,
+        USER_ID: user.id,
+        USER_AVATAR: user.avatar
+      })
+    );
+  })
+);
 
 
 
