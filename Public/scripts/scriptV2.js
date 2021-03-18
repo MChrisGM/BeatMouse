@@ -3,12 +3,22 @@ let neonFont;
 
 let blockModel;
 
+let userInfo;
+
 p5.disableFriendlyErrors = true;
 
 async function preload() {
   beatFont = loadFont("styles/Teko-Regular.ttf");
   neonFont = loadFont("styles/NeonTubes2.otf");
 
+  if(localStorage.getItem('userData') != null){
+    userInfo = JSON.parse(localStorage.getItem('userData'));
+    loggedIn = true;
+  }else{
+    userInfo = null;
+    loggedIn = false;
+  }
+  
   loadOptions();
 
   let listGettingPromise = getList();

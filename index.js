@@ -1,24 +1,32 @@
+require("dotenv").config();
 var express = require('express');
 const mega = require('megajs');
 const mime = require('mime');
 const DiscordOauth2 = require("discord-oauth2");
 const asyncHandler = require("express-async-handler");
+const bodyParser = require("body-parser");
+const jwt = require('jsonwebtoken');
 var app = express();
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
 function listen() {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log('Started server at https://' + host + ':' + port);
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('Started server at https://' + host + ':' + port);
+  getFiles();
 }
 
 app.use(express.static('Public'));
 
-const cached = new Map /* string fileName, File file */ ();
+const cached = new Map /* string fileName, File file */();
 const files = [];
 
-getFiles();
+const oauth = new DiscordOauth2({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: process.env.REDIRECT_URI
+});
 
 /* =========
   API Routes
@@ -48,7 +56,7 @@ app.post('/get-song', (req, res) => {
   console.error('uwu fiwle nyot fwound ;-;');
   res.statusCode = 404;
   res.send('Not Found');
-  
+
 
 });
 
@@ -57,86 +65,73 @@ app.post('/get-list', (req, res) => {
   return;
 });
 
-app.get(
-  "/",
-  asyncHandler(async (req, res, next) => {
-    console.log("Logged through discord");
+app.get("/discord", asyncHandler(async (req, res, next) => {
+  if (!req.query.code) return res.send(content.index);
+  let result = undefined;
+  try {
+    result = await oauth.tokenRequest({
+      code: req.query.code,
+      grantType: "authorization_code",
+      scope: ["identify"]
+    });
+  } catch {
+    return next(new Error("The access code seems to be incorrect."));
+  }
 
-    if (!req.query.code) return res.send(content.index);
-
-    let result = undefined;
-    try {
-      result = await oauth.tokenRequest({
-        code: req.query.code,
-        grantType: "authorization_code",
-        scope: ["identify"]
-      });
-    } catch {
-      return next(new Error("The access code seems to be incorrect."));
-    }
-
-    let user = undefined;
-    try {
-      user = await oauth.getUser(result.access_token);
-    } catch (err) {
-      console.error(err.stack);
-      return next(
-        new Error(
-          `The server was unable to retrieve the user info from Discord.\n${defaultErrorMessage}`
-        )
-      );
-    }
-
-    let potentialError = await logUserPassing(user.id, Date.now());
-    if (potentialError) throw new Error(potentialError);
-
-    return res.send(
-      insertValues(content.result, {
-        USER_NAME: user.username,
-        USER_DISC: user.discriminator,
-        USER_ID: user.id,
-        USER_AVATAR: user.avatar
-      })
+  let user = undefined;
+  try {
+    user = await oauth.getUser(result.access_token);
+  } catch (err) {
+    console.error(err.stack);
+    return next(
+      new Error(
+        `The server was unable to retrieve the user info from Discord.`
+      )
     );
-  })
+  }
+
+  const token = jwt.sign({
+    USER_NAME: user.username,
+    USER_DISC: user.discriminator,
+    USER_ID: user.id 
+  }, process.env.JWTPASS);
+
+  let jsonResponse = JSON.stringify({
+    USER_NAME: user.username,
+    USER_DISC: user.discriminator,
+    USER_ID: user.id,
+    USER_AVATAR: user.avatar,
+    TOKEN:token
+  });
+
+  const sanitiseQuotes = (str) => {return str.replace(/\'/g, '\\\'')}
+
+  const response =
+    `
+    <script>
+        localStorage.setItem('userData','`+ sanitiseQuotes(jsonResponse) + `')
+        window.location.href = '/' // sends the user back to the home page
+    </script>
+    `;
+  res.setHeader('Content-Type', 'text/html')
+  return res.end(response);
+})
 );
-
-
 
 
 async function getFiles() {
   const url = "https://mega.nz/folder/Dl4XSKIC#v6LWGlvfQ_h_laF3GuLHvQ";
   const dir = mega.file(url);
 
-  dir.loadAttributes(async function(error, songs){
+  dir.loadAttributes(async function(error, songs) {
     for (const song of songs.children) {
       let fileObjects = [];
       let filenames = [];
       let _info;
-      let diffs=[];
+      let diffs = [];
       for (const file of song.children) {
         fileObjects.push(file);
         filenames.push(file.name);
-        // if(file.name == "Info.dat" || file.name == "info.dat"){
-
-        //   await file.download(async function(err, data){
-        //     if (err) throw err;
-        //     let dataJSON = JSON.parse(data.toString());
-        //     for (const i of dataJSON['_difficultyBeatmapSets']){
-        //       if(i['_beatmapCharacteristicName']=='OneSaber'){
-        //         for (const j of i['_difficultyBeatmaps']){
-        //           diffs.push(j['_difficulty']);
-        //         }
-        //       }
-        //     }
-        //     _info = {
-        //       _songName: dataJSON['_songName'],
-        //       _songAuthorName: dataJSON['_songAuthorName'],
-        //       _bpm: dataJSON['_songAuthorName'],
-        //       _difficulties:diffs
-        //     };
-        //   });
-        // }
       }
       const f = {
         name: song.name,

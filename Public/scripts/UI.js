@@ -37,8 +37,6 @@ function settings(p, r) {
   new clickText(createVector(p.x, p.y - 200, p.z), createVector(r.x, r.y, r.z), 100, "Settings", false, false).display();
 }
 
-let loggedIn = false;
-
 function leaderboard(p, r) {
   //Leaderboard menu
   push();
@@ -52,10 +50,14 @@ function leaderboard(p, r) {
   new clickText(createVector(p.x, p.y - 200, p.z), createVector(r.x, r.y, r.z), 100, "Leaderboard", false, false).display();
 
   if (!loggedIn) {
-    new clickText(createVector(p.x, p.y, p.z), createVector(r.x, r.y, r.z), 100, "Log In", function() {
+    new clickText(createVector(p.x, p.y, p.z), createVector(r.x, r.y, r.z), 70, "Log in with Discord", function() {
       loggedIn = true;
+      window.location.href = loginURL;
     }, false).display();
+  }else{
+    new clickText(createVector(p.x-150, p.y + 200, p.z), createVector(r.x, r.y, r.z), 50, "Logged in as:"+userInfo.USER_NAME+"#"+userInfo.USER_DISC, false, false).display();
   }
+
 
 }
 
