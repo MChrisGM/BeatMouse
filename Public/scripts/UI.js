@@ -185,6 +185,7 @@ function displaySongInfo(p, r) {
     new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 100, "Play", function() {
       setEnvironmentSettings();
       generateNotes();
+      windowResized();
 
       canvasState = GAME;
     }, true).display();
@@ -273,35 +274,34 @@ function generateNotes() {
 }
 
 function platform(){
-  let camScale = 1;
   push();
-  translate(0,-80,80*camScale);
-  fill(40);
-  stroke(50)
-  push();
-  translate(0, 190, cam.centerZ-2800);
-  box(190, 21, 6000);
-  pop();
-  push();
-  translate(-120,530,cam.centerZ+169);
-  box(50,700,65);
-  pop();
-  push();
-  translate(120,530,cam.centerZ+169);
-  box(50,700,65);
-  pop();
-  push();
-  translate(-120,580,cam.centerZ-700);
-  box(50,800,65);
-  pop();
-  push();
-  translate(120,580,cam.centerZ-700);
-  box(50,800,65);
-  pop();
-  push();
-  fill(60);
-  translate(0,190,cam.centerZ+700);
-  box(170,20,300);
-  pop();
+    translate(0,-80,80);
+    fill(40);
+    stroke(50)
+    push();
+      translate(0, 190, -2800);
+      box(290, 21, 6000);
+    pop();
+    push();
+      translate(-120,530,169);
+      box(50,700,65);
+    pop();
+    push();
+      translate(120,530,169);
+      box(50,700,65);
+    pop();
+    push();
+      translate(-120,580,700);
+      box(50,800,65);
+    pop();
+    push();
+      translate(120,580,700);
+      box(50,800,65);
+    pop();
+    push();
+      fill(60);
+      translate(0,190,700);
+      box(170,20,300);
+    pop();
   pop();
 }

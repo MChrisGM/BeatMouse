@@ -79,8 +79,8 @@ class Block {
     let b = map(cameraZdistance, 500, 2500, this.color.levels[2], 0);
 
     emissiveMaterial(r, g, b);
-    // specularMaterial(this.color); 
-    shininess(1);
+    strokeWeight(1);
+    shininess(5);
 
     if (this.type == 3) {
       specularMaterial(this.color);
@@ -89,17 +89,22 @@ class Block {
     }
 
     push();
-    translate(this.pos.x, this.pos.y, this.pos.z);
+    translate(this.pos.x, this.pos.y, this.pos.z+500);
+    smooth();
     if (this.type == 1 || this.type == 0) {
-      rotate(this.rotation)
-      box(this.size);
+      rotateZ(this.rotation);
+      push();
+      translate(22,23,20.5);
+      noStroke();
+      model(blockModel);
+      pop();
       translate(0, 0, (this.size / 2) + 1);
-      if (cam.centerZ - this.pos.z < -100 * camScale && hitIndicator) {
+      stroke(0);
+      if (cam.centerZ - this.pos.z < -100 && hitIndicator) {
         fill(255, 119, 41);
       } else {
         fill(255);
       }
-      stroke(51);
       if (this.cutDirection != 8) {
         triangle(-15, 15, 15, 15, 0, 0);
       } else {

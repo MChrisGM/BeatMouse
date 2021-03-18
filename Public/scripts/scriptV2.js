@@ -1,6 +1,8 @@
 let beatFont;
 let neonFont;
 
+let blockModel;
+
 p5.disableFriendlyErrors = true;
 
 async function preload() {
@@ -23,6 +25,8 @@ async function preload() {
       selected_Song = i;
     }
   }
+
+  blockModel = loadModel("assets/block.stl");
 
   sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
 
@@ -95,6 +99,13 @@ function setup() {
 
   background(0);
 
+  // blockModel.averageNormals();
+  // blockModel.computeNormals();
+
+  fpsCounter = document.createElement('p');
+  fpsCounter.id = "fps";
+  document.body.appendChild(fpsCounter);
+
   stp = true;
 }
 
@@ -107,6 +118,9 @@ function windowResized() {
 
 function draw() {
   player_movement();
+
+  fpsCounter.innerText = Math.floor(frameRate());
+
   let xSc = window.innerWidth / 1920;
   let ySc = window.innerHeight / 1080;
   // scale(xSc, ySc, Math.hypot(xSc,ySc));
@@ -164,10 +178,27 @@ function menu() {
 
 function game() {
   background(0);
+  
+  // pointLight(255, 255, 255, 0, 0, cam.eyeZ);
 
   platform();
 
+  beatlength = 100;
+  new Block(0,0,0,1,0).display();
+  new Block(0,1,0,1,0).display();
+  new Block(0,2,0,1,0).display();
+  new Block(0,3,0,1,0).display();
 
+  new Block(0,0,1,1,8).display();
+  new Block(0,1,1,1,8).display();
+  new Block(0,2,1,1,8).display();
+  new Block(0,3,1,1,8).display();
+
+  new Block(0,0,2,1,4).display();
+  new Block(0,1,2,1,4).display();
+  new Block(0,2,2,1,4).display();
+  new Block(0,3,2,1,4).display();
+  
 
 
 }

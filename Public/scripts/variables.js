@@ -50,10 +50,12 @@ let difficulties;
 let selected_difficulty;
 let beatmap;
 
-let indexs = [-60, -20, 20, 60];
-let layers = [55, 15, -35];
+let indexs = [-90, -30, 30, 90];
+let layers = [55, 5, -45];
 
 let song_volume = 100;
 let beatLength;
 let songDuration;
 let sliceFile;
+
+let fpsCounter;
