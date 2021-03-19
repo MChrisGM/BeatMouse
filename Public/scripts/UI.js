@@ -145,7 +145,7 @@ function scrollMenu(p, r) {
 function displaySongInfo(p, r) {
   //Cover image
   push();
-  translate(p.x + 275, p.y + 150, p.z + 1);
+  translate(p.x + 275, p.y + 140, p.z + 1);
   texture(song_cover);
   plane(200, 200);
   pop();
@@ -161,7 +161,7 @@ function displaySongInfo(p, r) {
       difficulties[i].border = false;
     }
     difficulties[i].pos = createVector(p.x, p.y + 20, p.z);
-    difficulties[i].pos.y += ys[i + 1];
+    difficulties[i].pos.y += ys[i];
     difficulties[i].rot = r;
     difficulties[i].calcB();
     difficulties[i].display();

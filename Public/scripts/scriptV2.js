@@ -93,6 +93,8 @@ async function loadSong(sng) {
     }
   }
 
+  console.log(difficulties);
+
   
   bpm = song_infoDat['_beatsPerMinute'];
   if (isNaN(songDuration)){
