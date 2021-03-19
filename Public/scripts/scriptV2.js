@@ -154,6 +154,9 @@ function draw() {
     case GAME:
       game();
       break;
+    case ENDSCREEN:
+      endScreen();
+      break;
     case LOADING:
       break;
     default:
@@ -198,18 +201,7 @@ function menu() {
 }
 
 
-let objectVelocity;
-let bpm;
-let hitIndicator = true;
-let hitvolume = 70;
-let hitboxOffset = 20;
-let sp = false;
-let displayObstacles = true;
-let combos = [0];
-let missedNotes = 0;
-let combo = 0;
-let noFail = false;
-let score = 0;
+
 
 
 
@@ -245,73 +237,13 @@ function game() {
 
 }
 
+function endScreen(){
+  
+}
+
 
 function keyPressed() {
   if (keyCode == 32) { //Space
     sp = !sp;
-  }
-}
-
-function resetStats() {
-  combo = 0;
-  combos = [0];
-  missedNotes = 0;
-  hit = 0;
-  score = 0;
-}
-
-function stopMusic(){
-  song_audio.stop();
-  objectVelocity = 0;
-  sp = false;
-  generateNotes();
-}
-
-
-function displayMap(){
-  for (let block of beats) {
-    block.move();
-    if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 3000 && cam.centerZ - block.pos.z > -2000) {
-      block.display();
-      block.collision();
-      if (block.missed && block.type != 3) {
-        combos.push(parseInt(combo));
-        combo = 0;
-        missedNotes += 1;
-        if (noFail) {
-          stopMusic();
-        }
-        continue;
-      }
-      if (block.missed && block.type == 3) {
-        combos.push(parseInt(combo));
-        combo = 0;
-        if (noFail) {
-          stopMusic();
-        }
-        continue;
-      }
-      if (block.score > 0) {
-        combo += 1;
-        hit += 1;
-        if (combo == 0) {
-          score += block.score;
-        }
-        else if (combo > 0 && combo <= 7) {
-          score += (block.score * combo);
-        } else {
-          score += (block.score * 8);
-        }
-        score = Math.floor(score);
-        continue;
-      }
-    }
-  }
-
-  if (displayObstacles) {
-    for (let obstacle of obstacles) {
-      obstacle.move();
-      obstacle.display();
-    }
   }
 }

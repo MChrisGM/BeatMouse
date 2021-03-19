@@ -201,82 +201,6 @@ function displaySongInfo(p, r) {
 
 }
 
-function setEnvironmentSettings(){
-  for (let env of Object.entries(environments)) {
-    let name = env[0] + '';
-    if (name.includes(song_infoDat['_environmentName'])) {
-      levelScheme = env[1];
-    }
-  }
-
-  let beatMapSets = song_infoDat['_difficultyBeatmapSets'];
-  for (let mapSet of beatMapSets) {
-    if (mapSet['_beatmapCharacteristicName'] == 'OneSaber') {
-      for (let diff of mapSet['_difficultyBeatmaps']) {
-        if (diff['_difficulty'] == selected_difficulty) {
-          let customData = diff['_customData'];
-          if (customData) {
-            if (customData['_colorLeft']) {
-              let c = customData['_colorLeft'];
-              levelScheme['L'] = [
-                Math.floor(c['r'] * 255),
-                Math.floor(c['g'] * 255),
-                Math.floor(c['b'] * 255)];
-            }
-            if (customData['_colorRight']) {
-              let c = customData['_colorRight'];
-              levelScheme['R'] = [
-                Math.floor(c['r'] * 255),
-                Math.floor(c['g'] * 255),
-                Math.floor(c['b'] * 255)];
-            }
-            if (customData['_obstacleColor']) {
-              let c = customData['_obstacleColor'];
-              levelScheme['W'] = [
-                Math.floor(c['r'] * 255),
-                Math.floor(c['g'] * 255),
-                Math.floor(c['b'] * 255)];
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-function generateNotes() {
-
-  noteCount = 0;
-  beats = [];
-  obstacles = [];
-  let notes = beatmap['_notes'];
-  for (let note of notes) {
-    let time = note['_time'];
-    let type = note['_type'];
-    let lineIndex = note['_lineIndex'];
-    let lineLayer = note['_lineLayer'];
-    let cutDirection = note['_cutDirection'];
-    let block = new Block(time, lineIndex, lineLayer, type, cutDirection);
-    beats.push(block);
-    if (type != 3) { noteCount += 1; }
-  }
-
-  // beats.push(new Block(2,1,0,0,1));
-
-  let obs = beatmap['_obstacles'];
-  for (let obstacle of obs) {
-    let time = obstacle['_time'];
-    let type = obstacle['_type'];
-    let lineIndex = obstacle['_lineIndex'];
-    let duration = obstacle['_duration'];
-    let width = obstacle['_width'];
-    let o = new Obstacle(time, lineIndex, type, duration, width);
-    obstacles.push(o);
-  }
-
-
-}
-
 function platform(){
   push();
     translate(0,-80,80);
@@ -309,3 +233,5 @@ function platform(){
     pop();
   pop();
 }
+
+

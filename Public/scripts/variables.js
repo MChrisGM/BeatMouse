@@ -8,6 +8,7 @@ let prld = false;
 const MENU = 'menu';
 const GAME = 'game';
 const LOADING = 'loading';
+const ENDSCREEN = 'endscreen';
 
 let canvasState = MENU;
 
@@ -67,3 +68,16 @@ let loginURL = 'https://discord.com/api/oauth2/authorize?client_id=8219271624654
 let beats;
 let obstacles;
 let noteCount;
+
+let objectVelocity;
+let bpm;
+let hitIndicator = true;
+let hitvolume = 70;
+let hitboxOffset = 20;
+let sp = false;
+let displayObstacles = true;
+let combos = [0];
+let missedNotes = 0;
+let combo = 0;
+let noFail = false;
+let score = 0;
