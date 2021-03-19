@@ -6,6 +6,8 @@ class Obstacle {
     this.duration = duration;
     this.width = width;
 
+    this.vel = createVector(0,0,0);
+
     let c = levelScheme;
     this.color = color(c['W'][0], c['W'][1], c['W'][2]);
 
@@ -31,7 +33,14 @@ class Obstacle {
       this.pos = createVector((indexs[1]+indexs[2])/2, this.crh, -(this.time / beatLength) * 100 * 35 * 100);
       this.width = 4.5;
     }
+    
+    this.pos.z+=300;
 
+  }
+
+  move(){
+    this.vel.z = objectVelocity;
+    this.pos.add(this.vel);
   }
 
   display() { //Display obstacle

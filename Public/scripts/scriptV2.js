@@ -54,8 +54,17 @@ async function loadSong(sng) {
 
   song_infoDat = JSON.parse(await (songFiles.get('Info.dat')).text()) || JSON.parse(await (songFiles.get('info.dat')).text());
 
-  song_audio = songFiles.get(song_infoDat['_songFilename']);  
+  song_audio = songFiles.get(song_infoDat['_songFilename']);
   song_audio = new Sound(URL.createObjectURL(song_audio));
+
+
+  songDuration = await new Promise((resolve, reject) => {
+    setTimeout(function(){
+      if(!isNaN(song_audio.duration())){
+      resolve(song_audio.duration());
+    }
+    },1000);
+  });
 
   song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
   song_cover = await loadImage(URL.createObjectURL(song_cover));
@@ -84,14 +93,14 @@ async function loadSong(sng) {
     }
   }
 
-  songDuration = song_audio.duration();
-  let bpm = song_infoDat['_beatsPerMinute'];
-
-  if (songDuration == NaN) songDuration = 10000;
-
+  
+  bpm = song_infoDat['_beatsPerMinute'];
+  if (isNaN(songDuration)){
+    songDuration = 1000;
+  }
   beatLength = songDuration * (bpm / 60);
   song_audio.setVolume(song_volume / 100 - 0.2);
-  song_audio.onended();
+  song_audio.onended(stopMusic);
 
   loading = false;
   loaded = true;
@@ -186,29 +195,121 @@ function menu() {
 
 }
 
+
+let objectVelocity;
+let bpm;
+let hitIndicator = true;
+let hitvolume = 70;
+let hitboxOffset = 20;
+let sp = false;
+let displayObstacles = true;
+let combos = [0];
+let missedNotes = 0;
+let combo = 0;
+let noFail = false;
+let score = 0;
+
+
+
 function game() {
   background(0);
   
   // pointLight(255, 255, 255, 0, 0, cam.eyeZ);
 
+  if (sp) {
+    objectVelocity = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
+    if (song_audio.isPaused()) {
+      resetStats();
+      song_audio.play();
+    }
+    else if (!song_audio.isPlaying()) {
+      song_audio.play();
+    }
+    // if(enableTrail){
+    //   drawTrail();
+    // }else{
+    //   hideTrail();
+    // }
+  } else {
+    if (song_audio.isPlaying()) {
+      objectVelocity = 0;
+      song_audio.pause();
+    }
+  }
+
   platform();
 
-  beatlength = 100;
-  new Block(0,0,0,1,0).display();
-  new Block(0,1,0,1,0).display();
-  new Block(0,2,0,1,0).display();
-  new Block(0,3,0,1,0).display();
+  displayMap();
 
-  new Block(0,0,1,1,8).display();
-  new Block(0,1,1,1,8).display();
-  new Block(0,2,1,1,8).display();
-  new Block(0,3,1,1,8).display();
-
-  new Block(0,0,2,1,4).display();
-  new Block(0,1,2,1,4).display();
-  new Block(0,2,2,1,4).display();
-  new Block(0,3,2,1,4).display();
-  
+}
 
 
+function keyPressed() {
+  if (keyCode == 32) { //Space
+    sp = !sp;
+  }
+}
+
+function resetStats() {
+  combo = 0;
+  combos = [0];
+  missedNotes = 0;
+  hit = 0;
+  score = 0;
+}
+
+function stopMusic(){
+  song_audio.stop();
+  objectVelocity = 0;
+  sp = false;
+  generateNotes();
+}
+
+
+function displayMap(){
+  for (let block of beats) {
+    block.move();
+    if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 3000 && cam.centerZ - block.pos.z > -2000) {
+      block.display();
+      block.collision();
+      if (block.missed && block.type != 3) {
+        combos.push(parseInt(combo));
+        combo = 0;
+        missedNotes += 1;
+        if (noFail) {
+          stopMusic();
+        }
+        continue;
+      }
+      if (block.missed && block.type == 3) {
+        combos.push(parseInt(combo));
+        combo = 0;
+        if (noFail) {
+          stopMusic();
+        }
+        continue;
+      }
+      if (block.score > 0) {
+        combo += 1;
+        hit += 1;
+        if (combo == 0) {
+          score += block.score;
+        }
+        else if (combo > 0 && combo <= 7) {
+          score += (block.score * combo);
+        } else {
+          score += (block.score * 8);
+        }
+        score = Math.floor(score);
+        continue;
+      }
+    }
+  }
+
+  if (displayObstacles) {
+    for (let obstacle of obstacles) {
+      obstacle.move();
+      obstacle.display();
+    }
+  }
 }

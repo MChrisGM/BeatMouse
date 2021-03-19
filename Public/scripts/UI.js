@@ -55,7 +55,13 @@ function leaderboard(p, r) {
       window.location.href = loginURL;
     }, false).display();
   }else{
-    new clickText(createVector(p.x-150, p.y + 200, p.z), createVector(r.x, r.y, r.z), 50, "Logged in as:"+userInfo.USER_NAME+"#"+userInfo.USER_DISC, false, false).display();
+    new clickText(createVector(p.x-150, p.y + 200, p.z), createVector(r.x, r.y, r.z), 50, "Logged in as: "+userInfo.USER_NAME+"#"+userInfo.USER_DISC, false, false).display();
+
+    new clickText(createVector(p.x-320, p.y-180, p.z), createVector(r.x, r.y, r.z), 40, "Log out", function() {
+      localStorage.removeItem("userData");
+      loggedIn = false;
+      window.location.href = "/";
+    }, false).display();
   }
 
 
@@ -237,10 +243,6 @@ function setEnvironmentSettings(){
     }
   }
 }
-
-let beats;
-let obstacles;
-let noteCount;
 
 function generateNotes() {
 

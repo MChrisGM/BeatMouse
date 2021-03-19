@@ -592,10 +592,8 @@ function placeNotes() {
 
 function stopMusic() {
   song.stop();
-  cam.setPosition(0, 0, songOffset);
   sp = false;
   placeNotes();
-  cam.move(0,0,((height/2)-100)*camScale);
 }
 
 addEventListener('unload', () => {

@@ -63,3 +63,7 @@ let fpsCounter;
 let loggedIn = false;
 
 let loginURL = 'https://discord.com/api/oauth2/authorize?client_id=821927162465484810&redirect_uri=https%3A%2F%2Fbeatmouse.ga%2Fdiscord%2F&response_type=code&scope=identify';
+
+let beats;
+let obstacles;
+let noteCount;

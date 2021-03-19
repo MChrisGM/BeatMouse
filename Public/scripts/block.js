@@ -23,7 +23,13 @@ class Block {
     }
     this.rotation = 0;
 
-    this.pos = createVector(indexs[this.lineIndex], layers[this.lineLayer], -(this.time / beatLength) * 100 * this.size * 100);
+    this.pos = createVector(
+      indexs[this.lineIndex], 
+      layers[this.lineLayer], 
+      (-(this.time / beatLength) * 100 * this.size * 100)+300
+    );
+    
+    this.vel = createVector(0,0,0);
 
     this.hit = false;
     this.missed = false;
@@ -63,14 +69,17 @@ class Block {
 
   }
 
+  move(){
+    this.vel.z = objectVelocity;
+    this.pos.add(this.vel);
+  }
+
   display() { //Display block
     if (this.hit) { return; }
 
     let cameraZdistance = cam.centerZ - this.pos.z;
 
-    normalMaterial();
     smooth();
-    lights();
 
     stroke(60);
 
@@ -89,7 +98,7 @@ class Block {
     }
 
     push();
-    translate(this.pos.x, this.pos.y, this.pos.z+500);
+    translate(this.pos.x, this.pos.y, this.pos.z);
     smooth();
     if (this.type == 1 || this.type == 0) {
       rotateZ(this.rotation);
@@ -119,12 +128,12 @@ class Block {
   collision() {
     if (!sp) { return; }
     if (!this.hit && !this.missed) {
-      if (cam.centerZ - this.pos.z < -200 * camScale && cam.centerZ - this.pos.z > -1000 * camScale) {
+      if (cam.centerZ - this.pos.z < -200  && cam.centerZ - this.pos.z > -1000 ) {
 
-        if ((volume / 100) - (1 - (hitvolume / 100)) <= 0) {
+        if ((song_volume / 100) - (1 - (hitvolume / 100)) <= 0) {
           this.sliceSound.setVolume(0);
         } else {
-          this.sliceSound.setVolume((volume / 100) - (1 - (hitvolume / 100)));
+          this.sliceSound.setVolume((song_volume / 100) - (1 - (hitvolume / 100)));
         }
 
         let v = screenPosition(this.pos);
@@ -337,7 +346,7 @@ class Block {
 
       }
 
-      if (this.type != 3 && cam.centerZ - this.pos.z < -1000 * camScale) {
+      if (this.type != 3 && cam.centerZ - this.pos.z < -1000) {
           this.missed = true;
           this.sliceSound.destruct();
           this.score = 0;
