@@ -67,7 +67,6 @@ let loginURL = 'https://discord.com/api/oauth2/authorize?client_id=8219271624654
 
 let beats;
 let obstacles;
-let noteCount;
 
 let objectVelocity;
 let bpm;
@@ -82,8 +81,9 @@ let combo = 0;
 let noFail = false;
 let score = 0;
 let hit;
+let noteCount;
 
 let enableTrail = true;
 
-let intro = true;
-let intro_time = 0;
+let intro;
+let intro_time;

@@ -191,15 +191,14 @@ function displaySongInfo(p, r) {
     new clickText(createVector(p.x + 275, p.y + 425, p.z + 1), r, 60, "Notes: " + parseInt(noteNmr), false, false).display();
 
     new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 100, "Play", function() {
-      resetStats();
-      setEnvironmentSettings();
-      generateNotes();
-      windowResized();
-      canvasState = GAME;
+      startMap();
     }, true).display();
   }
 
 }
+
+
+
 
 function platform() {
   push();
@@ -243,30 +242,44 @@ function results(p, r) {
   plane(1000, 600, 2, 2);
   pop();
 
-  new clickText(createVector(p.x, p.y-250, p.z + 1), r, 80, "LEVEL FINISHED", false, false,color(255, 53, 25)).display();
+  new clickText(createVector(p.x, p.y - 250, p.z + 1), r, 80, "LEVEL FINISHED", false, false, color(255, 53, 25)).display();
 
-  new clickText(createVector(p.x, p.y-160, p.z + 1), r, 80, song_infoDat['_songName'].toUpperCase(), false, false).display();
+  new clickText(createVector(p.x, p.y - 160, p.z + 1), r, 80, song_infoDat['_songName'].toUpperCase(), false, false).display();
 
-  new clickText(createVector(p.x, p.y-110, p.z + 1), r, 40, song_infoDat['_songAuthorName'].toUpperCase(), false, false,color(130, 130, 130)).display();
+  new clickText(createVector(p.x, p.y - 110, p.z + 1), r, 40, song_infoDat['_songAuthorName'].toUpperCase(), false, false, color(130, 130, 130)).display();
 
-  new clickText(createVector(p.x, p.y-50, p.z + 1), r, 60, "DIFFICULTY - "+selected_difficulty.toUpperCase(), false, false).display();
-
-
-  new clickText(createVector(p.x, p.y, p.z + 1), r, 45, "SCORE", false, false,color(130,130,130)).display();
-
-  let sc = (score+'').split('').reverse().join('').replace(/(\d{1,3})/gm, '$1 ').trim().split('').reverse().join('');
-
-  new clickText(createVector(p.x, p.y+60, p.z + 1), r, 100, sc, false, false,color(144, 204, 245)).display();
-
-  new clickText(createVector(p.x-300, p.y+20, p.z + 1), createVector(0,0,0), 45, "GOOD CUTS", false, false,color(130,130,130)).display();
-
-  new clickText(createVector(p.x-340, p.y+70, p.z + 1), createVector(0,0,0), 70, hit, false, false).display();
+  new clickText(createVector(p.x, p.y - 50, p.z + 1), r, 60, "DIFFICULTY - " + selected_difficulty.toUpperCase(), false, false).display();
 
 
+  new clickText(createVector(p.x, p.y, p.z + 1), r, 45, "SCORE", false, false, color(130, 130, 130)).display();
+
+  let sc = (score + '').split('').reverse().join('').replace(/(\d{1,3})/gm, '$1 ').trim().split('').reverse().join('');
+
+  new clickText(createVector(p.x, p.y + 60, p.z + 1), r, 100, sc, false, false, color(144, 204, 245)).display();
+
+  new clickText(createVector(p.x - 300, p.y + 20, p.z + 1), r, 45, "GOOD CUTS", false, false, color(130, 130, 130)).display();
+
+  new clickText(createVector(p.x - 340, p.y + 70, p.z + 1), r, 70, hit, false, false).display();
+
+  new clickText(createVector(p.x - 260, p.y + 75, p.z + 1), r, 45, "/" + noteCount, false, false).display();
+
+  new clickText(createVector(p.x, p.y + 200, p.z + 1), r, 80, "OK", function() {
+    returnMenu();
+  }, false).display();
+
+  new clickText(createVector(p.x - 200, p.y + 200, p.z + 1), r, 80, "RESTART", function() {
+    startMap();
+  }, false).display();
 
 
 
 }
+
+function returnMenu(){
+  canvasState = MENU;
+}
+
+
 
 function countdown(time) {
   new clickText(createVector(0, 0, -300), createVector(0, 0, 0), 200, time, false, false).display();

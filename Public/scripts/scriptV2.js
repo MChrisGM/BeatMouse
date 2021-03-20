@@ -93,7 +93,7 @@ async function loadSong(sng) {
     }
   }
 
-  console.log(difficulties);
+  // console.log(difficulties);
 
 
   bpm = song_infoDat['_beatsPerMinute'];
@@ -214,10 +214,9 @@ function game() {
     if (intro_time >= 3 ) {
       intro = false;
       sp = true;
-      
-    }else if (intro_time > 2 && intro_time < 3) {
+    }else if (intro_time >= 2 && intro_time < 3) {
       countdown(1);
-    }else if (intro_time > 1 && intro_time < 2) {
+    }else if (intro_time >= 1 && intro_time < 2) {
       countdown(2);
     }else if (intro_time >= 0 && intro_time < 1) {
       countdown(3);
@@ -229,7 +228,6 @@ function game() {
   if (sp) {
     objectVelocity = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
     if (song_audio.isPaused()) {
-      resetStats();
       song_audio.play();
     }
     else if (!song_audio.isPlaying()) {

@@ -145,3 +145,11 @@ function displayMap(){
     }
   }
 }
+
+function startMap() {
+  resetStats();
+  setEnvironmentSettings();
+  generateNotes();
+  windowResized();
+  canvasState = GAME;
+}
