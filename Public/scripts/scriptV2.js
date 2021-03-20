@@ -224,8 +224,11 @@ function game() {
     intro_time += 1 / frameRate();
   }
 
+  platform();
 
-  if (sp) {
+  displayMap();
+
+  if (sp && !paused) {
     objectVelocity = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
     if (song_audio.isPaused()) {
       song_audio.play();
@@ -242,12 +245,16 @@ function game() {
     if (song_audio.isPlaying()) {
       objectVelocity = 0;
       song_audio.pause();
+      
+    }if(!intro){
+      pauseMenu(
+        createVector(0, 0, 300),
+        createVector(0, 0, 0),
+    );
     }
   }
 
-  platform();
-
-  displayMap();
+  
 
 }
 
@@ -256,15 +263,16 @@ function endScreen() {
     createVector(0, 0, -300),
     createVector(0, 0, 0),
   );
-
 }
 
 function assign({variable},value){
     eval(Object.keys(variable)[0]+"="+value);
 }
 
-// function keyPressed() {
-//   if (keyCode == 32) { //Space
-//     sp = !sp;
-//   }
-// }
+let paused = false;
+
+function keyPressed() {
+  if (keyCode == 32) { //Space
+    paused = true;
+  }
+}

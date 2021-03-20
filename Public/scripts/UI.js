@@ -56,7 +56,6 @@ function leaderboard(p, r) {
     }, false).display();
   } else {
     new clickText(createVector(p.x - 150, p.y + 200, p.z), createVector(r.x, r.y, r.z), 50, "Logged in as: " + userInfo.USER_NAME + "#" + userInfo.USER_DISC, false, false).display();
-
     new clickText(createVector(p.x - 320, p.y - 180, p.z), createVector(r.x, r.y, r.z), 40, "Log out", function() {
       localStorage.removeItem("userData");
       loggedIn = false;
@@ -85,20 +84,15 @@ function mainMenu(p, r) {
       strt = true;
     }, false).display();
   }
-
   if (strt) {
     scrollMenu(p, r);
   }
 }
 
-
 function scrollMenu(p, r) {
   let lst = displaySongs();
-
   p.y -= 300;
-
   let ys = [35, 100, 200, 300, 400, 500, 565];
-
   let xOffset = 270;
 
   if (loaded) {
@@ -128,7 +122,6 @@ function scrollMenu(p, r) {
       lst[i].highlight = false;
       lst[i].border = false;
     }
-
     lst[i].pos = createVector(p.x, p.y, p.z);
     lst[i].pos.y += ys[i + 1];
     lst[i].rot = r;
@@ -189,16 +182,11 @@ function displaySongInfo(p, r) {
   if (beatmap) {
     let noteNmr = beatmap['_notes'].length;
     new clickText(createVector(p.x + 275, p.y + 425, p.z + 1), r, 60, "Notes: " + parseInt(noteNmr), false, false).display();
-
     new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 100, "Play", function() {
       startMap();
     }, true).display();
   }
-
 }
-
-
-
 
 function platform() {
   push();
@@ -243,45 +231,62 @@ function results(p, r) {
   pop();
 
   new clickText(createVector(p.x, p.y - 250, p.z + 1), r, 80, "LEVEL FINISHED", false, false, color(255, 53, 25)).display();
-
   new clickText(createVector(p.x, p.y - 160, p.z + 1), r, 80, song_infoDat['_songName'].toUpperCase(), false, false).display();
-
   new clickText(createVector(p.x, p.y - 110, p.z + 1), r, 40, song_infoDat['_songAuthorName'].toUpperCase(), false, false, color(130, 130, 130)).display();
-
   new clickText(createVector(p.x, p.y - 50, p.z + 1), r, 60, "DIFFICULTY - " + selected_difficulty.toUpperCase(), false, false).display();
-
-
   new clickText(createVector(p.x, p.y, p.z + 1), r, 45, "SCORE", false, false, color(130, 130, 130)).display();
-
   let sc = (score + '').split('').reverse().join('').replace(/(\d{1,3})/gm, '$1 ').trim().split('').reverse().join('');
-
   new clickText(createVector(p.x, p.y + 60, p.z + 1), r, 100, sc, false, false, color(144, 204, 245)).display();
-
   new clickText(createVector(p.x - 300, p.y + 20, p.z + 1), r, 45, "GOOD CUTS", false, false, color(130, 130, 130)).display();
-
   new clickText(createVector(p.x - 340, p.y + 70, p.z + 1), r, 70, hit, false, false).display();
-
   new clickText(createVector(p.x - 260, p.y + 75, p.z + 1), r, 45, "/" + noteCount, false, false).display();
-
   new clickText(createVector(p.x, p.y + 200, p.z + 1), r, 80, "OK", function() {
     returnMenu();
   }, false).display();
-
   new clickText(createVector(p.x - 200, p.y + 200, p.z + 1), r, 80, "RESTART", function() {
     startMap();
   }, false).display();
 
-
-
 }
 
-function returnMenu(){
+function returnMenu() {
   canvasState = MENU;
 }
 
-
-
 function countdown(time) {
   new clickText(createVector(0, 0, -300), createVector(0, 0, 0), 200, time, false, false).display();
+}
+
+function pauseMenu(p, r) {
+  hideTrail();
+  //Main menu
+  push();
+  translate(p.x, p.y, p.z);
+  rotateX(r.x);
+  rotateY(r.y);
+  rotateZ(r.z);
+  fill(60, 135, 235, 200);
+  plane(600, 200, 2, 2);
+  pop();
+
+
+  new clickText(createVector(p.x, p.y - 70, p.z + 1), r, 60, "PAUSED", false, false, color(255, 53, 25)).display();
+
+  new clickText(createVector(p.x-200, p.y+50, p.z + 1), r, 50, "MAIN MENU", function() {
+    song_audio.stop();
+    sp = false;
+    paused = false;
+    returnMenu();
+  }, false).display();
+  new clickText(createVector(p.x , p.y+50, p.z + 1), r, 50, "RESTART", function() {
+    song_audio.stop();
+    sp = false;
+    paused = false;
+    startMap();
+  }, false).display();
+  new clickText(createVector(p.x + 200, p.y+50, p.z + 1), r, 50, "CONTINUE", function() {
+    paused = false;
+  }, false).display();
+
 }
 
