@@ -211,14 +211,15 @@ function game() {
   // pointLight(255, 255, 255, 0, 0, cam.eyeZ);
 
   if (intro) {
-    if (intro_time > 3 ) {
+    if (intro_time >= 3 ) {
       intro = false;
       sp = true;
-    }else if (intro_time > 2 ) {
+      
+    }else if (intro_time > 2 && intro_time < 3) {
       countdown(1);
-    }else if (intro_time > 1 ) {
+    }else if (intro_time > 1 && intro_time < 2) {
       countdown(2);
-    }else if (intro_time >= 0) {
+    }else if (intro_time >= 0 && intro_time < 1) {
       countdown(3);
     }
     intro_time += 1 / frameRate();

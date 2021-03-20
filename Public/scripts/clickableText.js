@@ -1,5 +1,5 @@
 class clickText {
-  constructor(pos, rotation, size, txt, onClick, border) {
+  constructor(pos, rotation, size, txt, onClick, border,txtC) {
     this.pos = pos;
     this.size = size;
     this.txt = txt;
@@ -8,6 +8,7 @@ class clickText {
     this.border = border;
     this.inside = false;
     this.highlight = false;
+    this.txtC = txtC || color(255,255,255);
 
     if(this.pos != null){
       this.calcB();
@@ -56,10 +57,10 @@ class clickText {
     if (this.inside && this.onClick) {
       fill(233, 237, 107);
     } else {
-      fill(255, 255, 255);
+      fill(this.txtC);
     }
 
-    stroke(255);
+    stroke(this.txtC);
     strokeWeight(100);
 
     if(this.highlight){
