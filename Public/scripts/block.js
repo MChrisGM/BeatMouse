@@ -126,14 +126,14 @@ class Block {
   }
 
   collision() {
-    if (!sp) { return; }
+    if (!sp || paused) { return; }
     if (!this.hit && !this.missed) {
       if (cam.centerZ - this.pos.z < -200  && cam.centerZ - this.pos.z > -1000 ) {
 
-        if ((song_volume / 100) - (1 - (hitvolume / 100)) <= 0) {
+        if ((hitvolume / 100) <= 0) {
           this.sliceSound.setVolume(0);
         } else {
-          this.sliceSound.setVolume((song_volume / 100) - (1 - (hitvolume / 100)));
+          this.sliceSound.setVolume((hitvolume / 100));
         }
 
         let v = screenPosition(this.pos);

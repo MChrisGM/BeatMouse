@@ -220,8 +220,12 @@ function game() {
     intro_time += 1 / frameRate();
   }
 
-  platform();
+  scorePlane(
+    createVector(0, 0, -500),
+    createVector(0, 0, 0),
+  );
 
+  platform();
   displayMap();
 
   if (sp && !paused) {
@@ -241,7 +245,6 @@ function game() {
     if (song_audio.isPlaying()) {
       objectVelocity = 0;
       song_audio.pause();
-      
     }if(!intro){
       pauseMenu(
         createVector(0, 0, 300),
@@ -249,9 +252,6 @@ function game() {
     );
     }
   }
-
-  
-
 }
 
 function endScreen() {
@@ -261,11 +261,6 @@ function endScreen() {
   );
 }
 
-function assign({variable},value){
-    eval(Object.keys(variable)[0]+"="+value);
-}
-
-let paused = false;
 function keyPressed() {
   if (keyCode == 32) { //Space
     paused = true;

@@ -1,4 +1,4 @@
-function setEnvironmentSettings(){
+function setEnvironmentSettings() {
   for (let env of Object.entries(environments)) {
     let name = env[0] + '';
     if (name.includes(song_infoDat['_environmentName'])) {
@@ -42,7 +42,7 @@ function setEnvironmentSettings(){
 
   let c = levelScheme;
 
-  for(let div of document.getElementsByClassName('trail')){
+  for (let div of document.getElementsByClassName('trail')) {
     div.style.background = rgbToHex(c['R'][0], c['R'][1], c['R'][2]);
   }
 }
@@ -88,9 +88,10 @@ function resetStats() {
   score = 0;
   intro = true;
   intro_time = 0;
+  comboMulti = 0;
 }
 
-function stopMusic(){
+function stopMusic() {
   song_audio.stop();
   objectVelocity = 0;
   sp = false;
@@ -98,7 +99,13 @@ function stopMusic(){
 }
 
 
-function displayMap(){
+
+function displayMap() {
+  if (combo <= 8) {
+        comboMulti = combo;
+      } else {
+        comboMulti = 8;
+      }
   for (let block of beats) {
     block.move();
     if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 3000 && cam.centerZ - block.pos.z > -2000) {

@@ -45,7 +45,7 @@ let filesLoaded;
 let maxFilesLoaded;
 
 let strt = false;
-
+let paused = false;
 let tiltRotation = 0;
 let panRotation = 0;
 
@@ -84,6 +84,7 @@ let noFail = false;
 let score = 0;
 let hit;
 let noteCount;
+let comboMulti = 0;
 
 let enableTrail = true;
 

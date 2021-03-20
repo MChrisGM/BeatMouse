@@ -78,7 +78,7 @@ function mainMenu(p, r) {
   pop();
 
   if (!prld && !strt) {
-    new clickText(p, r, 200, "Loading "+filesLoaded+"/"+maxFilesLoaded, false, false).display();
+    new clickText(p, r, 200, "Loading "+Math.floor(filesLoaded*100/maxFilesLoaded)+"%", false, false).display();
   } else if (prld && !strt) {
     new clickText(p, r, 300, "Start", function() {
       strt = true;
@@ -98,7 +98,7 @@ function scrollMenu(p, r) {
   if (loaded) {
     displaySongInfo(p, r);
   } else {
-    new clickText(createVector(p.x + 200, p.y + ys[3], p.z), r, 100, "Loading "+filesLoaded+"/"+maxFilesLoaded, false, false).display();
+    new clickText(createVector(p.x + 200, p.y + ys[3], p.z), r, 100, "Loading "+Math.floor(filesLoaded*100/maxFilesLoaded)+"%", false, false).display();
   }
 
   p.x -= xOffset;
@@ -140,7 +140,7 @@ function displaySongInfo(p, r) {
   push();
   translate(p.x + 275, p.y + 140, p.z + 1);
   texture(song_cover);
-  plane(200, 200);
+  plane(200, 200,2,2);
   pop();
 
   //Modes
@@ -287,6 +287,30 @@ function pauseMenu(p, r) {
   new clickText(createVector(p.x + 200, p.y+50, p.z + 1), r, 50, "CONTINUE", function() {
     paused = false;
   }, false).display();
+
+}
+
+function scorePlane(p,r){
+
+  new clickText(createVector(p.x - 600, p.y -100 , p.z + 1), r, 60, "COMBO", false, false).display();
+  new clickText(createVector(p.x - 600, p.y -20, p.z + 1), r, 100, combo, false, false).display();
+
+  let sc = (score + '').split('').reverse().join('').replace(/(\d{1,3})/gm, '$1 ').trim().split('').reverse().join('');
+  new clickText(createVector(p.x - 600, p.y + 70 , p.z + 1), r, 80, sc, false, false).display();
+
+  new clickText(createVector(p.x + 555, p.y - 50, p.z + 1), r, 50, "x", false, false).display();
+  new clickText(createVector(p.x + 600, p.y -20, p.z + 1), r, 150, comboMulti, false, false).display();
+  
+  push();
+  translate(p.x, p.y, p.z);
+  rotateX(r.x);
+  rotateY(r.y);
+  rotateZ(r.z);
+  noFill();
+  stroke(70)
+  strokeWeight(7);
+  ellipse(p.x + 600, p.y -20, 150, 150);
+  pop();
 
 }
 

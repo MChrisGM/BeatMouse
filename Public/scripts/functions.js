@@ -227,3 +227,7 @@ function componentToHex(c) {
 function rgbToHex(r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+function assign(variable,value){
+    eval(Object.keys(variable)[0]+"="+value);
+}
