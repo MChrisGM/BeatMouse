@@ -1,6 +1,8 @@
 const getSong = (song) => new Promise((resolve, reject) => {
   const files = new Map();
   let filesReceived = 0;
+  maxFilesLoaded = song.filenames.length;
+  filesLoaded = 0;
   for (const file of song.filenames) {
     const oReq = new XMLHttpRequest();
     oReq.open("POST", "/get-song");
@@ -8,6 +10,7 @@ const getSong = (song) => new Promise((resolve, reject) => {
     oReq.addEventListener("load", () => {
       files.set(file, oReq.response);
       filesReceived++;
+      filesLoaded++;
       if (filesReceived == song.filenames.length) {
         resolve(files);
       }

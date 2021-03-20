@@ -78,7 +78,7 @@ function mainMenu(p, r) {
   pop();
 
   if (!prld && !strt) {
-    new clickText(p, r, 300, "Loading...", false, false).display();
+    new clickText(p, r, 200, "Loading "+filesLoaded+"/"+maxFilesLoaded, false, false).display();
   } else if (prld && !strt) {
     new clickText(p, r, 300, "Start", function() {
       strt = true;
@@ -98,7 +98,7 @@ function scrollMenu(p, r) {
   if (loaded) {
     displaySongInfo(p, r);
   } else {
-    new clickText(createVector(p.x + 200, p.y + ys[3], p.z), r, 100, "Loading...", false, false).display();
+    new clickText(createVector(p.x + 200, p.y + ys[3], p.z), r, 100, "Loading "+filesLoaded+"/"+maxFilesLoaded, false, false).display();
   }
 
   p.x -= xOffset;

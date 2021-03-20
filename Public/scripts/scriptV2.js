@@ -182,10 +182,6 @@ function draw() {
 
 function menu() {
 
-  // pointLight(80, 155, 255, 0, 0, cam.eyeZ);
-
-  // pointLight(255, 255, 255, 0, 0, cam.eyeZ);
-
   mainMenu(
     createVector(0, 0, -300),
     createVector(0, 0, 0),
@@ -270,7 +266,6 @@ function assign({variable},value){
 }
 
 let paused = false;
-
 function keyPressed() {
   if (keyCode == 32) { //Space
     paused = true;

@@ -41,6 +41,8 @@ let song_cover;
 
 let loading = false;
 let loaded = false;
+let filesLoaded;
+let maxFilesLoaded;
 
 let strt = false;
 
