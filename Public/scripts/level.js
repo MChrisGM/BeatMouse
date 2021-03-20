@@ -39,6 +39,12 @@ function setEnvironmentSettings(){
       }
     }
   }
+
+  let c = levelScheme;
+
+  for(let div of document.getElementsByClassName('trail')){
+    div.style.background = rgbToHex(c['R'][0], c['R'][1], c['R'][2]);
+  }
 }
 
 function generateNotes() {
@@ -80,12 +86,15 @@ function resetStats() {
   missedNotes = 0;
   hit = 0;
   score = 0;
+  intro = true;
+  intro_time = 0;
 }
 
 function stopMusic(){
   song_audio.stop();
   objectVelocity = 0;
   sp = false;
+  canvasState = ENDSCREEN;
 }
 
 

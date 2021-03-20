@@ -81,3 +81,8 @@ let missedNotes = 0;
 let combo = 0;
 let noFail = false;
 let score = 0;
+
+let enableTrail = true;
+
+let intro = true;
+let intro_time = 0;

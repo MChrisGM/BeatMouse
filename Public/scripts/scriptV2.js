@@ -11,14 +11,14 @@ async function preload() {
   beatFont = loadFont("styles/Teko-Regular.ttf");
   neonFont = loadFont("styles/NeonTubes2.otf");
 
-  if(localStorage.getItem('userData') != null){
+  if (localStorage.getItem('userData') != null) {
     userInfo = JSON.parse(localStorage.getItem('userData'));
     loggedIn = true;
-  }else{
+  } else {
     userInfo = null;
     loggedIn = false;
   }
-  
+
   loadOptions();
 
   let listGettingPromise = getList();
@@ -59,11 +59,11 @@ async function loadSong(sng) {
 
 
   songDuration = await new Promise((resolve, reject) => {
-    setTimeout(function(){
-      if(!isNaN(song_audio.duration())){
-      resolve(song_audio.duration());
-    }
-    },1000);
+    setTimeout(function() {
+      if (!isNaN(song_audio.duration())) {
+        resolve(song_audio.duration());
+      }
+    }, 1000);
   });
 
   song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
@@ -71,11 +71,11 @@ async function loadSong(sng) {
 
   difficulties = [];
   beatmap = null;
-  selected_difficulty = options["song_Difficulty"]||null;
+  selected_difficulty = options["song_Difficulty"] || null;
   let beatMapSets = song_infoDat['_difficultyBeatmapSets'];
-  for (let mapset of beatMapSets){
-    if(mapset['_beatmapCharacteristicName'] == 'OneSaber'){
-      for(let diffs of mapset['_difficultyBeatmaps']){
+  for (let mapset of beatMapSets) {
+    if (mapset['_beatmapCharacteristicName'] == 'OneSaber') {
+      for (let diffs of mapset['_difficultyBeatmaps']) {
         let flnm = diffs['_beatmapFilename'];
         let diffName = diffs['_difficulty'];
         difficulties.push(
@@ -84,9 +84,9 @@ async function loadSong(sng) {
             beatmap = JSON.parse(await (songFiles.get(flnm)).text());
             options["song_Difficulty"] = selected_difficulty;
             saveOptions();
-          },false)
+          }, false)
         );
-        if(diffName == selected_difficulty){
+        if (diffName == selected_difficulty) {
           beatmap = JSON.parse(await (songFiles.get(flnm)).text());
         }
       }
@@ -95,9 +95,9 @@ async function loadSong(sng) {
 
   console.log(difficulties);
 
-  
+
   bpm = song_infoDat['_beatsPerMinute'];
-  if (isNaN(songDuration)){
+  if (isNaN(songDuration)) {
     songDuration = 1000;
   }
   beatLength = songDuration * (bpm / 60);
@@ -138,6 +138,7 @@ function windowResized() {
 
 
 function draw() {
+  background(0);
   player_movement();
 
   fpsCounter.innerText = Math.floor(frameRate());
@@ -146,6 +147,19 @@ function draw() {
   let ySc = window.innerHeight / 1080;
   // scale(xSc, ySc, Math.hypot(xSc,ySc));
   scale(xSc, ySc, 1);
+
+  pointLight(255, 255, 255, 0, 0, 800);
+
+  //Floor
+  push();
+  specularMaterial(10, 93, 171);
+  shininess(5);
+  translate(0, 200, 800);
+  rotateX(PI / 2);
+  plane(600, 650, 2, 2);
+  pop();
+
+
 
   switch (canvasState) {
     case MENU:
@@ -167,19 +181,10 @@ function draw() {
 
 
 function menu() {
-  background(0);
-  // pointLight(80, 155, 255, 0, 0, cam.eyeZ);
-  pointLight(255, 255, 255, 0, 0, cam.eyeZ);
-  // lights();
 
-  //Floor
-  push();
-  specularMaterial(10, 93, 171);
-  shininess(5);
-  translate(0, 200, cam.eyeZ);
-  rotateX(PI / 2);
-  plane(900, 750, 2, 2);
-  pop();
+  // pointLight(80, 155, 255, 0, 0, cam.eyeZ);
+
+  // pointLight(255, 255, 255, 0, 0, cam.eyeZ);
 
   mainMenu(
     createVector(0, 0, -300),
@@ -201,14 +206,24 @@ function menu() {
 }
 
 
-
-
-
-
 function game() {
-  background(0);
-  
+
   // pointLight(255, 255, 255, 0, 0, cam.eyeZ);
+
+  if (intro) {
+    if (intro_time > 3 ) {
+      intro = false;
+      sp = true;
+    }else if (intro_time > 2 ) {
+      countdown(1);
+    }else if (intro_time > 1 ) {
+      countdown(2);
+    }else if (intro_time >= 0) {
+      countdown(3);
+    }
+    intro_time += 1 / frameRate();
+  }
+
 
   if (sp) {
     objectVelocity = (bpm / 60) * (1 / (beatLength)) / frameRate() * 100 * 35 * 100;
@@ -219,11 +234,11 @@ function game() {
     else if (!song_audio.isPlaying()) {
       song_audio.play();
     }
-    // if(enableTrail){
-    //   drawTrail();
-    // }else{
-    //   hideTrail();
-    // }
+    if(enableTrail){
+      drawTrail();
+    }else{
+      hideTrail();
+    }
   } else {
     if (song_audio.isPlaying()) {
       objectVelocity = 0;
@@ -237,13 +252,20 @@ function game() {
 
 }
 
-function endScreen(){
-  
+function endScreen() {
+  results(
+    createVector(0, 0, -300),
+    createVector(0, 0, 0),
+  );
+
 }
 
-
-function keyPressed() {
-  if (keyCode == 32) { //Space
-    sp = !sp;
-  }
+function assign({variable},value){
+    eval(Object.keys(variable)[0]+"="+value);
 }
+
+// function keyPressed() {
+//   if (keyCode == 32) { //Space
+//     sp = !sp;
+//   }
+// }

@@ -54,10 +54,10 @@ function leaderboard(p, r) {
       loggedIn = true;
       window.location.href = loginURL;
     }, false).display();
-  }else{
-    new clickText(createVector(p.x-150, p.y + 200, p.z), createVector(r.x, r.y, r.z), 50, "Logged in as: "+userInfo.USER_NAME+"#"+userInfo.USER_DISC, false, false).display();
+  } else {
+    new clickText(createVector(p.x - 150, p.y + 200, p.z), createVector(r.x, r.y, r.z), 50, "Logged in as: " + userInfo.USER_NAME + "#" + userInfo.USER_DISC, false, false).display();
 
-    new clickText(createVector(p.x-320, p.y-180, p.z), createVector(r.x, r.y, r.z), 40, "Log out", function() {
+    new clickText(createVector(p.x - 320, p.y - 180, p.z), createVector(r.x, r.y, r.z), 40, "Log out", function() {
       localStorage.removeItem("userData");
       loggedIn = false;
       window.location.href = "/";
@@ -191,47 +191,63 @@ function displaySongInfo(p, r) {
     new clickText(createVector(p.x + 275, p.y + 425, p.z + 1), r, 60, "Notes: " + parseInt(noteNmr), false, false).display();
 
     new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 100, "Play", function() {
+      resetStats();
       setEnvironmentSettings();
       generateNotes();
       windowResized();
-
       canvasState = GAME;
     }, true).display();
   }
 
 }
 
-function platform(){
+function platform() {
   push();
-    translate(0,-80,80);
-    fill(40);
-    stroke(50)
-    push();
-      translate(0, 190, -2800);
-      box(290, 21, 6000);
-    pop();
-    push();
-      translate(-120,530,169);
-      box(50,700,65);
-    pop();
-    push();
-      translate(120,530,169);
-      box(50,700,65);
-    pop();
-    push();
-      translate(-120,580,700);
-      box(50,800,65);
-    pop();
-    push();
-      translate(120,580,700);
-      box(50,800,65);
-    pop();
-    push();
-      fill(60);
-      translate(0,190,700);
-      box(170,20,300);
-    pop();
+  translate(0, -80, 80);
+  fill(40);
+  stroke(50)
+  push();
+  translate(0, 190, -2800);
+  box(290, 21, 6000);
+  pop();
+  push();
+  translate(-120, 530, 169);
+  box(50, 700, 65);
+  pop();
+  push();
+  translate(120, 530, 169);
+  box(50, 700, 65);
+  pop();
+  push();
+  translate(-120, 580, -700);
+  box(50, 800, 65);
+  pop();
+  push();
+  translate(120, 580, -700);
+  box(50, 800, 65);
+  pop();
   pop();
 }
 
+
+
+function results(p, r) {
+  //Main menu
+  push();
+  translate(p.x, p.y, p.z);
+  rotateX(r.x);
+  rotateY(r.y);
+  rotateZ(r.z);
+  fill(60, 135, 235, 200);
+  plane(900, 600, 2, 2);
+  pop();
+
+
+
+
+}
+
+function countdown(time) {
+  new clickText(createVector(0, 0, -300), createVector(0, 0, 0), 200, time, false, false).display();
+}
 
