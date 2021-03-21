@@ -130,10 +130,10 @@ class Block {
     if (!this.hit && !this.missed) {
       if (cam.centerZ - this.pos.z < -200  && cam.centerZ - this.pos.z > -1000 ) {
 
-        if ((hitvolume / 100) <= 0) {
+        if ((options.slice_Volume.value / 100) <= 0) {
           this.sliceSound.setVolume(0);
         } else {
-          this.sliceSound.setVolume((hitvolume / 100));
+          this.sliceSound.setVolume((options.slice_Volume.value / 100));
         }
 
         let v = screenPosition(this.pos);

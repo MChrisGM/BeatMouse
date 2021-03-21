@@ -89,6 +89,7 @@ function resetStats() {
   intro = true;
   intro_time = 0;
   comboMulti = 0;
+  song_audio.setVolume(options.song_Volume.value / 100);
 }
 
 function stopMusic() {

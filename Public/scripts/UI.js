@@ -35,6 +35,21 @@ function settings(p, r) {
   plane(750, 550, 2, 2)
   pop();
   new clickText(createVector(p.x, p.y - 200, p.z), createVector(r.x, r.y, r.z), 100, "Settings", false, false).display();
+
+  new Slider(createVector(p.x+200,p.y-50,p.z+1),r,200,20,color(255,255,255),options.song_Volume.value,function(){
+    options.song_Volume.value = this.slideValue;
+    saveOptions();
+  }).display();
+
+  new clickText(createVector(p.x , p.y - 60, p.z+1), r, 50, "Song Volume", false, false).display();
+
+  new Slider(createVector(p.x+200,p.y,p.z+1),r,200,20,color(255,255,255),options.slice_Volume.value,function(){
+    options.slice_Volume.value = this.slideValue;
+    saveOptions();
+  }).display();
+
+  new clickText(createVector(p.x , p.y, p.z+1), r, 50, "Slice Volume", false, false).display();
+
 }
 
 function leaderboard(p, r) {

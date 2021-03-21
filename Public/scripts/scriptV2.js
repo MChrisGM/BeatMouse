@@ -52,7 +52,11 @@ async function loadSong(sng) {
   let songGettingPromise = getSong(sng);
   songFiles = await songGettingPromise;
 
-  song_infoDat = JSON.parse(await (songFiles.get('Info.dat')).text()) || JSON.parse(await (songFiles.get('info.dat')).text());
+  // song_infoDat = JSON.parse(await (songFiles.get('Info.dat')).text()) || JSON.parse(await (songFiles.get('info.dat')).text());
+
+  song_infoDat = JSON.parse(
+    (await (songFiles.get('Info.dat') || songFiles.get('info.dat')).text())
+  );
 
   song_audio = songFiles.get(song_infoDat['_songFilename']);
   song_audio = new Sound(URL.createObjectURL(song_audio));
@@ -101,7 +105,7 @@ async function loadSong(sng) {
     songDuration = 1000;
   }
   beatLength = songDuration * (bpm / 60);
-  song_audio.setVolume(song_volume / 100 - 0.2);
+  song_audio.setVolume(options.song_Volume.value / 100);
   song_audio.onended(stopMusic);
 
   loading = false;

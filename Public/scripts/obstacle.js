@@ -32,6 +32,9 @@ class Obstacle {
     }else if(this.width == 4){
       this.pos = createVector((indexs[1]+indexs[2])/2, this.crh, -(this.time / beatLength) * 100 * 35 * 100);
       this.width = 4.5;
+    }else{
+      this.pos = createVector(indexs[this.lineIndex], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+      this.width = 1;
     }
     
     this.pos.z+=300;
