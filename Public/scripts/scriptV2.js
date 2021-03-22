@@ -1,7 +1,7 @@
 let beatFont;
 let neonFont;
 
-let blockModel;
+// let blockModel;
 let mineModel;
 let blockModelDir;
 let blockModelCen;
@@ -39,7 +39,7 @@ async function preload() {
     }
   }
 
-  blockModel = loadModel("assets/block.stl");
+  // blockModel = loadModel("assets/block.stl");
   mineModel = loadModel("assets/mine.obj");
   blockModelDir = loadModel("assets/block-directional.obj");
   blockModelCen = loadModel("assets/block-center.obj");
