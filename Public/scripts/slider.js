@@ -69,7 +69,7 @@ class Slider{
 
     pop();
 
-    new clickText(createVector(this.pos.x + this.length - 40, this.pos.y, this.pos.z+1), this.rot, 2*this.width, this.slideValue.toPrecision(2), false, false).display();
+    new clickText(createVector(this.pos.x + this.length - 40, this.pos.y, this.pos.z+1), this.rot, 2*this.width, Math.floor(this.slideValue).toPrecision(2), false, false).display();
 
   }
 }
