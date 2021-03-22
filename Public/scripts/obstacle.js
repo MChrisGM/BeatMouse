@@ -5,6 +5,7 @@ class Obstacle {
     this.type = type;
     this.duration = duration;
     this.width = width;
+    this.size = 50;
 
     this.vel = createVector(0,0,0);
 
@@ -17,24 +18,38 @@ class Obstacle {
       this.crh = -20;
       this.h = 50;
     } else {
-      this.crh = 20;
-      this.h = 120;
+      this.crh = 6;
+      this.h = 160;
     }
 
-    if(this.width == 1){
-      this.pos = createVector(indexs[this.lineIndex], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
-    }else if(this.width == 2){
-      this.pos = createVector((indexs[this.lineIndex]+indexs[this.lineIndex+1])/2, this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+    this.pos = createVector(
+      0,
+      this.crh,
+      -(this.time / beatLength) * 100 * 35 * 100
+    );
+
+
+    switch(this.width){
+      case 1:
+      this.pos.x = indexs[this.lineIndex];
+      break;
+      case 2:
+      this.pos.x = (indexs[this.lineIndex]+indexs[this.lineIndex+1])/2;
       this.width == 2.5;
-    }else if(this.width == 3){
-      this.pos = createVector(indexs[this.lineIndex+1], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+      break;
+      case 3:
+      this.pos.x = indexs[this.lineIndex+1];
       this.width = 3.5;
-    }else if(this.width == 4){
-      this.pos = createVector((indexs[1]+indexs[2])/2, this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+      break;
+      case 4:
+      this.pos.x = (indexs[1]+indexs[2])/2;
       this.width = 4.5;
-    }else{
-      this.pos = createVector(indexs[this.lineIndex], this.crh, -(this.time / beatLength) * 100 * 35 * 100);
+      break;
+      default:
+      this.pos.x = indexs[this.lineIndex];
       this.width = 1;
+      break;
+
     }
     
     this.pos.z+=300;
@@ -65,7 +80,7 @@ class Obstacle {
 
     translate(this.pos.x, this.pos.y, this.pos.z+(-(this.duration / beatLength) * 100 * 35 * 100 )/4);
 
-    box(35*this.width, this.h, (-(this.duration / beatLength) * 100 * 35 * 100 )/2);
+    box(this.size*this.width, this.h, (-(this.duration / beatLength) * 100 * 35 * 100 )/2);
 
     pop();
 
