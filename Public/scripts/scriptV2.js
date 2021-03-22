@@ -2,6 +2,9 @@ let beatFont;
 let neonFont;
 
 let blockModel;
+let mineModel;
+let blockModelDir;
+let blockModelCen;
 
 let userInfo;
 
@@ -37,6 +40,9 @@ async function preload() {
   }
 
   blockModel = loadModel("assets/block.stl");
+  mineModel = loadModel("assets/mine.obj");
+  blockModelDir = loadModel("assets/block-directional.obj");
+  blockModelCen = loadModel("assets/block-center.obj");
 
   sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
 

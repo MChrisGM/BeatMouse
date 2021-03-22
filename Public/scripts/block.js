@@ -23,6 +23,12 @@ class Block {
     }
     this.rotation = 0;
 
+    if(this.cutDirection == 8 ){
+      this.model = blockModelCen;
+    }else{
+      this.model = blockModelDir;
+    }
+
     this.pos = createVector(
       indexs[this.lineIndex], 
       layers[this.lineLayer], 
@@ -100,27 +106,28 @@ class Block {
     push();
     translate(this.pos.x, this.pos.y, this.pos.z);
     smooth();
+    noStroke();
+
     if (this.type == 1 || this.type == 0) {
       rotateZ(this.rotation);
       push();
-      translate(22,23,20.5);
-      noStroke();
-      model(blockModel);
+      scale(23);
+      model(this.model);
       pop();
-      translate(0, 0, (this.size / 2) + 1);
-      stroke(0);
+      translate(0, 0, (this.size / 2) - 10);
       if (cam.centerZ - this.pos.z < -100 && hitIndicator) {
         fill(255, 119, 41);
       } else {
         fill(255);
       }
-      if (this.cutDirection != 8) {
-        triangle(-15, 15, 15, 15, 0, 0);
-      } else {
-        ellipse(0, 0, 15, 15);
-      }
+      rectMode(CENTER);
+      rect(0,0,25,25);
     } else if (this.type == 3) {
-      sphere(this.size / 2);
+      push();
+      scale(23);
+      fill(90);
+      model(mineModel);
+      pop();
     }
     pop();
   }
