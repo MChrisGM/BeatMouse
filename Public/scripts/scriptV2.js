@@ -64,18 +64,6 @@ async function loadSong(sng) {
     (await (songFiles.get('Info.dat') || songFiles.get('info.dat')).text())
   );
 
-  song_audio = songFiles.get(song_infoDat['_songFilename']);
-  song_audio = new Sound(URL.createObjectURL(song_audio));
-
-
-  songDuration = await new Promise((resolve, reject) => {
-    setTimeout(function() {
-      if (!isNaN(song_audio.duration())) {
-        resolve(song_audio.duration());
-      }
-    }, 1000);
-  });
-
   song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
   song_cover = await loadImage(URL.createObjectURL(song_cover));
 
@@ -105,17 +93,33 @@ async function loadSong(sng) {
 
   // console.log(difficulties);
 
-
   bpm = song_infoDat['_beatsPerMinute'];
+
+  // await loadAudio(sng);
+
+  loading = false;
+  loaded = true;
+}
+
+async function loadAudio(sng){
+  downloadingSong = true;
+  song_audio = (await getAudio(sng)).get(song_infoDat['_songFilename']);
+  song_audio = new Sound(URL.createObjectURL(song_audio));
+
+  songDuration = await new Promise((resolve, reject) => {
+    setTimeout(function() {
+      if (!isNaN(song_audio.duration())) {
+        resolve(song_audio.duration());
+      }
+    }, 1000);
+  });
   if (isNaN(songDuration)) {
     songDuration = 1000;
   }
   beatLength = songDuration * (bpm / 60);
   song_audio.setVolume(options.song_Volume.value / 100);
   song_audio.onended(stopMusic);
-
-  loading = false;
-  loaded = true;
+  downloadingSong = false;
 }
 
 function setup() {

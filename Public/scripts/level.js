@@ -103,10 +103,10 @@ function stopMusic() {
 
 function displayMap() {
   if (combo <= 8) {
-        comboMulti = combo;
-      } else {
-        comboMulti = 8;
-      }
+    comboMulti = combo;
+  } else {
+    comboMulti = 8;
+  }
   for (let block of beats) {
     block.move();
     if (!block.hit && !block.missed && cam.centerZ - block.pos.z < 3000 && cam.centerZ - block.pos.z > -2000) {
@@ -154,10 +154,16 @@ function displayMap() {
   }
 }
 
-function startMap() {
-  resetStats();
-  setEnvironmentSettings();
-  generateNotes();
-  windowResized();
-  canvasState = GAME;
+async function startMap() {
+  if (!downloadingSong) {
+    await loadAudio(selected_Song, e => {
+      const percentageString = (e.loaded / e.total * 100).toFixed(1) + '%';
+      console.log(percentageString);
+    });
+    resetStats();
+    setEnvironmentSettings();
+    generateNotes();
+    windowResized();
+    canvasState = GAME;
+  }
 }

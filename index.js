@@ -10,17 +10,18 @@ var app = express();
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
-function listen() {
+async function listen() {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Started server at https://' + host + ':' + port);
-  getFiles();
+  await getFiles();
 }
 
 app.use(express.static('Public'));
 
 const cached = new Map /* string fileName, File file */();
 const files = [];
+const audiofiles = [];
 
 const oauth = new DiscordOauth2({
   clientId: process.env.CLIENT_ID,
@@ -90,10 +91,12 @@ app.get("/discord", asyncHandler(async (req, res, next) => {
     );
   }
 
+  console.log(`User: ${user.username}#${user.discriminator} has logged in.`);
+
   const token = jwt.sign({
     USER_NAME: user.username,
     USER_DISC: user.discriminator,
-    USER_ID: user.id 
+    USER_ID: user.id
   }, process.env.JWTPASS);
 
   let jsonResponse = JSON.stringify({
@@ -101,10 +104,10 @@ app.get("/discord", asyncHandler(async (req, res, next) => {
     USER_DISC: user.discriminator,
     USER_ID: user.id,
     USER_AVATAR: user.avatar,
-    TOKEN:token
+    TOKEN: token
   });
 
-  const sanitiseQuotes = (str) => {return str.replace(/\'/g, '\\\'')}
+  const sanitiseQuotes = (str) => { return str.replace(/\'/g, '\\\'') }
 
   const response =
     `
@@ -117,6 +120,28 @@ app.get("/discord", asyncHandler(async (req, res, next) => {
   return res.end(response);
 })
 );
+
+// async function getAudio() {
+//   for (const [key, files] of cached.entries()) {
+//     let audio;
+//     for (const file of files) {
+//       file.loadAttributes(async (error, file) => {
+//         if (file.name == "info.dat" || file.name == "Info.dat") {
+//           await file.download((err, data) => {
+//             if (err) throw err
+//             audio = JSON.parse(data.toString())['_songFilename'];
+//             audiofiles.push(
+//               {
+//                 name: key,
+//                 audiofile: audio
+//               }
+//             );
+//           });
+//         }
+//       });
+//     }
+//   }
+// }
 
 
 async function getFiles() {
@@ -132,6 +157,7 @@ async function getFiles() {
       for (const file of song.children) {
         fileObjects.push(file);
         filenames.push(file.name);
+
       }
       const f = {
         name: song.name,

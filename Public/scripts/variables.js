@@ -51,6 +51,8 @@ let panRotation = 0;
 
 let difficulties;
 let selected_difficulty;
+let selected_Song;
+let downloadingSong = false;
 let beatmap;
 
 let indexs = [-90, -30, 30, 90];
