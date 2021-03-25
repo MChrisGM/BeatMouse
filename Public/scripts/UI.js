@@ -197,9 +197,14 @@ function displaySongInfo(p, r) {
   if (beatmap) {
     let noteNmr = beatmap['_notes'].length;
     new clickText(createVector(p.x + 275, p.y + 425, p.z + 1), r, 60, "Notes: " + parseInt(noteNmr), false, false).display();
-    new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 100, "Play", function() {
+    if(!downloadingSong){
+      new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 100, "Play", function() {
       startMap();
     }, true).display();
+    }else{
+      new clickText(createVector(p.x + 275, p.y + 525, p.z + 1), r, 80, "Downloading", false, true).display();
+    }
+    
   }
 }
 
