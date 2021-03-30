@@ -8,6 +8,8 @@ let blockModelCen;
 
 let userInfo;
 
+let userAvatar = new Image;
+    
 p5.disableFriendlyErrors = true;
 
 async function preload() {
@@ -16,6 +18,8 @@ async function preload() {
 
   if (localStorage.getItem('userData') != null) {
     userInfo = JSON.parse(localStorage.getItem('userData'));
+    userAvatar.src = `https://cdn.discordapp.com/avatars/${userInfo['USER_ID']}/${userInfo['USER_AVATAR']}.png`;
+    userAvatar = loadImage(userAvatar.src);
     loggedIn = true;
   } else {
     userInfo = null;

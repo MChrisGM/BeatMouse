@@ -41,14 +41,14 @@ function settings(p, r) {
     saveOptions();
   }).display();
 
-  new clickText(createVector(p.x , p.y - 60, p.z+1), r, 50, "Song Volume", false, false).display();
+  new clickText(createVector(p.x, p.y - 60, p.z+1), r, 50, "Song Volume                                                        ", false, false).display();
 
   new Slider(createVector(p.x+200,p.y,p.z+1),r,200,20,color(255,255,255),options.slice_Volume.value,function(){
     options.slice_Volume.value = this.slideValue;
     saveOptions();
   }).display();
 
-  new clickText(createVector(p.x , p.y, p.z+1), r, 50, "Slice Volume", false, false).display();
+  new clickText(createVector(p.x, p.y, p.z+1), r, 50, "Slice Volume                                                        ", false, false).display();
 
 }
 
@@ -209,6 +209,7 @@ function displaySongInfo(p, r) {
 }
 
 function platform() {
+  shininess(0);
   push();
   translate(0, -80, 80);
   fill(40);
