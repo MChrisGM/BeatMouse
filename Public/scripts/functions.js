@@ -236,7 +236,8 @@ const objectToMap = obj => {
    const keys = Object.keys(obj);
    const map = new Map();
    for(let i = 0; i < keys.length; i++){
-      map.set(keys[i], new Blob([obj[keys[i]]], {type: 'text/plain'}));
+      // map.set(keys[i], new Blob([obj[keys[i]]], {type: 'text/plain'}));
+      map.set(keys[i], obj[keys[i]]);
    };
    return map;
 };
