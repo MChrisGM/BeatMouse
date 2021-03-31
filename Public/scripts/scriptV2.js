@@ -59,14 +59,18 @@ async function loadSong(sng) {
   loading = true;
   loaded = false;
 
-  let songGettingPromise = getSong(sng);
-  songFiles = await songGettingPromise;
+  if(sng){
+    let songGettingPromise = getSong(sng);
+    songFiles = await songGettingPromise;
+  }
 
-  // song_infoDat = JSON.parse(await (songFiles.get('Info.dat')).text()) || JSON.parse(await (songFiles.get('info.dat')).text());
+  console.log(songFiles);
 
-  song_infoDat = JSON.parse(
-    (await (songFiles.get('Info.dat') || songFiles.get('info.dat')).text())
-  );
+  if(songFiles.has('Info.dat')){
+    song_infoDat = JSON.parse((await (songFiles.get('Info.dat')).text()));
+  }else if(songFiles.has('info.dat')){
+    song_infoDat = JSON.parse((await (songFiles.get('info.dat')).text()));
+  }
 
   song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
   song_cover = await loadImage(URL.createObjectURL(song_cover));
@@ -95,11 +99,7 @@ async function loadSong(sng) {
     }
   }
 
-  // console.log(difficulties);
-
   bpm = song_infoDat['_beatsPerMinute'];
-
-  // await loadAudio(sng);
 
   loading = false;
   loaded = true;
@@ -107,7 +107,12 @@ async function loadSong(sng) {
 
 async function loadAudio(sng){
   downloadingSong = true;
-  song_audio = (await getAudio(sng)).get(song_infoDat['_songFilename']);
+
+  if(sng){
+    song_audio = (await getAudio(sng)).get(song_infoDat['_songFilename']);
+  }else{
+    song_audio = (await songFiles.get(song_infoDat['_songFilename']));
+  }
   song_audio = new Sound(URL.createObjectURL(song_audio));
 
   songDuration = await new Promise((resolve, reject) => {

@@ -36,13 +36,6 @@ const oauth = new DiscordOauth2({
 app.post('/get-song', (req, res) => {
   const songDirName = req.headers['song'];
   const fileName = req.headers['file'];
-
-  // if (err) {
-  //   console.error('uwu pwez handwe mew');
-  //   res.statusCode = 500;
-  //   res.send('Yeah frick... Maybwe my dev will handwe mew wone day ;-; uwu');
-  // }
-
   const songDir = cached.get(songDirName);
   for (const file of songDir) {
     if (file.name == fileName) {
@@ -53,12 +46,9 @@ app.post('/get-song', (req, res) => {
       return;
     }
   }
-
   console.error('uwu fiwle nyot fwound ;-;');
   res.statusCode = 404;
   res.send('Not Found');
-
-
 });
 
 app.post('/get-list', (req, res) => {

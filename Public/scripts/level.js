@@ -156,10 +156,14 @@ function displayMap() {
 
 async function startMap() {
   if (!downloadingSong) {
-    await loadAudio(selected_Song, e => {
+    if(!songFiles.has(song_infoDat['_songFilename'])){
+      await loadAudio(selected_Song, e => {
       const percentageString = (e.loaded / e.total * 100).toFixed(1) + '%';
       console.log(percentageString);
     });
+    }else{
+      await loadAudio();
+    }
     resetStats();
     setEnvironmentSettings();
     generateNotes();

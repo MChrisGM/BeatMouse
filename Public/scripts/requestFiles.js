@@ -1,7 +1,7 @@
 const getSong = (song) => new Promise((resolve, reject) => {
   const files = new Map();
   let filesReceived = 0;
-  maxFilesLoaded = song.filenames.length-1;
+  maxFilesLoaded = song.filenames.length - 1;
   filesLoaded = 0;
   for (const file of song.filenames) {
     if (!file.endsWith(".ogg") && !file.endsWith(".egg")) {
@@ -12,7 +12,7 @@ const getSong = (song) => new Promise((resolve, reject) => {
         files.set(file, oReq.response);
         filesReceived++;
         filesLoaded++;
-        if (filesReceived == song.filenames.length-1) {
+        if (filesReceived == song.filenames.length - 1) {
           resolve(files);
         }
       });
@@ -57,3 +57,30 @@ const getList = () => new Promise((resolve, reject) => {
   });
   oReq.send();
 });
+
+
+const getCustomSong = () => new Promise((resolve, reject) => {
+  let formData = new FormData();
+  formData.append("file", document.querySelector('[type="file"]').files[0]);
+
+  let request = new XMLHttpRequest();
+  request.open("POST", "https://beatmouse-beatmap-converter.herokuapp.com/convert");
+
+  request.addEventListener("load", () => {
+    if(request.response){
+      songFiles = objectToMap(JSON.parse(request.response));
+      resolve()
+    }
+  });
+  request.send(formData);
+});
+
+let uploading = false;
+
+$(() => {
+  $("#file-selector").on('change', async () => {
+    await getCustomSong();
+    loadSong();
+  });
+})
+
