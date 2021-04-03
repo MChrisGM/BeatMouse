@@ -65,7 +65,7 @@ const getCustomSong = () => new Promise((resolve, reject) => {
 
   let request = new XMLHttpRequest();
   request.open("POST", "https://beatmouse-beatmap-converter.herokuapp.com/convert");
-
+  // request.responseType = "JSON";
   request.addEventListener("load", () => {
     if(request.response){
       songFiles = objectToMap(JSON.parse(request.response));

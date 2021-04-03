@@ -18,8 +18,8 @@ async function preload() {
 
   if (localStorage.getItem('userData') != null) {
     userInfo = JSON.parse(localStorage.getItem('userData'));
-    userAvatar.src = `https://cdn.discordapp.com/avatars/${userInfo['USER_ID']}/${userInfo['USER_AVATAR']}.png`;
-    userAvatar = loadImage(userAvatar.src);
+    // userAvatar.src = `https://cdn.discordapp.com/avatars/${userInfo['USER_ID']}/${userInfo['USER_AVATAR']}.png`;
+    // userAvatar = loadImage(userAvatar.src);
     loggedIn = true;
   } else {
     userInfo = null;
