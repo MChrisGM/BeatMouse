@@ -8,123 +8,75 @@
 	<meta name="viewport" content="user-scalable = no">
 	<meta name="viewport" content="width=device-width, initial-scale=2">
 	<meta name="viewport" content="height=device-height, initial-scale=2">
-  <meta name="viewport"content="width=device-width, user-scalable=no">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 
-
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+  <link rel="icon" href="favicon.png">
 
 </head>
 
 <body class="unselectable">
-	<h1 class="glow" id="logo">Beat<br>Mouse</h1>
-  <h1 id="logo">Beat<br>Mouse</h1>
 
-  <h1 id="loading-percentage"></h1>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js">
+	</script>
 
-  <span id="settingsButton" onclick="openNav()">&#9776; Settings</span>
+	<script type="text/javascript" src="scripts/jquery-3.5.1.min.js">
+	</script>
 
-  <div id="mySidenav" class="sidenav" style="overflow-y: hidden;overflow-x: auto;">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<script type="text/javascript" src="scripts/variables.js">
+	</script>
 
+	<script type="text/javascript" src="scripts/keyregister.js">
+	</script>
 
-    <div>
-    <p style="font-size:2vw;margin:0">How to play:</p>
-    <p style="font-size:1.6vw;">To start the song press "Space". Move your mouse to slice the incoming blocks in the beat of the song. <br> If you're having trouble with the timing, make sure to enable "Slice indicators"</p>
-    </div>
+  <script type="text/javascript" src="scripts/functions.js">
+	</script>
 
-    <hr>
+  <script type="text/javascript" src="scripts/level.js">
+	</script>
 
-    <div class="dropdown" style="overflow:auto; overflow-x: hidden;">
-      <button onclick="songDropdown()" class="dropbtn">Song</button>
-      <div id="songDropdown" class="dropdown-content">
-      </div>
-      <hr>
+	<script type="text/javascript" src="scripts/movement.js">
+	</script>
 
-      <button onclick="levelDropdown()" class="dropbtn">Difficulty</button>
-      <div id="levelDropdown" class="dropdown-content">
-      </div>
+	<script type="text/javascript" src="scripts/sound.js">
+	</script>
 
-      <hr>
+  <script type="text/javascript" src="scripts/options.js">
+	</script>
 
-      <div class="slidecontainer">
-        <p id="volumeValue">Master Volume: <span id="demo"></span></p>
-        <input type="range" min="1" max="100" value="50" class="slider" id="volumeSlider">
-      
-      </div>
-      <div class="slidecontainer">
-        <p id="hitvolumeValue">Hitsound Volume: <span id="hitdemo"></span></p>
-        <input type="range" min="1" max="100" value="50" class="slider" id="hitvolumeSlider">
-      
-      </div>
-      <hr>
+  <script type="text/javascript" src="scripts/environments.js">
+	</script>
 
-      <div id="switch-container">
-        <p class="settingsOption">Slice indicators</p>
-        <label class="switch">
-          <input id="SliceInd" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
-      
-      <hr>
+  <script type="text/javascript" src="scripts/UI.js">
+	</script>
 
-      <div id="switch-container">
-        <p class="settingsOption">Instant fail</p>
-        <label class="switch">
-          <input id="fullCtoggle" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
+  <script type="text/javascript" src="scripts/songList.js">
+	</script>
 
-      <hr>
+	<script type="text/javascript" src="scripts/requestFiles.js">
+	</script>
 
-      <div id="switch-container">
-        <p class="settingsOption">Display obstacles</p>
-        <label class="switch">
-          <input id="displayObstacles" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
+	<script type="text/javascript" src="scripts/block.js">
+	</script>
 
-      <hr>
+	<script type="text/javascript" src="scripts/obstacle.js">
+	</script>
 
-      <div id="switch-container">
-        <p class="settingsOption">Enable trail</p>
-        <label class="switch">
-          <input id="enableTrail" type="checkbox">
-          <span class="sliderSwitch round"></span>
-        </label>
-      </div>
+  <script type="text/javascript" src="scripts/clickableText.js">
+	</script>
 
+  <script type="text/javascript" src="scripts/slider.js">
+	</script>
 
-    </div>
-    <!-- <div class="nav-bottom" id="usernameWelcome"></div> -->
-     
-  </div>
+	<script type="text/javascript" src="scripts/addScreenPositionFunction.js">
+	</script>
 
+	<script type="text/javascript" src="scripts/scriptV2.js">
+	</script>
 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js"></script>
-
-
-	<!-- <script type="text/javascript" src="jszip.js">
-	</script> -->
-
-  <script type="text/javascript" src="keyregister.js"></script>
-
-  <script type="text/javascript" src="sound.js"></script>
-
-	<script type="text/javascript" src="script.js"></script>
-
-	<script type="text/javascript" src="block.js"></script>
-
-	<script type="text/javascript" src="obstacle.js"></script>
-
-  <script type="text/javascript" src="addScreenPositionFunction.js"></script>
-
-	<script type="text/javascript" src="functions.js"></script>
-
-  <script type="text/javascript" src="jquery-3.5.1.min.js"></script>
+  <input type="file" id="file-selector" accept=".zip" style="opacity:0;">
 
 </body>
 
