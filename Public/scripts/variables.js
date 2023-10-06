@@ -14,7 +14,7 @@ let canvasState = MENU;
 
 const default_options = {
   app_version: version,
-  song_Name: '',
+  song_Name: 'Lone_Digger',
   song_Difficulty: '',
   song_Volume: {mode:'slider',value:50,min:0,max:100,},
   slice_Volume: {mode:'slider',value:50,min:0,max:100,},

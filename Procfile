@@ -1,1 +1,1 @@
-node index.js
+node index.js --tls-min-v1.0
