@@ -1,4 +1,4 @@
-let version = 3;
+let version = 3.1;
 let canvas;
 let cam;
 

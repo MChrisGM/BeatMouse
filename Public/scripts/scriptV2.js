@@ -65,7 +65,6 @@ async function loadSong(sng) {
 	}
 
 	if (songFiles.has('Info.dat')) {
-    console.log(await songFiles.get('Info.dat').text());
 		song_infoDat = JSON.parse(await songFiles.get('Info.dat').text());
 	} else if (songFiles.has('info.dat')) {
 		song_infoDat = JSON.parse(await songFiles.get('info.dat').text());
@@ -120,7 +119,13 @@ async function loadAudio(sng) {
 	} else {
 		song_audio = await songFiles.get(song_infoDat['_songFilename']);
 	}
-	song_audio = new Sound(URL.createObjectURL(song_audio));
+  try{
+    song_audio = new Sound(URL.createObjectURL(song_audio));
+  }catch(E){
+    downloadingSong = false;
+    throw E;
+  }
+	
 
 	songDuration = await new Promise((resolve, reject) => {
 		setTimeout(function() {
