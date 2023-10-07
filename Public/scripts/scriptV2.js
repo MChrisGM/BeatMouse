@@ -32,8 +32,6 @@ async function preload() {
 	songs = await listGettingPromise;
 	songs.sort((a, b) => a.name.localeCompare(b.name));
 
-	console.log(options['song_Name'], songs);
-
 	if (options['song_Name'] == '') {
 		options['song_Name'] = songs[0]['name'];
 	}
@@ -52,8 +50,8 @@ async function preload() {
 
 	sliceFile = await getSoundFile('sounds/HitShortRight2.ogg');
 
-	console.log(selected_Song);
 	await loadSong(selected_Song);
+  
 	prld = true;
 }
 
@@ -66,13 +64,13 @@ async function loadSong(sng) {
 		songFiles = await songGettingPromise;
 	}
 
-	console.log(songFiles);
-
 	if (songFiles.has('Info.dat')) {
+    console.log(await songFiles.get('Info.dat').text());
 		song_infoDat = JSON.parse(await songFiles.get('Info.dat').text());
 	} else if (songFiles.has('info.dat')) {
 		song_infoDat = JSON.parse(await songFiles.get('info.dat').text());
 	}
+
 
 	song_cover = songFiles.get(song_infoDat['_coverImageFilename']);
 	song_cover = await loadImage(URL.createObjectURL(song_cover));

@@ -1,6 +1,10 @@
 require("dotenv").config();
 var express = require('express');
-const mega = require('megajs');
+const { Readable } = require('stream');
+require('isomorphic-fetch');
+var Dropbox = require('dropbox').Dropbox;
+var dbx = new Dropbox({ accessToken: process.env.DROP_ID });
+
 const mime = require('mime');
 const DiscordOauth2 = require("discord-oauth2");
 const asyncHandler = require("express-async-handler");
@@ -33,16 +37,27 @@ const oauth = new DiscordOauth2({
   API Routes
 ========= */
 
-app.post('/get-song', (req, res) => {
+app.post('/get-song', async (req, res) => {
   const songDirName = req.headers['song'];
   const fileName = req.headers['file'];
   const songDir = cached.get(songDirName);
   for (const file of songDir) {
-    if (file.name == fileName) {
-      const fileStream = file.download();
-      res.setHeader('Content-Type',
-        mime.getType(fileName) || 'text/plain');
-      fileStream.pipe(res);
+    if (file.endsWith(fileName)) {
+      
+      dbx.filesDownload({path: file})
+      .then(function(response) {
+
+        const readStream = new Readable();
+        readStream.push(response['result'].fileBinary, 'binary');
+        readStream.push(null);
+        res.setHeader('Content-Type', mime.getType(fileName) || 'text/plain');
+        readStream.pipe(res);
+
+      })
+      .catch((err) => {
+        throw err;
+      });
+      
       return;
     }
   }
@@ -111,52 +126,38 @@ app.get("/discord", asyncHandler(async (req, res, next) => {
 })
 );
 
-// async function getAudio() {
-//   for (const [key, files] of cached.entries()) {
-//     let audio;
-//     for (const file of files) {
-//       file.loadAttributes(async (error, file) => {
-//         if (file.name == "info.dat" || file.name == "Info.dat") {
-//           await file.download((err, data) => {
-//             if (err) throw err
-//             audio = JSON.parse(data.toString())['_songFilename'];
-//             audiofiles.push(
-//               {
-//                 name: key,
-//                 audiofile: audio
-//               }
-//             );
-//           });
-//         }
-//       });
-//     }
-//   }
-// }
-
-
 async function getFiles() {
-  const url = "https://mega.nz/folder/Dl4XSKIC#v6LWGlvfQ_h_laF3GuLHvQ";
-  const dir = mega.file(url);
 
-  dir.loadAttributes(async function(error, songs) {
-    for (const song of songs.children) {
+  dbx.filesListFolder({path: ''})
+  .then(function(response) {
+    let songs = response['result'].entries;
+    for (const song of songs) {
       let fileObjects = [];
       let filenames = [];
       let _info;
       let diffs = [];
-      for (const file of song.children) {
-        fileObjects.push(file);
-        filenames.push(file.name);
-
-      }
-      const f = {
-        name: song.name,
-        filenames: filenames,
-        // info:_info
-      }
-      console.log(f);
-      files.push(f);
-      cached.set(song.name, fileObjects);
+      dbx.filesListFolder({path: song['path_display']})
+      .then(function(response){
+        for (const file of response['result'].entries) {
+          fileObjects.push(file['path_display']);
+          filenames.push(file['name']);
+        }
+        const f = {
+          name: song.name,
+          filenames: filenames
+        }
+        
+        console.log(f);
+        files.push(f);
+        cached.set(song.name, fileObjects);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
     }
+  })
+  .catch(function(error) {
+    console.log(error);
   });
+  
 }

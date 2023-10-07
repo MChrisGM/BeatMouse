@@ -9,10 +9,11 @@ const getSong = (song) => new Promise((resolve, reject) => {
       oReq.open("POST", "/get-song");
       oReq.responseType = "blob";
       oReq.addEventListener("load", () => {
+        console.log(oReq.response)
         files.set(file, oReq.response);
         filesReceived++;
         filesLoaded++;
-        if (filesReceived == song.filenames.length - 1) {
+        if (filesReceived == maxFilesLoaded) {
           resolve(files);
         }
       });
