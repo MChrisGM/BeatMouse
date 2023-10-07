@@ -1,4 +1,4 @@
-let version = 2;
+let version = 3;
 let canvas;
 let cam;
 
@@ -16,8 +16,8 @@ const default_options = {
   app_version: version,
   song_Name: 'Lone_Digger',
   song_Difficulty: '',
-  song_Volume: {mode:'slider',value:50,min:0,max:100,},
-  slice_Volume: {mode:'slider',value:50,min:0,max:100,},
+  song_Volume: {mode:'slider',value:20,min:0,max:100,},
+  slice_Volume: {mode:'slider',value:10,min:0,max:100,},
   render_options: {
     indicators: {mode: 'switch',value: false},
     obstacles: {mode: 'switch',value: true},
