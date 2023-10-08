@@ -25,6 +25,7 @@
     "lie": "^3.3.0",
     "megajs": "^1.0.0-alpha.0",
     "mime": "^2.5.2",
+    "node-fetch": "^3.3.2",
     "pako": "^2.1.0",
     "readable-stream": "^4.4.2",
     "set-immediate-shim": "^2.0.0"

@@ -1,9 +1,14 @@
 require("dotenv").config();
 var express = require('express');
 const { Readable } = require('stream');
+
 require('isomorphic-fetch');
-var Dropbox = require('dropbox').Dropbox;
-var dbx = new Dropbox({ accessToken: process.env.DROP_ID });
+const { Dropbox } = require('dropbox'); 
+const dbx = new Dropbox({ 
+  clientId: process.env.DBX_KEY,
+  clientSecret: process.env.DBX_SECRET,
+  refreshToken: process.env.DBX_REFRESH
+});
 
 const mime = require('mime');
 const DiscordOauth2 = require("discord-oauth2");
