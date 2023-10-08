@@ -1,21 +1,32 @@
 require("dotenv").config();
+require('isomorphic-fetch');
+
 var express = require('express');
 const { Readable } = require('stream');
-
-require('isomorphic-fetch');
 const { Dropbox } = require('dropbox'); 
-const dbx = new Dropbox({ 
-  clientId: process.env.DBX_KEY,
-  clientSecret: process.env.DBX_SECRET,
-  refreshToken: process.env.DBX_REFRESH
-});
-
 const mime = require('mime');
 const DiscordOauth2 = require("discord-oauth2");
 const asyncHandler = require("express-async-handler");
 const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
 var app = express();
+
+const cached = new Map();
+const files = [];
+
+const oauth = new DiscordOauth2({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: process.env.REDIRECT_URI
+});
+
+const dbx = new Dropbox({ 
+  clientId: process.env.DBX_KEY,
+  clientSecret: process.env.DBX_SECRET,
+  refreshToken: process.env.DBX_REFRESH
+});
+
+// ====== Server =======
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
@@ -26,21 +37,11 @@ async function listen() {
   await getFiles();
 }
 
-app.use(express.static('Public'));
-
-const cached = new Map /* string fileName, File file */();
-const files = [];
-const audiofiles = [];
-
-const oauth = new DiscordOauth2({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: process.env.REDIRECT_URI
-});
-
 /* =========
   API Routes
 ========= */
+
+app.use(express.static('Public'));
 
 app.post('/get-song', async (req, res) => {
   const songDirName = req.headers['song'];
@@ -130,6 +131,10 @@ app.get("/discord", asyncHandler(async (req, res, next) => {
   return res.end(response);
 })
 );
+
+// ==========
+// Functions
+// ==========
 
 async function getFiles() {
 
