@@ -3,18 +3,46 @@ function displaySongs() {
     let songDisplay = [];
     let idx = parseInt(Math.floor(scrollIdx));
     if (idx < 0) { idx = 0; }
+
+    let filteredSongs = JSON.parse(JSON.stringify(songs));
+
+    let filteredResult = [];
+    let toRemove = [];
+
+    if (searchText != "") {
+      let songNames = songs.map(function (task, index, array) {
+        return task.name; 
+      });
+      const options = {
+        includeScore: true
+      }
+      const fuse = new Fuse(songNames, options)
+      const result = fuse.search(searchText)
+      
+      filteredResult = result.map(function (task, index, array) {
+        return task["item"];
+      });
+    }
+
+    if (filteredResult.length > 0) {
+      filteredSongs = [];
+      for(let songName of filteredResult){
+        filteredSongs.push(songs.find(item => item.name === songName));
+      }
+    }
+
     for (let i = idx; i < idx + 5; i++) {
-      if (songs[i]) {
+      if (filteredSongs[i]) {
         let name = "";
-        if (songs[i].name.length > 15) {
-          name = songs[i].name.substring(0, 15) + "...";
+        if (filteredSongs[i].name.length > 15) {
+          name = filteredSongs[i].name.substring(0, 15) + "...";
         } else {
-          name = songs[i].name;
+          name = filteredSongs[i].name;
         }
         songDisplay.push(
           new clickText(null, null, 60, name.replaceAll("_", " "), async function() {
             if (!loading) {
-              selected_Song = songs[i];
+              selected_Song = filteredSongs[i];
               options['song_Name'] = selected_Song['name'];
               saveOptions();
               await loadSong(selected_Song);

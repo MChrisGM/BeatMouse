@@ -192,6 +192,7 @@ function keyPressed(event) {
       if (keyCode == 8) {
         searchText = searchText.substring(0, searchText.length - 1);
       } else {
+        if(event.keyCode > 20)
         searchText += event.key;
       }
     }

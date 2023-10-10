@@ -146,6 +146,7 @@ function scrollMenu(p, r) {
     lst[i].calcB();
     lst[i].display();
   }
+  
   new clickText(createVector(p.x, p.y + ys[6], p.z), r, 80, "v", function() {
     if (scrollIdx < songs.length - 4) {
       scrollIdx += 0.2;

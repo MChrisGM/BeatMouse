@@ -86,6 +86,7 @@ class textField {
       fill(157, 237, 107);
     }
 
+    translate(0,0,1);
     textFont(beatFont);
     textSize(this.size);
     textAlign(LEFT)
