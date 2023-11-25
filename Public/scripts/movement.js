@@ -1,5 +1,6 @@
 function player_movement() {
-  if (keycodeIsDown('ShiftLeft')) { //Shift
+  if(!focusedSearchbar){
+    if (keycodeIsDown('ShiftLeft')) { //Shift
     if (cam.eyeY < 50) {
       cam.setPosition(cam.eyeX, cam.eyeY + 5, cam.eyeZ);
     }
@@ -32,6 +33,8 @@ function player_movement() {
       }
     }
   }
+  }
+  
   if (canvasState == GAME) {
     if (keycodeIsDown('KeyA')) { //A
       if (cam.eyeX > -50) {
@@ -57,7 +60,7 @@ function player_movement() {
         cam.setPosition(cam.eyeX + 5, cam.eyeY, cam.eyeZ);
       }
     }
-  } else if (canvasState == MENU) {
+  } else if (canvasState == MENU && !focusedSearchbar) {
     if (keycodeIsDown('KeyQ')) { //Q
       if(panRotation<1){
         panRotation+=0.02;

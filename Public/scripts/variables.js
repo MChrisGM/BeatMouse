@@ -1,4 +1,4 @@
-let version = 2;
+let version = 3.1;
 let canvas;
 let cam;
 
@@ -14,10 +14,10 @@ let canvasState = MENU;
 
 const default_options = {
   app_version: version,
-  song_Name: '',
+  song_Name: 'Lone_Digger',
   song_Difficulty: '',
-  song_Volume: {mode:'slider',value:50,min:0,max:100,},
-  slice_Volume: {mode:'slider',value:50,min:0,max:100,},
+  song_Volume: {mode:'slider',value:20,min:0,max:100,},
+  slice_Volume: {mode:'slider',value:10,min:0,max:100,},
   render_options: {
     indicators: {mode: 'switch',value: false},
     obstacles: {mode: 'switch',value: true},
@@ -67,8 +67,7 @@ let fpsCounter;
 
 let loggedIn = false;
 
-// let loginURL = 'https://discord.com/api/oauth2/authorize?client_id=821927162465484810&redirect_uri=https%3A%2F%2Fbeatmouse.ga%2Fdiscord%2F&response_type=code&scope=identify';
-let loginURL = 'https://discord.com/api/oauth2/authorize?client_id=821927162465484810&redirect_uri=https%3A%2F%2Fbeatmouse.herokuapp.com%2Fdiscord%2F&response_type=code&scope=identify'
+let loginURL = 'https://discord.com/api/oauth2/authorize?client_id=821927162465484810&redirect_uri=https%3A%2F%2Fbeatmouse.mchrisgm.repl.co%2Fdiscord&response_type=code&scope=identify';
 
 let beats;
 let obstacles;
